@@ -7,6 +7,7 @@ import { AdminProvider } from "@/components/AdminContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import prisma from "@/lib/prisma";
 import { config } from "@/lib/config";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -90,6 +91,7 @@ export default async function RootLayout({
             </div>
           </div>
         </AdminProvider>
+        <Analytics />
       </body>
     </html>
   );
