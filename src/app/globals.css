@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   /* ── Standard wiki color scheme (light) ── */
   --color-background: #f8f9fa;
   --color-foreground: #202122;
