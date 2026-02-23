@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import TiptapEditor, { type TiptapEditorHandle } from "@/components/editor/TiptapEditor";
 import TagPicker from "@/components/TagPicker";
 import CategorySelect from "@/components/CategorySelect";
+import { useAdmin } from "@/components/AdminContext";
 
 export default function NewArticlePage() {
+  const isAdmin = useAdmin();
   const router = useRouter();
   const editorRef = useRef<TiptapEditorHandle>(null);
   const [title, setTitle] = useState("");
@@ -41,6 +43,14 @@ export default function NewArticlePage() {
       setSaving(false);
       alert("Failed to create article");
     }
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="wiki-notice">
+        You must be <a href="/admin">logged in as admin</a> to create articles.
+      </div>
+    );
   }
 
   return (

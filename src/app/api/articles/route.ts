@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/utils";
+import { isAdmin, requireAdmin } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -31,6 +32,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const denied = requireAdmin(await isAdmin());
+  if (denied) return denied;
+
   const body = await request.json();
   const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds } = body;
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import TiptapEditor, { type TiptapEditorHandle } from "@/components/editor/TiptapEditor";
 import TagPicker from "@/components/TagPicker";
 import CategorySelect from "@/components/CategorySelect";
+import { useAdmin } from "@/components/AdminContext";
 
 type Article = {
   id: string;
@@ -17,6 +18,7 @@ type Article = {
 };
 
 export default function EditArticlePage() {
+  const isAdmin = useAdmin();
   const router = useRouter();
   const params = useParams();
   const editorRef = useRef<TiptapEditorHandle>(null);
@@ -92,6 +94,14 @@ export default function EditArticlePage() {
       setSaving(false);
       alert("Failed to update article");
     }
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="wiki-notice">
+        You must be <a href="/admin">logged in as admin</a> to edit articles.
+      </div>
+    );
   }
 
   if (loading) {

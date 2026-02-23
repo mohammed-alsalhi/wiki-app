@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { useState } from "react";
+import { useAdmin } from "@/components/AdminContext";
 
 type Category = {
   id: string;
@@ -16,6 +17,7 @@ type Category = {
 export default function Sidebar({ categories }: { categories: Category[] }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isAdmin = useAdmin();
 
   const navItems = [
     { href: "/", label: "Main Page" },
@@ -68,10 +70,23 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
           ))}
         </SidebarSection>
 
-        {/* Contribute section */}
-        <SidebarSection title="Contribute">
-          <SidebarLink href="/articles/new" onClick={() => setMobileOpen(false)}>
-            Create new article
+        {/* Contribute section (admin only) */}
+        {isAdmin && (
+          <SidebarSection title="Contribute">
+            <SidebarLink href="/articles/new" onClick={() => setMobileOpen(false)}>
+              Create new article
+            </SidebarLink>
+          </SidebarSection>
+        )}
+
+        {/* Admin section */}
+        <SidebarSection title="Tools">
+          <SidebarLink
+            href="/admin"
+            active={pathname === "/admin"}
+            onClick={() => setMobileOpen(false)}
+          >
+            {isAdmin ? "Admin (logged in)" : "Admin login"}
           </SidebarLink>
         </SidebarSection>
 

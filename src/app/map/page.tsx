@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useAdmin } from "@/components/AdminContext";
 
 const WorldMap = dynamic(() => import("@/components/map/WorldMap"), {
   ssr: false,
@@ -13,6 +14,7 @@ const WorldMap = dynamic(() => import("@/components/map/WorldMap"), {
 });
 
 export default function MapPage() {
+  const isAdmin = useAdmin();
   const [editMode, setEditMode] = useState(false);
 
   return (
@@ -30,16 +32,18 @@ export default function MapPage() {
               ? "Click on the map to place a marker"
               : "Click markers to view locations"}
           </span>
-          <button
-            onClick={() => setEditMode(!editMode)}
-            className={`px-3 py-1 text-[12px] transition-colors ${
-              editMode
-                ? "bg-accent text-white"
-                : "border border-border bg-surface-hover text-foreground hover:bg-surface"
-            }`}
-          >
-            {editMode ? "Done editing" : "Edit map"}
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setEditMode(!editMode)}
+              className={`px-3 py-1 text-[12px] transition-colors ${
+                editMode
+                  ? "bg-accent text-white"
+                  : "border border-border bg-surface-hover text-foreground hover:bg-surface"
+              }`}
+            >
+              {editMode ? "Done editing" : "Edit map"}
+            </button>
+          )}
         </div>
       </div>
 

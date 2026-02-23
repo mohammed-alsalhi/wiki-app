@@ -3,6 +3,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { resolveWikiLinks, getBacklinks } from "@/lib/wikilinks";
+import AdminEditTab from "@/components/AdminEditTab";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -31,9 +32,7 @@ export default async function ArticlePage({ params }: Props) {
       {/* Article tabs */}
       <div className="wiki-tabs">
         <span className="wiki-tab wiki-tab-active">Article</span>
-        <Link href={`/articles/${slug}/edit`} className="wiki-tab">
-          Edit
-        </Link>
+        <AdminEditTab slug={slug} />
       </div>
 
       {/* Article body in bordered content area */}

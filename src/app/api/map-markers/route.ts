@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { isAdmin, requireAdmin } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
   const mapId = request.nextUrl.searchParams.get("mapId") || "default";
@@ -15,6 +16,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const denied = requireAdmin(await isAdmin());
+  if (denied) return denied;
+
   const { label, x, y, icon, mapId, articleId } = await request.json();
 
   if (!label || x === undefined || y === undefined) {
