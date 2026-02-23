@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
+import { config } from "@/lib/config";
 import { resolveWikiLinks, getBacklinks } from "@/lib/wikilinks";
 import AdminEditTab from "@/components/AdminEditTab";
 import ArticleExportButtons from "@/components/ArticleExportButtons";
@@ -52,7 +53,7 @@ export default async function ArticlePage({ params }: Props) {
         {/* From World Wiki line + export buttons */}
         <div className="flex items-center justify-between mb-3">
           <p className="text-[11px] text-muted">
-            From World Wiki &mdash; Last edited {formatDate(article.updatedAt)}
+            From {config.name} &mdash; Last edited {formatDate(article.updatedAt)}
           </p>
           <ArticleExportButtons
             title={article.title}

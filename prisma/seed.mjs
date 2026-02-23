@@ -8,13 +8,12 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 const categories = [
-  { name: "Characters", slug: "characters", icon: "\u{1F464}", description: "People and beings of the world", sortOrder: 0 },
-  { name: "Locations", slug: "locations", icon: "\u{1F3F0}", description: "Places, cities, and regions", sortOrder: 1 },
-  { name: "Factions", slug: "factions", icon: "\u2694\uFE0F", description: "Organizations, guilds, and groups", sortOrder: 2 },
-  { name: "Events", slug: "events", icon: "\u{1F4DC}", description: "Historical events and battles", sortOrder: 3 },
-  { name: "Items", slug: "items", icon: "\u{1F5E1}\uFE0F", description: "Artifacts, weapons, and objects", sortOrder: 4 },
-  { name: "Lore", slug: "lore", icon: "\u{1F4D6}", description: "Myths, magic systems, and religions", sortOrder: 5 },
-  { name: "Creatures", slug: "creatures", icon: "\u{1F409}", description: "Beasts, monsters, and wildlife", sortOrder: 6 },
+  { name: "People", slug: "people", icon: "\u{1F464}", description: "Individuals and notable figures", sortOrder: 0 },
+  { name: "Places", slug: "places", icon: "\u{1F4CD}", description: "Locations, cities, and regions", sortOrder: 1 },
+  { name: "Organizations", slug: "organizations", icon: "\u{1F3DB}\uFE0F", description: "Groups, teams, and institutions", sortOrder: 2 },
+  { name: "Events", slug: "events", icon: "\u{1F4C5}", description: "Notable events and occurrences", sortOrder: 3 },
+  { name: "Things", slug: "things", icon: "\u{1F4E6}", description: "Objects, items, and artifacts", sortOrder: 4 },
+  { name: "Concepts", slug: "concepts", icon: "\u{1F4D6}", description: "Ideas, systems, and knowledge", sortOrder: 5 },
 ];
 
 async function main() {

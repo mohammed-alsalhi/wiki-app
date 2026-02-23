@@ -1,6 +1,7 @@
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
+import { config } from "@/lib/config";
 
 async function getRecentArticles() {
   return prisma.article.findMany({
@@ -36,6 +37,48 @@ export default async function Home() {
     getCategories(),
   ]);
 
+  const isEmpty = stats.articles === 0 && stats.categories === 0;
+
+  if (isEmpty) {
+    return (
+      <div>
+        <h1
+          className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-3"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          Welcome to {config.name}
+        </h1>
+        <div className="wiki-portal mb-4">
+          <div className="wiki-portal-header">Getting Started</div>
+          <div className="wiki-portal-body">
+            <p className="leading-relaxed mb-3">
+              {config.welcomeText}
+            </p>
+            <p className="mb-2">Get started by setting up your wiki:</p>
+            <div className="flex gap-3 mt-3">
+              <Link
+                href="/categories"
+                className="inline-block border border-border bg-surface-hover px-4 py-2 text-[13px] font-medium hover:bg-surface transition-colors"
+              >
+                Set up categories
+              </Link>
+              <Link
+                href="/articles/new"
+                className="inline-block border border-border bg-surface-hover px-4 py-2 text-[13px] font-medium hover:bg-surface transition-colors"
+              >
+                Create your first article
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="wiki-notice">
+          <strong>Tip:</strong> You can customize this wiki&apos;s name, tagline, and more
+          through environment variables. See the <code className="bg-surface-hover px-1 text-[12px]">.env.example</code> file for details.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       {/* Main page title */}
@@ -49,12 +92,11 @@ export default async function Home() {
       {/* Welcome portal */}
       <div className="wiki-portal mb-4">
         <div className="wiki-portal-header">
-          Welcome to the World Wiki
+          Welcome to {config.name}
         </div>
         <div className="wiki-portal-body">
           <p className="leading-relaxed">
-            A living compendium of all known lore, peoples, places, and histories
-            of the realm. This encyclopedia currently contains{" "}
+            {config.welcomeText} This encyclopedia currently contains{" "}
             <strong>{stats.articles}</strong> articles across{" "}
             <strong>{stats.categories}</strong> categories, with{" "}
             <strong>{stats.tags}</strong> tags.
@@ -63,8 +105,12 @@ export default async function Home() {
             <Link href="/articles/new">Create a new article</Link>
             {" \u2022 "}
             <Link href="/articles">Browse all articles</Link>
-            {" \u2022 "}
-            <Link href="/map">View the world map</Link>
+            {config.mapEnabled && (
+              <>
+                {" \u2022 "}
+                <Link href="/map">View the {config.mapLabel.toLowerCase()}</Link>
+              </>
+            )}
           </p>
         </div>
       </div>

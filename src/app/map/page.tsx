@@ -3,6 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useAdmin } from "@/components/AdminContext";
+import { config } from "@/lib/config";
 
 const WorldMap = dynamic(() => import("@/components/map/WorldMap"), {
   ssr: false,
@@ -24,7 +25,7 @@ export default function MapPage() {
           className="text-lg font-normal text-heading"
           style={{ fontFamily: "var(--font-serif)" }}
         >
-          World Map
+          {config.mapLabel}
         </h1>
         <div className="flex items-center gap-3">
           <span className="text-[11px] text-muted italic">
@@ -49,7 +50,7 @@ export default function MapPage() {
 
       <div className="flex-1">
         <WorldMap
-          mapImage="/maps/world.webp"
+          mapImage={config.mapImage || "/maps/world.webp"}
           editMode={editMode}
         />
       </div>

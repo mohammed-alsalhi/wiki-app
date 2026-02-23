@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { useState } from "react";
 import { useAdmin } from "@/components/AdminContext";
+import { config } from "@/lib/config";
 
 type Category = {
   id: string;
@@ -25,7 +26,7 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
     { href: "/articles", label: "All articles" },
     { href: "/categories", label: "Categories" },
     { href: "/recent-changes", label: "Recent changes" },
-    { href: "/map", label: "World Map" },
+    ...(config.mapEnabled ? [{ href: "/map", label: config.mapLabel }] : []),
     { href: "/search", label: "Search" },
   ];
 
@@ -53,7 +54,7 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
               className="text-lg font-bold text-heading"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              World Wiki
+              {config.name}
             </h1>
           </Link>
         </div>

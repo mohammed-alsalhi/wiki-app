@@ -1,5 +1,7 @@
 "use client";
 
+import { config } from "@/lib/config";
+
 type Props = {
   title: string;
   slug: string;
@@ -12,7 +14,7 @@ export default function ArticleExportButtons({ title, slug, contentRaw, contentH
     const printWindow = window.open("", "_blank");
     if (!printWindow) return;
     printWindow.document.write(`
-      <html><head><title>${escapeHtml(title)} - World Wiki</title>
+      <html><head><title>${escapeHtml(title)} - ${escapeHtml(config.name)}</title>
       <style>
         body { font-family: Georgia, serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #202122; }
         h1 { font-size: 1.6rem; border-bottom: 1px solid #a2a9b1; padding-bottom: 4px; }

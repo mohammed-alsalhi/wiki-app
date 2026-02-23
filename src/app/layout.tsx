@@ -6,6 +6,7 @@ import SearchBar from "@/components/layout/SearchBar";
 import { AdminProvider } from "@/components/AdminContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import prisma from "@/lib/prisma";
+import { config } from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,10 +18,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "World Wiki",
-  description: "A fantasy worldbuilding encyclopedia",
-};
+export function generateMetadata(): Metadata {
+  return {
+    title: config.name,
+    description: config.description,
+  };
+}
 
 async function getCategories() {
   const all = await prisma.category.findMany({
@@ -63,7 +66,7 @@ export default async function RootLayout({
           <header className="bg-surface border-b border-border">
             <div className="flex items-center justify-between px-4 py-1.5">
               <div className="flex items-center gap-4">
-                <span className="text-xs text-muted">Personal Wiki</span>
+                <span className="text-xs text-muted">{config.tagline}</span>
               </div>
               <div className="flex items-center gap-2">
                 <ThemeToggle />
@@ -82,8 +85,7 @@ export default async function RootLayout({
                 {children}
               </main>
               <footer className="border-t border-border px-6 py-3 text-center text-[11px] text-muted">
-                World Wiki &mdash; A personal encyclopedia of the realm.
-                Content is available under Creative Commons Attribution.
+                {config.name} &mdash; {config.footerText}
               </footer>
             </div>
           </div>
