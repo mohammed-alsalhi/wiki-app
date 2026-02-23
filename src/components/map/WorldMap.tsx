@@ -49,7 +49,7 @@ function MapClickHandler({
   return null;
 }
 
-function FitBounds({ bounds }: { bounds: L.LatLngBoundsExpression }) {
+function FitBounds({ bounds }: { bounds: L.LatLngBoundsLiteral }) {
   const map = useMap();
   useEffect(() => {
     map.fitBounds(bounds);
@@ -68,7 +68,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
   const [showForm, setShowForm] = useState(false);
   const [newMarker, setNewMarker] = useState({ x: 0, y: 0, label: "", icon: "default", articleId: "" });
   const [articles, setArticles] = useState<{ id: string; title: string }[]>([]);
-  const [imageBounds, setImageBounds] = useState<L.LatLngBoundsExpression | null>(null);
+  const [imageBounds, setImageBounds] = useState<L.LatLngBoundsLiteral | null>(null);
 
   // Load image to get its natural dimensions
   useEffect(() => {

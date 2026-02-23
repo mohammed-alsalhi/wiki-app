@@ -32,6 +32,9 @@ yarn-error.log*
 .env
 .env*.local
 
+# claude
+.claude/
+
 # vercel
 .vercel
 
