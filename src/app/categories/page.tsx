@@ -1,10 +1,24 @@
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import CategoryManager from "@/components/CategoryManager";
 
 export default async function CategoriesPage() {
   const categories = await prisma.category.findMany({
+    where: { parentId: null },
     orderBy: { sortOrder: "asc" },
-    include: { _count: { select: { articles: true } } },
+    include: {
+      _count: { select: { articles: true } },
+      children: {
+        orderBy: { sortOrder: "asc" },
+        include: {
+          _count: { select: { articles: true } },
+          children: {
+            orderBy: { sortOrder: "asc" },
+            include: { _count: { select: { articles: true } } },
+          },
+        },
+      },
+    },
   });
 
   return (
@@ -21,31 +35,58 @@ export default async function CategoriesPage() {
         Select a category to browse its articles.
       </p>
 
-      <table className="w-full max-w-xl border-collapse border border-border bg-surface text-[13px]">
-        <thead>
-          <tr className="bg-surface-hover">
-            <th className="border border-border px-3 py-1.5 text-left font-bold text-heading">Category</th>
-            <th className="border border-border px-3 py-1.5 text-right font-bold text-heading w-24">Articles</th>
-          </tr>
-        </thead>
-        <tbody>
+      {categories.length === 0 ? (
+        <div className="wiki-notice">No categories have been created yet.</div>
+      ) : (
+        <div className="max-w-xl mb-6">
           {categories.map((cat) => (
-            <tr key={cat.id} className="hover:bg-surface-hover">
-              <td className="border border-border px-3 py-1.5">
-                <Link href={`/categories/${cat.slug}`} className="font-medium">
-                  {cat.icon} {cat.name}
-                </Link>
-                {cat.description && (
-                  <span className="text-muted text-[12px]"> &ndash; {cat.description}</span>
-                )}
-              </td>
-              <td className="border border-border px-3 py-1.5 text-right text-muted">
-                {cat._count.articles}
-              </td>
-            </tr>
+            <CategoryTreeRow key={cat.id} category={cat} depth={0} />
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
+
+      {/* Admin-only create form (client component) */}
+      <CategoryManager />
     </div>
+  );
+}
+
+type TreeCategory = {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string | null;
+  description: string | null;
+  _count: { articles: number };
+  children?: TreeCategory[];
+};
+
+function CategoryTreeRow({ category, depth }: { category: TreeCategory; depth: number }) {
+  return (
+    <>
+      <div
+        className="flex items-center gap-2 border-b border-border-light py-1.5 hover:bg-surface-hover"
+        style={{ paddingLeft: `${depth * 20 + 8}px` }}
+      >
+        {depth > 0 && <span className="text-muted text-[12px]">{"\u2514"}</span>}
+        <Link
+          href={`/categories/${category.slug}`}
+          className="text-[13px] font-medium"
+        >
+          {category.icon} {category.name}
+        </Link>
+        <span className="text-[11px] text-muted">
+          ({category._count.articles} article{category._count.articles !== 1 ? "s" : ""})
+        </span>
+        {category.description && (
+          <span className="text-[12px] text-muted hidden sm:inline">
+            &ndash; {category.description}
+          </span>
+        )}
+      </div>
+      {category.children?.map((child) => (
+        <CategoryTreeRow key={child.id} category={child} depth={depth + 1} />
+      ))}
+    </>
   );
 }
