@@ -1,0 +1,69 @@
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { generateSlug } from "@/lib/utils";
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+  const category = searchParams.get("category");
+  const tag = searchParams.get("tag");
+  const page = parseInt(searchParams.get("page") || "1");
+  const limit = parseInt(searchParams.get("limit") || "20");
+
+  const where: Record<string, unknown> = {};
+  if (category) where.category = { slug: category };
+  if (tag) where.tags = { some: { tag: { slug: tag } } };
+
+  const [articles, total] = await Promise.all([
+    prisma.article.findMany({
+      where,
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: { updatedAt: "desc" },
+      include: {
+        category: true,
+        tags: { include: { tag: true } },
+      },
+    }),
+    prisma.article.count({ where }),
+  ]);
+
+  return NextResponse.json({ articles, total, page, limit });
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds } = body;
+
+  if (!title || !content) {
+    return NextResponse.json({ error: "Title and content are required" }, { status: 400 });
+  }
+
+  let slug = generateSlug(title);
+
+  // Ensure unique slug
+  const existing = await prisma.article.findUnique({ where: { slug } });
+  if (existing) {
+    slug = `${slug}-${Date.now().toString(36)}`;
+  }
+
+  const article = await prisma.article.create({
+    data: {
+      title,
+      slug,
+      content,
+      contentRaw,
+      excerpt: excerpt || content.replace(/<[^>]*>/g, "").substring(0, 200),
+      coverImage,
+      categoryId: categoryId || null,
+      tags: tagIds?.length
+        ? { create: tagIds.map((tagId: string) => ({ tagId })) }
+        : undefined,
+    },
+    include: {
+      category: true,
+      tags: { include: { tag: true } },
+    },
+  });
+
+  return NextResponse.json(article, { status: 201 });
+}

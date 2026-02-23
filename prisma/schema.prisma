@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Article {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String   @unique
+  content    String   @db.Text
+  contentRaw String?  @db.Text
+  excerpt    String?  @db.Text
+  coverImage String?
+  published  Boolean  @default(true)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  tags       ArticleTag[]
+  mapMarkers MapMarker[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  icon        String?
+  sortOrder   Int       @default(0)
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+}
+
+model Tag {
+  id       String       @id @default(cuid())
+  name     String       @unique
+  slug     String       @unique
+  color    String?
+  articles ArticleTag[]
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+  @@index([tagId])
+}
+
+model MapMarker {
+  id        String   @id @default(cuid())
+  label     String
+  x         Float
+  y         Float
+  icon      String?
+  mapId     String   @default("default")
+  articleId String?
+  article   Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@index([mapId])
+}
