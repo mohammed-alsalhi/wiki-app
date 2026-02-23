@@ -1,11 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import TiptapEditor, { type TiptapEditorHandle } from "@/components/editor/TiptapEditor";
 import TagPicker from "@/components/TagPicker";
 import CategorySelect from "@/components/CategorySelect";
+import TemplatePicker from "@/components/TemplatePicker";
 import { useAdmin } from "@/components/AdminContext";
+import type { ArticleTemplate } from "@/lib/templates";
+
+type SimilarArticle = {
+  id: string;
+  title: string;
+  slug: string;
+  isDisambiguation: boolean;
+};
 
 export default function NewArticlePage() {
   const isAdmin = useAdmin();
@@ -14,7 +24,36 @@ export default function NewArticlePage() {
   const [title, setTitle] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
+  const [templateId, setTemplateId] = useState("blank");
+  const [isDisambiguation, setIsDisambiguation] = useState(false);
+  const [similarArticles, setSimilarArticles] = useState<SimilarArticle[]>([]);
   const [saving, setSaving] = useState(false);
+
+  // Debounced similar title check
+  const checkSimilar = useCallback(async (t: string) => {
+    if (t.trim().length < 3) {
+      setSimilarArticles([]);
+      return;
+    }
+    try {
+      const res = await fetch(`/api/articles/similar?title=${encodeURIComponent(t.trim())}`);
+      if (res.ok) setSimilarArticles(await res.json());
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => checkSimilar(title), 500);
+    return () => clearTimeout(timeout);
+  }, [title, checkSimilar]);
+
+  function handleTemplateSelect(template: ArticleTemplate) {
+    setTemplateId(template.id);
+    if (template.content && editorRef.current) {
+      editorRef.current.setContent(template.content);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -33,6 +72,7 @@ export default function NewArticlePage() {
         contentRaw: contentRaw || null,
         categoryId: categoryId || null,
         tagIds,
+        isDisambiguation,
       }),
     });
 
@@ -78,9 +118,30 @@ export default function NewArticlePage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Article title..."
               required
-              className="w-full border border-border bg-white px-3 py-1.5 text-[14px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+              className="w-full border border-border bg-surface px-3 py-1.5 text-[14px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
             />
           </div>
+
+          {/* Similar articles warning */}
+          {similarArticles.length > 0 && (
+            <div className="wiki-disambiguation-notice">
+              <strong>Note:</strong> Similar articles already exist:{" "}
+              {similarArticles.map((a, i) => (
+                <span key={a.id}>
+                  {i > 0 && ", "}
+                  <Link href={`/articles/${a.slug}`}>{a.title}</Link>
+                </span>
+              ))}
+              <label className="flex items-center gap-2 mt-2 text-[13px]">
+                <input
+                  type="checkbox"
+                  checked={isDisambiguation}
+                  onChange={(e) => setIsDisambiguation(e.target.checked)}
+                />
+                Create this as a disambiguation page
+              </label>
+            </div>
+          )}
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
@@ -91,6 +152,11 @@ export default function NewArticlePage() {
               <label className="block text-[13px] font-bold text-heading mb-1">Tags:</label>
               <TagPicker selectedTagIds={tagIds} onChange={setTagIds} />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-bold text-heading mb-1">Template:</label>
+            <TemplatePicker selected={templateId} onSelect={handleTemplateSelect} />
           </div>
 
           <div>

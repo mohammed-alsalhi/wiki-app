@@ -26,6 +26,7 @@ export default function EditArticlePage() {
   const [title, setTitle] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
+  const [editSummary, setEditSummary] = useState("");
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -84,6 +85,7 @@ export default function EditArticlePage() {
         excerpt: content.replace(/<[^>]*>/g, "").substring(0, 200),
         categoryId: categoryId || null,
         tagIds,
+        editSummary: editSummary.trim() || null,
       }),
     });
 
@@ -120,6 +122,9 @@ export default function EditArticlePage() {
           Article
         </Link>
         <span className="wiki-tab wiki-tab-active">Editing</span>
+        <Link href={`/articles/${article.slug}/history`} className="wiki-tab">
+          History
+        </Link>
       </div>
 
       {/* Edit form */}
@@ -157,6 +162,17 @@ export default function EditArticlePage() {
           <div>
             <label className="block text-[13px] font-bold text-heading mb-1">Content:</label>
             <TiptapEditor ref={editorRef} content={article.content} />
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-bold text-heading mb-1">Edit summary:</label>
+            <input
+              type="text"
+              value={editSummary}
+              onChange={(e) => setEditSummary(e.target.value)}
+              placeholder="Briefly describe your changes..."
+              className="w-full border border-border bg-white px-3 py-1.5 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+            />
           </div>
 
           <div className="flex gap-2 border-t border-border pt-3">

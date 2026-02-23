@@ -7,26 +7,63 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+async function getParentChain(parentId: string | null) {
+  const chain: { id: string; name: string; slug: string; icon: string | null; parentId: string | null }[] = [];
+  let currentId = parentId;
+  while (currentId) {
+    const parent = await prisma.category.findUnique({
+      where: { id: currentId },
+      select: { id: true, name: true, slug: true, icon: true, parentId: true },
+    });
+    if (!parent) break;
+    chain.unshift(parent);
+    currentId = parent.parentId;
+  }
+  return chain;
+}
+
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
 
   const category = await prisma.category.findUnique({
     where: { slug },
+    include: {
+      children: {
+        orderBy: { sortOrder: "asc" },
+        include: { _count: { select: { articles: true } } },
+      },
+    },
   });
 
   if (!category) notFound();
 
-  const articles = await prisma.article.findMany({
-    where: { categoryId: category.id },
-    orderBy: { updatedAt: "desc" },
-    include: {
-      category: true,
-      tags: { include: { tag: true } },
-    },
-  });
+  const [articles, parentChain] = await Promise.all([
+    prisma.article.findMany({
+      where: { categoryId: category.id },
+      orderBy: { updatedAt: "desc" },
+      include: {
+        category: true,
+        tags: { include: { tag: true } },
+      },
+    }),
+    getParentChain(category.parentId),
+  ]);
 
   return (
     <div>
+      {/* Breadcrumbs */}
+      {parentChain.length > 0 && (
+        <nav className="text-[12px] text-muted mb-2">
+          {parentChain.map((p, i) => (
+            <span key={p.id}>
+              {i > 0 && " \u203A "}
+              <Link href={`/categories/${p.slug}`}>{p.icon} {p.name}</Link>
+            </span>
+          ))}
+          {" \u203A "}{category.icon} {category.name}
+        </nav>
+      )}
+
       <h1
         className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-1"
         style={{ fontFamily: "var(--font-serif)" }}
@@ -39,6 +76,29 @@ export default async function CategoryPage({ params }: Props) {
       <p className="text-[12px] text-muted mb-3">
         {articles.length} article{articles.length !== 1 ? "s" : ""} in this category
       </p>
+
+      {/* Subcategories */}
+      {category.children.length > 0 && (
+        <div className="wiki-portal mb-4">
+          <div className="wiki-portal-header">Subcategories</div>
+          <div className="wiki-portal-body">
+            <ul className="list-disc pl-5 space-y-0.5">
+              {category.children.map((child) => (
+                <li key={child.id}>
+                  <Link href={`/categories/${child.slug}`}>
+                    {child.icon} {child.name}
+                  </Link>
+                  {child._count.articles > 0 && (
+                    <span className="text-[11px] text-muted ml-1">
+                      ({child._count.articles} article{child._count.articles !== 1 ? "s" : ""})
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       {articles.length === 0 ? (
         <div className="wiki-notice">

@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 
-type Category = { id: string; name: string; slug: string; icon: string | null };
+type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string | null;
+  parentId?: string | null;
+  children?: Category[];
+};
 
 type Props = {
   value: string;
@@ -18,6 +25,9 @@ export default function CategorySelect({ value, onChange }: Props) {
       .then(setCategories);
   }, []);
 
+  // Build root-only tree (API may return all or just roots)
+  const roots = categories.filter((c) => !c.parentId);
+
   return (
     <select
       value={value}
@@ -25,11 +35,16 @@ export default function CategorySelect({ value, onChange }: Props) {
       className="w-full border border-border bg-white px-2 py-1.5 text-[13px] text-foreground focus:border-accent focus:outline-none"
     >
       <option value="">No category</option>
-      {categories.map((cat) => (
-        <option key={cat.id} value={cat.id}>
-          {cat.icon} {cat.name}
-        </option>
-      ))}
+      {renderOptions(roots, 0)}
     </select>
   );
+}
+
+function renderOptions(categories: Category[], depth: number): React.ReactNode[] {
+  return categories.flatMap((cat) => [
+    <option key={cat.id} value={cat.id}>
+      {"\u00A0".repeat(depth * 4)}{depth > 0 ? "\u2514 " : ""}{cat.icon} {cat.name}
+    </option>,
+    ...(cat.children ? renderOptions(cat.children, depth + 1) : []),
+  ]);
 }

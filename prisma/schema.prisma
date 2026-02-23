@@ -7,34 +7,41 @@ datasource db {
 }
 
 model Article {
-  id         String   @id @default(cuid())
-  title      String
-  slug       String   @unique
-  content    String   @db.Text
-  contentRaw String?  @db.Text
-  excerpt    String?  @db.Text
-  coverImage String?
-  published  Boolean  @default(true)
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id])
-  tags       ArticleTag[]
-  mapMarkers MapMarker[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id               String   @id @default(cuid())
+  title            String
+  slug             String   @unique
+  content          String   @db.Text
+  contentRaw       String?  @db.Text
+  excerpt          String?  @db.Text
+  coverImage       String?
+  published        Boolean  @default(true)
+  isDisambiguation Boolean  @default(false)
+  categoryId       String?
+  category         Category? @relation(fields: [categoryId], references: [id])
+  tags             ArticleTag[]
+  mapMarkers       MapMarker[]
+  revisions        ArticleRevision[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([slug])
   @@index([categoryId])
 }
 
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  slug        String    @unique
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
   description String?
   icon        String?
-  sortOrder   Int       @default(0)
+  sortOrder   Int        @default(0)
+  parentId    String?
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryTree")
   articles    Article[]
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime   @default(now())
+
+  @@index([parentId])
 }
 
 model Tag {
@@ -53,6 +60,20 @@ model ArticleTag {
 
   @@id([articleId, tagId])
   @@index([tagId])
+}
+
+model ArticleRevision {
+  id          String   @id @default(cuid())
+  articleId   String
+  article     Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  content     String   @db.Text
+  contentRaw  String?  @db.Text
+  title       String
+  editSummary String?
+  createdAt   DateTime @default(now())
+
+  @@index([articleId])
+  @@index([createdAt])
 }
 
 model MapMarker {

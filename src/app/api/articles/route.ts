@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   if (denied) return denied;
 
   const body = await request.json();
-  const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds } = body;
+  const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds, isDisambiguation } = body;
 
   if (!title || !content) {
     return NextResponse.json({ error: "Title and content are required" }, { status: 400 });
@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
       contentRaw,
       excerpt: excerpt || content.replace(/<[^>]*>/g, "").substring(0, 200),
       coverImage,
+      isDisambiguation: isDisambiguation || false,
       categoryId: categoryId || null,
       tags: tagIds?.length
         ? { create: tagIds.map((tagId: string) => ({ tagId })) }

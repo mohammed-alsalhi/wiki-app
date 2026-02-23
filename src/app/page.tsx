@@ -112,6 +112,11 @@ export default async function Home() {
                   ))}
                 </ul>
               )}
+              <div className="px-3 py-1.5 text-right border-t border-border">
+                <Link href="/recent-changes" className="text-[12px]">
+                  View all recent changes &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </div>

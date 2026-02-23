@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 import SearchBar from "@/components/layout/SearchBar";
 import { AdminProvider } from "@/components/AdminContext";
+import ThemeToggle from "@/components/ThemeToggle";
 import prisma from "@/lib/prisma";
 
 const geistSans = Geist({
@@ -22,10 +23,20 @@ export const metadata: Metadata = {
 };
 
 async function getCategories() {
-  return prisma.category.findMany({
+  const all = await prisma.category.findMany({
     orderBy: { sortOrder: "asc" },
-    include: { _count: { select: { articles: true } } },
+    include: {
+      _count: { select: { articles: true } },
+      children: {
+        orderBy: { sortOrder: "asc" },
+        include: {
+          _count: { select: { articles: true } },
+        },
+      },
+    },
   });
+  // Return only root categories (no parent) with children nested
+  return all.filter((c) => !c.parentId);
 }
 
 export default async function RootLayout({
@@ -36,18 +47,28 @@ export default async function RootLayout({
   const categories = await getCategories();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark')}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AdminProvider>
           {/* Top banner bar */}
-          <header className="bg-white border-b border-border">
+          <header className="bg-surface border-b border-border">
             <div className="flex items-center justify-between px-4 py-1.5">
               <div className="flex items-center gap-4">
                 <span className="text-xs text-muted">Personal Wiki</span>
               </div>
-              <SearchBar />
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <SearchBar />
+              </div>
             </div>
           </header>
 
@@ -56,7 +77,7 @@ export default async function RootLayout({
             <Sidebar categories={categories} />
 
             {/* Content area */}
-            <div className="flex-1 min-w-0 bg-white border-l border-border">
+            <div className="flex-1 min-w-0 bg-surface border-l border-border">
               <main className="max-w-5xl px-6 py-4">
                 {children}
               </main>

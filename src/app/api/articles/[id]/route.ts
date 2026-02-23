@@ -32,7 +32,24 @@ export async function PUT(
 
   const { id } = await params;
   const body = await request.json();
-  const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds } = body;
+  const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds, editSummary } = body;
+
+  // Snapshot current content as a revision before updating
+  const current = await prisma.article.findUnique({
+    where: { id },
+    select: { title: true, content: true, contentRaw: true },
+  });
+  if (current) {
+    await prisma.articleRevision.create({
+      data: {
+        articleId: id,
+        title: current.title,
+        content: current.content,
+        contentRaw: current.contentRaw,
+        editSummary: editSummary || null,
+      },
+    });
+  }
 
   // Delete existing tags and recreate
   if (tagIds !== undefined) {

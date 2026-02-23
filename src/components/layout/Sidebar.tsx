@@ -12,6 +12,7 @@ type Category = {
   slug: string;
   icon: string | null;
   _count: { articles: number };
+  children?: Category[];
 };
 
 export default function Sidebar({ categories }: { categories: Category[] }) {
@@ -23,6 +24,7 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
     { href: "/", label: "Main Page" },
     { href: "/articles", label: "All articles" },
     { href: "/categories", label: "Categories" },
+    { href: "/recent-changes", label: "Recent changes" },
     { href: "/map", label: "World Map" },
     { href: "/search", label: "Search" },
   ];
@@ -93,21 +95,13 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
         {/* Categories section */}
         <SidebarSection title="Categories">
           {categories.map((cat) => (
-            <SidebarLink
+            <SidebarCategoryItem
               key={cat.id}
-              href={`/categories/${cat.slug}`}
-              active={pathname === `/categories/${cat.slug}`}
-              onClick={() => setMobileOpen(false)}
-            >
-              <span className="flex items-center justify-between w-full">
-                <span>{cat.icon} {cat.name}</span>
-                {cat._count.articles > 0 && (
-                  <span className="text-[10px] text-muted">
-                    {cat._count.articles}
-                  </span>
-                )}
-              </span>
-            </SidebarLink>
+              category={cat}
+              pathname={pathname}
+              depth={0}
+              onNavigate={() => setMobileOpen(false)}
+            />
           ))}
         </SidebarSection>
       </aside>
@@ -115,11 +109,69 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
   );
 }
 
+function SidebarCategoryItem({
+  category,
+  pathname,
+  depth,
+  onNavigate,
+}: {
+  category: Category;
+  pathname: string;
+  depth: number;
+  onNavigate: () => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const hasChildren = category.children && category.children.length > 0;
+
+  return (
+    <div>
+      <div className="flex items-center" style={{ paddingLeft: `${depth * 12}px` }}>
+        {hasChildren && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="text-[10px] text-muted w-4 flex-shrink-0 hover:text-foreground"
+          >
+            {expanded ? "\u25BC" : "\u25B6"}
+          </button>
+        )}
+        {!hasChildren && <span className="w-4 flex-shrink-0" />}
+        <SidebarLink
+          href={`/categories/${category.slug}`}
+          active={pathname === `/categories/${category.slug}`}
+          onClick={onNavigate}
+        >
+          <span className="flex items-center justify-between w-full">
+            <span>{category.icon} {category.name}</span>
+            {category._count.articles > 0 && (
+              <span className="text-[10px] text-muted">
+                {category._count.articles}
+              </span>
+            )}
+          </span>
+        </SidebarLink>
+      </div>
+      {hasChildren && expanded && (
+        <div>
+          {category.children!.map((child) => (
+            <SidebarCategoryItem
+              key={child.id}
+              category={child}
+              pathname={pathname}
+              depth={depth + 1}
+              onNavigate={onNavigate}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SidebarSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="border-b border-border">
       <h3
-        className="bg-[#cedff2] px-3 py-1 text-[11px] font-bold text-[#202122] uppercase tracking-wider"
+        className="bg-infobox-header px-3 py-1 text-[11px] font-bold text-foreground uppercase tracking-wider"
       >
         {title}
       </h3>

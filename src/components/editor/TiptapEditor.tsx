@@ -12,6 +12,7 @@ import { useRef, useState, useImperativeHandle, forwardRef } from "react";
 export type TiptapEditorHandle = {
   getHTML: () => string;
   getMarkdown: () => string;
+  setContent: (content: string) => void;
 };
 
 type Props = {
@@ -50,6 +51,9 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
         return editor?.getHTML() || "";
       },
       getMarkdown: () => markdownText,
+      setContent: (content: string) => {
+        editor?.commands.setContent(content);
+      },
     }));
 
     async function handleImageUpload() {

@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { resolveWikiLinks, getBacklinks } from "@/lib/wikilinks";
 import AdminEditTab from "@/components/AdminEditTab";
+import ArticleExportButtons from "@/components/ArticleExportButtons";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -33,6 +34,9 @@ export default async function ArticlePage({ params }: Props) {
       <div className="wiki-tabs">
         <span className="wiki-tab wiki-tab-active">Article</span>
         <AdminEditTab slug={slug} />
+        <Link href={`/articles/${slug}/history`} className="wiki-tab">
+          History
+        </Link>
       </div>
 
       {/* Article body in bordered content area */}
@@ -45,10 +49,26 @@ export default async function ArticlePage({ params }: Props) {
           {article.title}
         </h1>
 
-        {/* From World Wiki line */}
-        <p className="text-[11px] text-muted mb-3">
-          From World Wiki &mdash; Last edited {formatDate(article.updatedAt)}
-        </p>
+        {/* From World Wiki line + export buttons */}
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-[11px] text-muted">
+            From World Wiki &mdash; Last edited {formatDate(article.updatedAt)}
+          </p>
+          <ArticleExportButtons
+            title={article.title}
+            slug={article.slug}
+            contentRaw={article.contentRaw}
+            contentHtml={resolvedContent}
+          />
+        </div>
+
+        {/* Disambiguation notice */}
+        {article.isDisambiguation && (
+          <div className="wiki-disambiguation-notice">
+            <strong>{article.title}</strong> may refer to multiple subjects.
+            This is a <em>disambiguation page</em> listing articles with similar names.
+          </div>
+        )}
 
         {/* Infobox */}
         {(article.category || article.tags.length > 0 || article.coverImage) && (
