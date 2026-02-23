@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 type SearchResult = {
@@ -17,17 +17,25 @@ export default function SearchBar() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
 
+  // Clear search on navigation
   useEffect(() => {
-    if (query.length < 2) {
+    setQuery("");
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (trimmed.length < 2) {
       setResults([]);
       setOpen(false);
       return;
     }
 
     const timer = setTimeout(async () => {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=5`);
+      const res = await fetch(`/api/search?q=${encodeURIComponent(trimmed)}&limit=5`);
       if (res.ok) {
         const data = await res.json();
         setResults(data);
@@ -50,8 +58,10 @@ export default function SearchBar() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
+    const trimmed = query.trim();
+    if (trimmed) {
+      router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+      setQuery("");
       setOpen(false);
     }
   }
@@ -94,8 +104,8 @@ export default function SearchBar() {
             </Link>
           ))}
           <Link
-            href={`/search?q=${encodeURIComponent(query)}`}
-            onClick={() => setOpen(false)}
+            href={`/search?q=${encodeURIComponent(query.trim())}`}
+            onClick={() => { setOpen(false); setQuery(""); }}
             className="block border-t border-border px-3 py-1.5 text-center text-[11px] text-wiki-link hover:bg-surface-hover"
           >
             See all results &rarr;

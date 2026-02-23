@@ -6,8 +6,17 @@ type Props = {
   searchParams: Promise<{ q?: string }>;
 };
 
+function titleRelevance(title: string, query: string): number {
+  const t = title.toLowerCase();
+  if (t === query) return 100;
+  if (t.startsWith(query)) return 80;
+  if (t.includes(query)) return 60;
+  return 0;
+}
+
 export default async function SearchPage({ searchParams }: Props) {
-  const { q } = await searchParams;
+  const { q: rawQ } = await searchParams;
+  const q = rawQ?.trim();
 
   if (!q || q.length < 2) {
     return (
@@ -25,19 +34,41 @@ export default async function SearchPage({ searchParams }: Props) {
     );
   }
 
+  const words = q.split(/\s+/).filter((w) => w.length >= 2);
+
+  const where =
+    words.length > 1
+      ? {
+          AND: words.map((word) => ({
+            OR: [
+              { title: { contains: word, mode: "insensitive" as const } },
+              { content: { contains: word, mode: "insensitive" as const } },
+              { excerpt: { contains: word, mode: "insensitive" as const } },
+            ],
+          })),
+        }
+      : {
+          OR: [
+            { title: { contains: q, mode: "insensitive" as const } },
+            { content: { contains: q, mode: "insensitive" as const } },
+            { excerpt: { contains: q, mode: "insensitive" as const } },
+          ],
+        };
+
   const articles = await prisma.article.findMany({
-    where: {
-      OR: [
-        { title: { contains: q, mode: "insensitive" } },
-        { content: { contains: q, mode: "insensitive" } },
-        { excerpt: { contains: q, mode: "insensitive" } },
-      ],
-    },
-    orderBy: { updatedAt: "desc" },
+    where,
     include: {
       category: true,
       tags: { include: { tag: true } },
     },
+  });
+
+  // Rank by relevance: exact title > starts with > title contains > content only
+  const qLower = q.toLowerCase();
+  articles.sort((a, b) => {
+    const scoreA = titleRelevance(a.title, qLower);
+    const scoreB = titleRelevance(b.title, qLower);
+    return scoreB - scoreA;
   });
 
   return (
