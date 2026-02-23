@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from "@tiptap/core";
+import { Node, mergeAttributes, InputRule } from "@tiptap/core";
 
 function slugify(text: string): string {
   return text
@@ -37,6 +37,24 @@ export const WikiLink = Node.create({
         "data-wiki-link": title,
       }),
       title,
+    ];
+  },
+
+  addInputRules() {
+    return [
+      new InputRule({
+        find: /\[\[([^\]]+)\]\]$/,
+        handler: ({ state, range, match }) => {
+          const title = match[1];
+          if (!title) return;
+          const { tr } = state;
+          tr.replaceWith(
+            range.from,
+            range.to,
+            this.type.create({ title })
+          );
+        },
+      }),
     ];
   },
 

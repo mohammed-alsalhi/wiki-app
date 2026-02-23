@@ -131,6 +131,8 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
 
 function htmlToBasicMarkdown(html: string): string {
   return html
+    // Convert wiki links to [[Title]] before stripping tags
+    .replace(/<a[^>]*data-wiki-link="([^"]*)"[^>]*>[^<]*<\/a>/gi, "[[$1]]")
     .replace(/<h1[^>]*>(.*?)<\/h1>/gi, "# $1\n")
     .replace(/<h2[^>]*>(.*?)<\/h2>/gi, "## $1\n")
     .replace(/<h3[^>]*>(.*?)<\/h3>/gi, "### $1\n")
@@ -142,12 +144,24 @@ function htmlToBasicMarkdown(html: string): string {
     .trim();
 }
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 function basicMarkdownToHtml(md: string): string {
   return md
     .split("\n\n")
     .map((block) => {
       block = block.trim();
       if (!block) return "";
+      // Convert [[Title]] back to wiki link HTML
+      block = block.replace(/\[\[([^\]]+)\]\]/g, (_match, title) => {
+        const slug = slugify(title);
+        return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${title}</a>`;
+      });
       if (block.startsWith("### ")) return `<h3>${block.slice(4)}</h3>`;
       if (block.startsWith("## ")) return `<h2>${block.slice(3)}</h2>`;
       if (block.startsWith("# ")) return `<h1>${block.slice(2)}</h1>`;

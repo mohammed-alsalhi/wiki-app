@@ -6,7 +6,7 @@ A configurable, self-hosted wiki application with a MediaWiki-inspired interface
 
 ## Deploy to Vercel (Recommended)
 
-The fastest way to get your own wiki running.
+The fastest way to get your own wiki running. You can also deploy anywhere that runs Node.js — see [Run Locally](#run-locally) and [Deploy to a Custom Domain](#deploy-to-a-custom-domain) for other options.
 
 ### 1. Set up the database
 
@@ -26,6 +26,14 @@ Or manually:
 
 ### 3. Configure environment variables
 
+A `.env.example` template is included in the repo with all available variables and descriptions. Copy it to `.env` and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Only `DATABASE_URL` and `ADMIN_SECRET` are required — everything else has sensible defaults and is optional. Here's the full list:
+
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes | PostgreSQL connection string |
@@ -39,6 +47,8 @@ Or manually:
 | `NEXT_PUBLIC_MAP_LABEL` | No | Label for the map in navigation (default: `Map`) |
 | `NEXT_PUBLIC_MAP_IMAGE` | No | Path or URL to the map background image |
 | `BLOB_READ_WRITE_TOKEN` | No | Vercel Blob token for image uploads |
+
+> **Tip:** Variables starting with `NEXT_PUBLIC_` control the wiki's branding and are baked in at build time. If you change them, you'll need to redeploy/rebuild for the changes to take effect.
 
 ### 4. Seed categories (optional)
 
