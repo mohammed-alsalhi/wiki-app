@@ -34,7 +34,7 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
       {/* Mobile toggle */}
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="fixed top-1.5 left-2 z-50 bg-white border border-border p-1.5 text-sm text-foreground md:hidden"
+        className="fixed top-1.5 left-2 z-50 bg-surface border border-border p-1.5 text-sm text-foreground md:hidden"
       >
         {mobileOpen ? "\u2715" : "\u2630"}
       </button>

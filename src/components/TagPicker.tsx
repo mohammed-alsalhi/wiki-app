@@ -67,7 +67,7 @@ export default function TagPicker({ selectedTagIds, onChange }: Props) {
           onChange={(e) => setNewTag(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), createTag())}
           placeholder="New tag..."
-          className="border border-border bg-white px-2 py-0.5 text-[12px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+          className="border border-border bg-surface px-2 py-0.5 text-[12px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
         />
         <button
           type="button"

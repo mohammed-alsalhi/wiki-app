@@ -44,7 +44,7 @@
 }
 
 /* ── Dark mode overrides ── */
-[data-theme="dark"] {
+html[data-theme="dark"] {
   --color-background: #1a1a2e;
   --color-foreground: #c8ccd1;
   --color-surface: #21213a;

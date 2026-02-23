@@ -32,7 +32,7 @@ export default function CategorySelect({ value, onChange }: Props) {
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full border border-border bg-white px-2 py-1.5 text-[13px] text-foreground focus:border-accent focus:outline-none"
+      className="w-full border border-border bg-surface px-2 py-1.5 text-[13px] text-foreground focus:border-accent focus:outline-none"
     >
       <option value="">No category</option>
       {renderOptions(roots, 0)}

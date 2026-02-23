@@ -64,18 +64,18 @@ export default function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-48 border border-border bg-white px-2 py-0.5 text-[12px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+          className="w-48 border border-border bg-surface px-2 py-0.5 text-[12px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
         />
         <button
           type="submit"
-          className="border border-border bg-[#eaecf0] px-2 py-0.5 text-[11px] text-foreground hover:bg-[#dadde3]"
+          className="border border-border bg-surface-hover px-2 py-0.5 text-[11px] text-foreground hover:bg-background"
         >
           Go
         </button>
       </form>
 
       {open && results.length > 0 && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-72 border border-border bg-white shadow-md">
+        <div className="absolute right-0 top-full z-50 mt-1 w-72 border border-border bg-surface shadow-md">
           {results.map((result) => (
             <Link
               key={result.id}

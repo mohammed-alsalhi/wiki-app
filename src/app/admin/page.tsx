@@ -81,10 +81,10 @@ export default function AdminPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password..."
               required
-              className="w-full border border-border bg-white px-3 py-1.5 text-[14px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+              className="w-full border border-border bg-surface px-3 py-1.5 text-[14px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
             />
             {error && (
-              <p className="text-[12px] text-[#ba0000]">{error}</p>
+              <p className="text-[12px] text-wiki-link-broken">{error}</p>
             )}
             <button
               type="submit"

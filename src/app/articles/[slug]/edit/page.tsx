@@ -144,7 +144,7 @@ export default function EditArticlePage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full border border-border bg-white px-3 py-1.5 text-[14px] text-foreground focus:border-accent focus:outline-none"
+              className="w-full border border-border bg-surface px-3 py-1.5 text-[14px] text-foreground focus:border-accent focus:outline-none"
             />
           </div>
 
@@ -171,7 +171,7 @@ export default function EditArticlePage() {
               value={editSummary}
               onChange={(e) => setEditSummary(e.target.value)}
               placeholder="Briefly describe your changes..."
-              className="w-full border border-border bg-white px-3 py-1.5 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+              className="w-full border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
             />
           </div>
 

@@ -183,7 +183,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
 
       {/* New marker form */}
       {showForm && (
-        <div className="absolute right-4 top-4 z-[1000] w-72 border border-border bg-white p-4 shadow-md">
+        <div className="absolute right-4 top-4 z-[1000] w-72 border border-border bg-surface p-4 shadow-md">
           <h3 className="mb-3 text-[13px] font-bold text-heading">New Marker</h3>
           <form onSubmit={handleCreateMarker} className="space-y-2">
             <input
@@ -192,12 +192,12 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
               onChange={(e) => setNewMarker((p) => ({ ...p, label: e.target.value }))}
               placeholder="Label..."
               required
-              className="w-full border border-border bg-white px-2 py-1 text-[13px] text-foreground focus:border-accent focus:outline-none"
+              className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground focus:border-accent focus:outline-none"
             />
             <select
               value={newMarker.icon}
               onChange={(e) => setNewMarker((p) => ({ ...p, icon: e.target.value }))}
-              className="w-full border border-border bg-white px-2 py-1 text-[13px] text-foreground"
+              className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground"
             >
               {Object.entries(markerIcons).map(([key, emoji]) => (
                 <option key={key} value={key}>
@@ -208,7 +208,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
             <select
               value={newMarker.articleId}
               onChange={(e) => setNewMarker((p) => ({ ...p, articleId: e.target.value }))}
-              className="w-full border border-border bg-white px-2 py-1 text-[13px] text-foreground"
+              className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground"
             >
               <option value="">No linked article</option>
               {articles.map((a) => (

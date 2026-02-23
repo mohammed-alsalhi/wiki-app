@@ -110,7 +110,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
           <textarea
             value={markdownText}
             onChange={(e) => setMarkdownText(e.target.value)}
-            className="min-h-[300px] w-full bg-white p-4 font-mono text-[13px] text-foreground focus:outline-none"
+            className="min-h-[300px] w-full bg-surface p-4 font-mono text-[13px] text-foreground focus:outline-none"
             placeholder="Write in markdown..."
           />
         ) : (
