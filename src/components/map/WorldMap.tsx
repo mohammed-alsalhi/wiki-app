@@ -1,53 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { MapContainer, ImageOverlay, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
+import { useEffect, useState, useCallback } from "react";
+import {
+  MapContainer,
+  ImageOverlay,
+  Polygon,
+  Polyline,
+  CircleMarker,
+  Popup,
+  Tooltip,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-type MapMarker = {
+type MapArea = {
   id: string;
   label: string;
-  x: number;
-  y: number;
-  icon: string | null;
+  polygon: [number, number][];
+  color: string | null;
   article: { id: string; title: string; slug: string } | null;
 };
-
-const markerIcons: Record<string, string> = {
-  city: "\u{1F3F0}",
-  town: "\u{1F3D8}\uFE0F",
-  ruin: "\u{1F3DA}\uFE0F",
-  forest: "\u{1F332}",
-  mountain: "\u26F0\uFE0F",
-  water: "\u{1F30A}",
-  dungeon: "\u{1F5FF}",
-  default: "\u{1F4CD}",
-};
-
-function createDivIcon(iconType: string | null) {
-  const emoji = markerIcons[iconType || "default"] || markerIcons.default;
-  return L.divIcon({
-    html: `<span style="font-size: 24px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));">${emoji}</span>`,
-    className: "custom-div-icon",
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  });
-}
-
-function MapClickHandler({
-  onMapClick,
-}: {
-  onMapClick: (lat: number, lng: number) => void;
-}) {
-  useMapEvents({
-    click: (e) => {
-      onMapClick(e.latlng.lat, e.latlng.lng);
-    },
-  });
-  return null;
-}
 
 function FitBounds({ bounds }: { bounds: L.LatLngBoundsLiteral }) {
   const map = useMap();
@@ -58,23 +33,113 @@ function FitBounds({ bounds }: { bounds: L.LatLngBoundsLiteral }) {
   return null;
 }
 
+function DrawingHandler({
+  onAddPoint,
+  onFinish,
+}: {
+  onAddPoint: (lat: number, lng: number) => void;
+  onFinish: () => void;
+}) {
+  useMapEvents({
+    click: (e) => {
+      onAddPoint(e.latlng.lat, e.latlng.lng);
+    },
+    dblclick: (e) => {
+      L.DomEvent.stopPropagation(e);
+      onFinish();
+    },
+  });
+  return null;
+}
+
+/** Hover-interactive polygon wrapper */
+function AreaPolygon({
+  area,
+  editMode,
+  onDelete,
+}: {
+  area: MapArea;
+  editMode: boolean;
+  onDelete: (id: string) => void;
+}) {
+  const router = useRouter();
+  const positions = area.polygon as L.LatLngTuple[];
+
+  return (
+    <Polygon
+      positions={positions}
+      pathOptions={
+        editMode
+          ? {
+              color: area.color || "#3b82f6",
+              weight: 2,
+              dashArray: "6 4",
+              fillColor: area.color || "#3b82f6",
+              fillOpacity: 0.15,
+            }
+          : {
+              color: "transparent",
+              weight: 0,
+              fillColor: "transparent",
+              fillOpacity: 0,
+            }
+      }
+      eventHandlers={
+        editMode
+          ? {}
+          : {
+              click: () => {
+                if (area.article) {
+                  router.push(`/articles/${area.article.slug}`);
+                }
+              },
+            }
+      }
+    >
+      {/* View mode: tooltip on hover */}
+      {!editMode && (
+        <Tooltip sticky>
+          <strong>{area.label}</strong>
+        </Tooltip>
+      )}
+      {/* Edit mode: popup with delete */}
+      {editMode && (
+        <Popup>
+          <div className="min-w-[150px]">
+            <strong className="text-sm">{area.label}</strong>
+            <button
+              onClick={() => onDelete(area.id)}
+              className="mt-2 block text-xs text-red-600 hover:underline"
+            >
+              Delete
+            </button>
+          </div>
+        </Popup>
+      )}
+    </Polygon>
+  );
+}
+
 type Props = {
   mapImage: string;
   editMode?: boolean;
 };
 
 export default function WorldMap({ mapImage, editMode = false }: Props) {
-  const [markers, setMarkers] = useState<MapMarker[]>([]);
-  const [showForm, setShowForm] = useState(false);
-  const [newMarker, setNewMarker] = useState({ x: 0, y: 0, label: "", icon: "default", articleId: "" });
+  const [areas, setAreas] = useState<MapArea[]>([]);
   const [articles, setArticles] = useState<{ id: string; title: string }[]>([]);
   const [imageBounds, setImageBounds] = useState<L.LatLngBoundsLiteral | null>(null);
+
+  // Drawing state
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [drawingPoints, setDrawingPoints] = useState<[number, number][]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [newArea, setNewArea] = useState({ label: "", articleId: "" });
 
   // Load image to get its natural dimensions
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
-      // Use image's natural aspect ratio, scaling height to 1000
       const h = 1000;
       const w = (img.naturalWidth / img.naturalHeight) * h;
       setImageBounds([[0, 0], [h, w]]);
@@ -85,7 +150,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
   useEffect(() => {
     fetch("/api/map-markers")
       .then((r) => r.json())
-      .then(setMarkers);
+      .then(setAreas);
   }, []);
 
   useEffect(() => {
@@ -96,35 +161,49 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
     }
   }, [editMode]);
 
-  function handleMapClick(lat: number, lng: number) {
-    if (!editMode) return;
-    setNewMarker({ x: lng, y: lat, label: "", icon: "default", articleId: "" });
-    setShowForm(true);
-  }
+  const handleAddPoint = useCallback(
+    (lat: number, lng: number) => {
+      if (!isDrawing) return;
+      setDrawingPoints((prev) => [...prev, [lat, lng]]);
+    },
+    [isDrawing]
+  );
 
-  async function handleCreateMarker(e: React.FormEvent) {
+  const handleFinishDrawing = useCallback(() => {
+    if (drawingPoints.length < 3) return;
+    setIsDrawing(false);
+    setShowForm(true);
+    setNewArea({ label: "", articleId: "" });
+  }, [drawingPoints.length]);
+
+  async function handleCreateArea(e: React.FormEvent) {
     e.preventDefault();
     const res = await fetch("/api/map-markers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        label: newMarker.label,
-        x: newMarker.x,
-        y: newMarker.y,
-        icon: newMarker.icon,
-        articleId: newMarker.articleId || null,
+        label: newArea.label,
+        polygon: drawingPoints,
+        articleId: newArea.articleId || null,
       }),
     });
     if (res.ok) {
-      const marker = await res.json();
-      setMarkers((prev) => [...prev, marker]);
+      const area = await res.json();
+      setAreas((prev) => [...prev, area]);
       setShowForm(false);
+      setDrawingPoints([]);
     }
   }
 
-  async function handleDeleteMarker(id: string) {
+  async function handleDeleteArea(id: string) {
     await fetch(`/api/map-markers/${id}`, { method: "DELETE" });
-    setMarkers((prev) => prev.filter((m) => m.id !== id));
+    setAreas((prev) => prev.filter((a) => a.id !== id));
+  }
+
+  function handleCancelDrawing() {
+    setIsDrawing(false);
+    setDrawingPoints([]);
+    setShowForm(false);
   }
 
   if (!imageBounds) {
@@ -144,79 +223,128 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
         minZoom={-2}
         maxZoom={3}
         zoomControl={true}
+        doubleClickZoom={false}
       >
         <FitBounds bounds={imageBounds} />
         <ImageOverlay url={mapImage} bounds={imageBounds} />
-        {markers.map((marker) => (
-          <Marker
-            key={marker.id}
-            position={[marker.y, marker.x]}
-            icon={createDivIcon(marker.icon)}
-          >
-            <Popup>
-              <div className="min-w-[150px]">
-                <strong className="text-sm">{marker.label}</strong>
-                {marker.article && (
-                  <div className="mt-1">
-                    <Link
-                      href={`/articles/${marker.article.slug}`}
-                      className="text-xs text-wiki-link hover:underline"
-                    >
-                      View Article
-                    </Link>
-                  </div>
-                )}
-                {editMode && (
-                  <button
-                    onClick={() => handleDeleteMarker(marker.id)}
-                    className="mt-2 text-xs text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
-                )}
-              </div>
-            </Popup>
-          </Marker>
+
+        {/* Render saved areas */}
+        {areas.map((area) => (
+          <AreaPolygon
+            key={area.id}
+            area={area}
+            editMode={editMode}
+            onDelete={handleDeleteArea}
+          />
         ))}
-        {editMode && <MapClickHandler onMapClick={handleMapClick} />}
+
+        {/* Drawing preview: lines between placed points */}
+        {editMode && isDrawing && drawingPoints.length >= 2 && (
+          <Polyline
+            positions={drawingPoints}
+            pathOptions={{ color: "#3b82f6", weight: 2, dashArray: "6 4" }}
+          />
+        )}
+
+        {/* Drawing preview: vertex dots */}
+        {editMode && isDrawing &&
+          drawingPoints.map((pt, i) => (
+            <CircleMarker
+              key={i}
+              center={pt}
+              radius={4}
+              pathOptions={{
+                color: "#3b82f6",
+                fillColor: "#fff",
+                fillOpacity: 1,
+                weight: 2,
+              }}
+            />
+          ))}
+
+        {/* Completed polygon preview (before save) */}
+        {editMode && showForm && drawingPoints.length >= 3 && (
+          <Polygon
+            positions={drawingPoints}
+            pathOptions={{
+              color: "#3b82f6",
+              weight: 2,
+              fillColor: "#3b82f6",
+              fillOpacity: 0.2,
+            }}
+          />
+        )}
+
+        {editMode && isDrawing && (
+          <DrawingHandler onAddPoint={handleAddPoint} onFinish={handleFinishDrawing} />
+        )}
       </MapContainer>
 
-      {/* New marker form */}
+      {/* Edit mode toolbar */}
+      {editMode && !showForm && (
+        <div className="absolute left-4 top-4 z-[1000] flex gap-2">
+          {!isDrawing ? (
+            <button
+              onClick={() => {
+                setDrawingPoints([]);
+                setShowForm(false);
+                setIsDrawing(true);
+              }}
+              className="bg-accent px-3 py-1 text-[12px] font-bold text-white shadow hover:bg-accent-hover"
+            >
+              Draw area
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={handleFinishDrawing}
+                disabled={drawingPoints.length < 3}
+                className="bg-accent px-3 py-1 text-[12px] font-bold text-white shadow hover:bg-accent-hover disabled:opacity-40"
+              >
+                Finish ({drawingPoints.length} points)
+              </button>
+              <button
+                onClick={handleCancelDrawing}
+                className="border border-border bg-surface px-3 py-1 text-[12px] text-foreground shadow hover:bg-surface-hover"
+              >
+                Cancel
+              </button>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* New area form */}
       {showForm && (
         <div className="absolute right-4 top-4 z-[1000] w-72 border border-border bg-surface p-4 shadow-md">
-          <h3 className="mb-3 text-[13px] font-bold text-heading">New Marker</h3>
-          <form onSubmit={handleCreateMarker} className="space-y-2">
+          <h3 className="mb-3 text-[13px] font-bold text-heading">New Area</h3>
+          <form onSubmit={handleCreateArea} className="space-y-2">
             <input
               type="text"
-              value={newMarker.label}
-              onChange={(e) => setNewMarker((p) => ({ ...p, label: e.target.value }))}
+              value={newArea.label}
+              onChange={(e) => setNewArea((p) => ({ ...p, label: e.target.value }))}
               placeholder="Label..."
               required
               className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground focus:border-accent focus:outline-none"
             />
-            <select
-              value={newMarker.icon}
-              onChange={(e) => setNewMarker((p) => ({ ...p, icon: e.target.value }))}
-              className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground"
-            >
-              {Object.entries(markerIcons).map(([key, emoji]) => (
-                <option key={key} value={key}>
-                  {emoji} {key}
-                </option>
-              ))}
-            </select>
-            <select
-              value={newMarker.articleId}
-              onChange={(e) => setNewMarker((p) => ({ ...p, articleId: e.target.value }))}
-              className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground"
-            >
-              <option value="">No linked article</option>
-              {articles.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.title}
-                </option>
-              ))}
-            </select>
+            {articles.length > 0 ? (
+              <select
+                value={newArea.articleId}
+                onChange={(e) => setNewArea((p) => ({ ...p, articleId: e.target.value }))}
+                className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground"
+              >
+                <option value="">No linked article</option>
+                {articles.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.title}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-[11px] text-muted italic">
+                No articles yet. Create articles first to link them.
+              </p>
+            )}
             <div className="flex gap-2">
               <button
                 type="submit"
@@ -226,7 +354,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
               </button>
               <button
                 type="button"
-                onClick={() => setShowForm(false)}
+                onClick={handleCancelDrawing}
                 className="border border-border px-3 py-1 text-[12px] text-foreground hover:bg-surface-hover"
               >
                 Cancel

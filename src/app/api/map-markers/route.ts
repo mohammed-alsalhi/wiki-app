@@ -19,18 +19,20 @@ export async function POST(request: NextRequest) {
   const denied = requireAdmin(await isAdmin());
   if (denied) return denied;
 
-  const { label, x, y, icon, mapId, articleId } = await request.json();
+  const { label, polygon, color, mapId, articleId } = await request.json();
 
-  if (!label || x === undefined || y === undefined) {
-    return NextResponse.json({ error: "Label, x, and y are required" }, { status: 400 });
+  if (!label || !Array.isArray(polygon) || polygon.length < 3) {
+    return NextResponse.json(
+      { error: "Label and polygon (>= 3 points) are required" },
+      { status: 400 }
+    );
   }
 
   const marker = await prisma.mapMarker.create({
     data: {
       label,
-      x,
-      y,
-      icon: icon || null,
+      polygon,
+      color: color || null,
       mapId: mapId || "default",
       articleId: articleId || null,
     },

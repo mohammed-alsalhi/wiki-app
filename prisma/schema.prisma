@@ -79,9 +79,8 @@ model ArticleRevision {
 model MapMarker {
   id        String   @id @default(cuid())
   label     String
-  x         Float
-  y         Float
-  icon      String?
+  polygon   Json     // Array of [lat, lng] coordinate pairs
+  color     String?  // Optional highlight color
   mapId     String   @default("default")
   articleId String?
   article   Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)

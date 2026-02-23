@@ -16,9 +16,8 @@ export async function PUT(
     where: { id },
     data: {
       ...(body.label !== undefined && { label: body.label }),
-      ...(body.x !== undefined && { x: body.x }),
-      ...(body.y !== undefined && { y: body.y }),
-      ...(body.icon !== undefined && { icon: body.icon }),
+      ...(body.polygon !== undefined && { polygon: body.polygon }),
+      ...(body.color !== undefined && { color: body.color }),
       ...(body.articleId !== undefined && { articleId: body.articleId || null }),
     },
     include: {

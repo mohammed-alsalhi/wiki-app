@@ -30,8 +30,8 @@ export default function MapPage() {
         <div className="flex items-center gap-3">
           <span className="text-[11px] text-muted italic">
             {editMode
-              ? "Click on the map to place a marker"
-              : "Click markers to view locations"}
+              ? "Draw areas to link regions to articles"
+              : "Hover over areas to explore locations"}
           </span>
           {isAdmin && (
             <button
