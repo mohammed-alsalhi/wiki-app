@@ -31,7 +31,11 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
       extensions: [
         StarterKit,
         Image.configure({ inline: false }),
-        Link.configure({ openOnClick: false }),
+        Link.configure({ openOnClick: false }).extend({
+          parseHTML() {
+            return [{ tag: "a[href]:not([data-wiki-link])" }];
+          },
+        }),
         Placeholder.configure({ placeholder }),
         WikiLink,
       ],
@@ -131,8 +135,10 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
 
 function htmlToBasicMarkdown(html: string): string {
   return html
-    // Convert wiki links to [[Title]] before stripping tags
-    .replace(/<a[^>]*data-wiki-link="([^"]*)"[^>]*>[^<]*<\/a>/gi, "[[$1]]")
+    // Convert wiki links to [[Title]] or [[Title|Label]] before stripping tags
+    .replace(/<a[^>]*data-wiki-link="([^"]*)"[^>]*>([^<]*)<\/a>/gi, (_m, title, text) => {
+      return text !== title ? `[[${title}|${text}]]` : `[[${title}]]`;
+    })
     .replace(/<h1[^>]*>(.*?)<\/h1>/gi, "# $1\n")
     .replace(/<h2[^>]*>(.*?)<\/h2>/gi, "## $1\n")
     .replace(/<h3[^>]*>(.*?)<\/h3>/gi, "### $1\n")
@@ -157,10 +163,11 @@ function basicMarkdownToHtml(md: string): string {
     .map((block) => {
       block = block.trim();
       if (!block) return "";
-      // Convert [[Title]] back to wiki link HTML
-      block = block.replace(/\[\[([^\]]+)\]\]/g, (_match, title) => {
+      // Convert [[Title]] or [[Title|Label]] back to wiki link HTML
+      block = block.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, title, label) => {
         const slug = slugify(title);
-        return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${title}</a>`;
+        const display = label || title;
+        return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${display}</a>`;
       });
       if (block.startsWith("### ")) return `<h3>${block.slice(4)}</h3>`;
       if (block.startsWith("## ")) return `<h2>${block.slice(3)}</h2>`;

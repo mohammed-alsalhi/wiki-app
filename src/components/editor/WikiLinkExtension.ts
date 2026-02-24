@@ -16,18 +16,29 @@ export const WikiLink = Node.create({
   addAttributes() {
     return {
       title: { default: null },
+      label: { default: null },
     };
   },
 
   parseHTML() {
-    return [{ tag: "a[data-wiki-link]", getAttrs: (el) => {
-      const element = el as HTMLElement;
-      return { title: element.getAttribute("data-wiki-link") };
-    }}];
+    return [{
+      tag: "a[data-wiki-link]",
+      priority: 60,
+      getAttrs: (el) => {
+        const element = el as HTMLElement;
+        const title = element.getAttribute("data-wiki-link");
+        const text = element.textContent || "";
+        return {
+          title,
+          label: text !== title ? text : null,
+        };
+      },
+    }];
   },
 
   renderHTML({ HTMLAttributes }) {
     const title = HTMLAttributes.title || "";
+    const label = HTMLAttributes.label || title;
     const slug = slugify(title);
     return [
       "a",
@@ -36,14 +47,30 @@ export const WikiLink = Node.create({
         class: "wiki-link",
         "data-wiki-link": title,
       }),
-      title,
+      label,
     ];
   },
 
   addInputRules() {
     return [
+      // [[Article Name|Display Text]]
       new InputRule({
-        find: /\[\[([^\]]+)\]\]$/,
+        find: /\[\[([^\]|]+)\|([^\]]+)\]\]$/,
+        handler: ({ state, range, match }) => {
+          const title = match[1];
+          const label = match[2];
+          if (!title) return;
+          const { tr } = state;
+          tr.replaceWith(
+            range.from,
+            range.to,
+            this.type.create({ title, label })
+          );
+        },
+      }),
+      // [[Article Name]]
+      new InputRule({
+        find: /\[\[([^\]|]+)\]\]$/,
         handler: ({ state, range, match }) => {
           const title = match[1];
           if (!title) return;
@@ -60,13 +87,20 @@ export const WikiLink = Node.create({
 
   addKeyboardShortcuts() {
     return {
-      "Mod-Shift-k": () => {
-        const title = window.prompt("Article title:");
+      "Mod-Shift-l": () => {
+        const { from, to } = this.editor.state.selection;
+        const selectedText = this.editor.state.doc.textBetween(from, to);
+        const title = window.prompt("Article title:", selectedText || "");
         if (title) {
+          const label = selectedText && selectedText !== title ? selectedText : null;
           return this.editor
             .chain()
             .focus()
-            .insertContent({ type: this.name, attrs: { title } })
+            .deleteRange({ from, to })
+            .insertContent({
+              type: this.name,
+              attrs: { title, label },
+            })
             .run();
         }
         return false;

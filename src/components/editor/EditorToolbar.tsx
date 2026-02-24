@@ -110,12 +110,16 @@ export default function EditorToolbar({ editor, onImageUpload }: Props) {
         label: "Wiki Link",
         icon: "[[]]",
         action: () => {
-          const title = window.prompt("Article title to link:");
+          const { from, to } = editor.state.selection;
+          const selectedText = editor.state.doc.textBetween(from, to);
+          const title = window.prompt("Article title to link:", selectedText || "");
           if (title) {
+            const label = selectedText && selectedText !== title ? selectedText : null;
             editor
               .chain()
               .focus()
-              .insertContent({ type: "wikiLink", attrs: { title } })
+              .deleteRange({ from, to })
+              .insertContent({ type: "wikiLink", attrs: { title, label } })
               .run();
           }
         },
