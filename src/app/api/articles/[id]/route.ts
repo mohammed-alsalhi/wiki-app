@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { generateSlug } from "@/lib/utils";
 import { isAdmin, requireAdmin } from "@/lib/auth";
 
 export async function GET(
@@ -32,7 +33,7 @@ export async function PUT(
 
   const { id } = await params;
   const body = await request.json();
-  const { title, content, contentRaw, excerpt, coverImage, categoryId, tagIds, editSummary } = body;
+  const { title, slug: newSlug, content, contentRaw, excerpt, coverImage, categoryId, tagIds, editSummary } = body;
 
   // Snapshot current content as a revision before updating
   const current = await prisma.article.findUnique({
@@ -56,10 +57,29 @@ export async function PUT(
     await prisma.articleTag.deleteMany({ where: { articleId: id } });
   }
 
+  // Handle slug change
+  let slugUpdate: { slug: string } | Record<string, never> = {};
+  if (newSlug !== undefined) {
+    const slug = generateSlug(newSlug);
+    if (slug) {
+      const existing = await prisma.article.findFirst({
+        where: { slug, NOT: { id } },
+      });
+      if (existing) {
+        return NextResponse.json(
+          { error: "An article with that slug already exists" },
+          { status: 409 }
+        );
+      }
+      slugUpdate = { slug };
+    }
+  }
+
   const article = await prisma.article.update({
     where: { id },
     data: {
       ...(title !== undefined && { title }),
+      ...slugUpdate,
       ...(content !== undefined && { content }),
       ...(contentRaw !== undefined && { contentRaw }),
       ...(excerpt !== undefined && { excerpt }),

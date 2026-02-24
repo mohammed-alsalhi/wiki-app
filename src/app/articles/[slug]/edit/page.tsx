@@ -24,10 +24,12 @@ export default function EditArticlePage() {
   const editorRef = useRef<TiptapEditorHandle>(null);
   const [article, setArticle] = useState<Article | null>(null);
   const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
   const [editSummary, setEditSummary] = useState("");
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export default function EditArticlePage() {
               const articleData = await detailRes.json();
               setArticle(articleData);
               setTitle(articleData.title);
+              setSlug(articleData.slug);
               setCategoryId(articleData.categoryId || "");
               setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
             }
@@ -59,6 +62,7 @@ export default function EditArticlePage() {
         const articleData = await detailRes.json();
         setArticle(articleData);
         setTitle(articleData.title);
+        setSlug(articleData.slug);
         setCategoryId(articleData.categoryId || "");
         setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
       }
@@ -80,6 +84,7 @@ export default function EditArticlePage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: title.trim(),
+        slug: slug.trim(),
         content,
         contentRaw: contentRaw || null,
         excerpt: content.replace(/<[^>]*>/g, "").substring(0, 200),
@@ -93,8 +98,23 @@ export default function EditArticlePage() {
       const updated = await res.json();
       router.push(`/articles/${updated.slug}`);
     } else {
+      const err = await res.json().catch(() => null);
       setSaving(false);
-      alert("Failed to update article");
+      alert(err?.error || "Failed to update article");
+    }
+  }
+
+  async function handleDelete() {
+    if (!article) return;
+    if (!confirm(`Are you sure you want to delete "${article.title}"? This cannot be undone.`)) return;
+
+    setDeleting(true);
+    const res = await fetch(`/api/articles/${article.id}`, { method: "DELETE" });
+    if (res.ok) {
+      router.push("/articles");
+    } else {
+      setDeleting(false);
+      alert("Failed to delete article");
     }
   }
 
@@ -148,6 +168,20 @@ export default function EditArticlePage() {
             />
           </div>
 
+          <div>
+            <label className="block text-[13px] font-bold text-heading mb-1">Slug (URL path):</label>
+            <div className="flex items-center gap-1 text-[13px] text-muted">
+              <span>/articles/</span>
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
+                required
+                className="flex-1 border border-border bg-surface px-3 py-1.5 text-[14px] text-foreground font-mono focus:border-accent focus:outline-none"
+              />
+            </div>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <label className="block text-[13px] font-bold text-heading mb-1">Category:</label>
@@ -175,20 +209,30 @@ export default function EditArticlePage() {
             />
           </div>
 
-          <div className="flex gap-2 border-t border-border pt-3">
-            <button
-              type="submit"
-              disabled={saving}
-              className="bg-accent px-4 py-1.5 text-[13px] font-bold text-white hover:bg-accent-hover disabled:opacity-50"
-            >
-              {saving ? "Saving..." : "Save changes"}
-            </button>
+          <div className="flex items-center justify-between border-t border-border pt-3">
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={saving}
+                className="bg-accent px-4 py-1.5 text-[13px] font-bold text-white hover:bg-accent-hover disabled:opacity-50"
+              >
+                {saving ? "Saving..." : "Save changes"}
+              </button>
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="border border-border bg-surface-hover px-4 py-1.5 text-[13px] text-foreground hover:bg-surface"
+              >
+                Cancel
+              </button>
+            </div>
             <button
               type="button"
-              onClick={() => router.back()}
-              className="border border-border bg-surface-hover px-4 py-1.5 text-[13px] text-foreground hover:bg-surface"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="border border-red-300 bg-surface px-4 py-1.5 text-[13px] text-red-600 hover:bg-red-50 disabled:opacity-50"
             >
-              Cancel
+              {deleting ? "Deleting..." : "Delete article"}
             </button>
           </div>
         </form>
