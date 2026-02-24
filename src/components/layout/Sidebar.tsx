@@ -79,6 +79,9 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
             <SidebarLink href="/articles/new" onClick={() => setMobileOpen(false)}>
               Create new article
             </SidebarLink>
+            <SidebarLink href="/import" onClick={() => setMobileOpen(false)}>
+              Import articles
+            </SidebarLink>
           </SidebarSection>
         )}
 
