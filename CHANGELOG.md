@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.0] - 2026-02-23
+
+- Added article import feature with CLI and UI
+- Drag-and-drop multi-file import page at /import (admin only)
+- CLI bulk import script with --draft, --category, --dry-run flags
+- Supports Markdown (.md), Text (.txt), HTML (.html), JSON (.json)
+- Markdown frontmatter support for title extraction
+- JSON supports single objects or arrays for multi-article import
+- Added `marked` dependency for Markdown-to-HTML conversion
+- Added `npm run import` convenience script
+
 ## [0.9.0] - 2026-02-23
 
 - Added version label at bottom of sidebar, reading from package.json at build time
