@@ -42,7 +42,7 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
 
       <aside
         className={clsx(
-          "fixed left-0 top-[40px] z-40 h-[calc(100vh-40px)] w-[200px] overflow-y-auto bg-sidebar-bg border-r border-border transition-transform",
+          "fixed left-0 top-[40px] z-40 h-[calc(100vh-40px)] w-[200px] overflow-y-auto bg-sidebar-bg border-r border-border transition-transform flex flex-col",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
           "md:sticky md:top-0 md:translate-x-0 md:h-auto md:min-h-[calc(100vh-40px)] md:flex-shrink-0"
         )}
@@ -105,6 +105,11 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
             />
           ))}
         </SidebarSection>
+
+        {/* Version label */}
+        <div className="mt-auto px-3 py-2 text-[10px] text-muted text-center">
+          v{process.env.NEXT_PUBLIC_APP_VERSION}
+        </div>
       </aside>
     </>
   );
