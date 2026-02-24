@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.1] - 2026-02-23
+
+- Added delete button with confirmation dialog on article edit page
+- Added editable slug field with live URL path preview
+- API now validates slug uniqueness on update and returns error if taken
+
 ## [1.0.0] - 2026-02-23
 
 - Added article import feature with CLI and UI
