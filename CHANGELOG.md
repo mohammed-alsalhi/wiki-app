@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [1.6.0] - 2026-02-25
+## [1.6.0](https://github.com/mohammed-alsalhi/wiki-app/commit/3890f0f) - 2026-02-25
 
 - Redesigned home page with improved layout and visual hierarchy
 - Added stat badges showing article/category/tag counts with links
