@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.2] - 2026-02-25
+
+- Fixed markdown-to-rich-text conversion eating paragraphs into headings
+- Headings now always produce separate blocks (double newline after headings in markdown output)
+- Rewrote basicMarkdownToHtml to parse line-by-line instead of splitting by double newlines
+- Single newline after a heading no longer merges the following paragraph into the heading
+
 ## [1.0.1] - 2026-02-23
 
 - Added delete button with confirmation dialog on article edit page

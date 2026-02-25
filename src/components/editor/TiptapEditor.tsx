@@ -139,9 +139,9 @@ function htmlToBasicMarkdown(html: string): string {
     .replace(/<a[^>]*data-wiki-link="([^"]*)"[^>]*>([^<]*)<\/a>/gi, (_m, title, text) => {
       return text !== title ? `[[${title}|${text}]]` : `[[${title}]]`;
     })
-    .replace(/<h1[^>]*>(.*?)<\/h1>/gi, "# $1\n")
-    .replace(/<h2[^>]*>(.*?)<\/h2>/gi, "## $1\n")
-    .replace(/<h3[^>]*>(.*?)<\/h3>/gi, "### $1\n")
+    .replace(/<h1[^>]*>(.*?)<\/h1>/gi, "# $1\n\n")
+    .replace(/<h2[^>]*>(.*?)<\/h2>/gi, "## $1\n\n")
+    .replace(/<h3[^>]*>(.*?)<\/h3>/gi, "### $1\n\n")
     .replace(/<p[^>]*>(.*?)<\/p>/gi, "$1\n\n")
     .replace(/<strong[^>]*>(.*?)<\/strong>/gi, "**$1**")
     .replace(/<em[^>]*>(.*?)<\/em>/gi, "*$1*")
@@ -158,23 +158,49 @@ function slugify(text: string): string {
 }
 
 function basicMarkdownToHtml(md: string): string {
-  return md
-    .split("\n\n")
-    .map((block) => {
-      block = block.trim();
-      if (!block) return "";
-      // Convert [[Title]] or [[Title|Label]] back to wiki link HTML
-      block = block.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, title, label) => {
-        const slug = slugify(title);
-        const display = label || title;
-        return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${display}</a>`;
-      });
-      if (block.startsWith("### ")) return `<h3>${block.slice(4)}</h3>`;
-      if (block.startsWith("## ")) return `<h2>${block.slice(3)}</h2>`;
-      if (block.startsWith("# ")) return `<h1>${block.slice(2)}</h1>`;
-      return `<p>${block.replace(/\n/g, "<br>")}</p>`;
-    })
-    .join("");
+  const lines = md.split("\n");
+  const result: string[] = [];
+  let paragraph: string[] = [];
+
+  function convertWikiLinks(text: string): string {
+    return text.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, title, label) => {
+      const slug = slugify(title);
+      const display = label || title;
+      return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${display}</a>`;
+    });
+  }
+
+  function flushParagraph() {
+    if (paragraph.length > 0) {
+      result.push(`<p>${convertWikiLinks(paragraph.join("<br>"))}</p>`);
+      paragraph = [];
+    }
+  }
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushParagraph();
+      continue;
+    }
+
+    if (trimmed.startsWith("### ")) {
+      flushParagraph();
+      result.push(`<h3>${convertWikiLinks(trimmed.slice(4))}</h3>`);
+    } else if (trimmed.startsWith("## ")) {
+      flushParagraph();
+      result.push(`<h2>${convertWikiLinks(trimmed.slice(3))}</h2>`);
+    } else if (trimmed.startsWith("# ")) {
+      flushParagraph();
+      result.push(`<h1>${convertWikiLinks(trimmed.slice(2))}</h1>`);
+    } else {
+      paragraph.push(trimmed);
+    }
+  }
+
+  flushParagraph();
+  return result.join("");
 }
 
 export default TiptapEditor;
