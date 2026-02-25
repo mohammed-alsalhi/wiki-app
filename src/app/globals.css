@@ -419,3 +419,11 @@ a:hover {
   margin-bottom: 1rem;
   font-size: 0.85rem;
 }
+
+/* ── Theme transition (applied briefly when toggling dark/light) ── */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, fill 0.3s, stroke 0.3s !important;
+}
