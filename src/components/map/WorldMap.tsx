@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import {
   MapContainer,
   ImageOverlay,
   Polygon,
   Polyline,
   CircleMarker,
-  Popup,
+  Marker,
   Tooltip,
   useMapEvents,
   useMap,
@@ -23,6 +23,32 @@ type MapArea = {
   color: string | null;
   article: { id: string; title: string; slug: string } | null;
 };
+
+const PRESET_COLORS = [
+  "#3b82f6", // blue (default)
+  "#ef4444", // red
+  "#22c55e", // green
+  "#f59e0b", // amber
+  "#8b5cf6", // violet
+  "#ec4899", // pink
+  "#06b6d4", // cyan
+  "#f97316", // orange
+];
+
+function createVertexIcon(color: string): L.DivIcon {
+  return L.divIcon({
+    className: "",
+    html: `<div style="
+      width: 10px; height: 10px;
+      background: white;
+      border: 2px solid ${color};
+      border-radius: 50%;
+      cursor: grab;
+    "></div>`,
+    iconSize: [10, 10],
+    iconAnchor: [5, 5],
+  });
+}
 
 function FitBounds({ bounds }: { bounds: L.LatLngBoundsLiteral }) {
   const map = useMap();
@@ -52,46 +78,148 @@ function DrawingHandler({
   return null;
 }
 
+function DeselectHandler({ onDeselect }: { onDeselect: () => void }) {
+  useMapEvents({
+    click: () => {
+      onDeselect();
+    },
+  });
+  return null;
+}
+
+function VertexMarkers({
+  polygon,
+  color,
+  onVertexDrag,
+}: {
+  polygon: [number, number][];
+  color: string;
+  onVertexDrag: (index: number, lat: number, lng: number) => void;
+}) {
+  const icon = useMemo(() => createVertexIcon(color), [color]);
+
+  return (
+    <>
+      {polygon.map((pt, i) => (
+        <Marker
+          key={i}
+          position={pt}
+          icon={icon}
+          draggable={true}
+          eventHandlers={{
+            dragend: (e) => {
+              const latlng = e.target.getLatLng();
+              onVertexDrag(i, latlng.lat, latlng.lng);
+            },
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+function ColorPickerField({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (color: string) => void;
+}) {
+  return (
+    <div>
+      <label className="mb-1 block text-[11px] text-muted">Color</label>
+      <div className="flex items-center gap-2">
+        <input
+          type="color"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-7 w-7 cursor-pointer border border-border bg-transparent p-0"
+        />
+        <div className="flex gap-1">
+          {PRESET_COLORS.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => onChange(c)}
+              className={`h-5 w-5 border ${
+                value === c ? "border-foreground" : "border-border"
+              }`}
+              style={{ backgroundColor: c }}
+              title={c}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Hover-interactive polygon wrapper */
 function AreaPolygon({
   area,
   editMode,
-  onDelete,
+  isSelected,
+  onSelect,
 }: {
   area: MapArea;
   editMode: boolean;
-  onDelete: (id: string) => void;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
 }) {
   const router = useRouter();
+  const polygonRef = useRef<L.Polygon | null>(null);
   const positions = area.polygon as L.LatLngTuple[];
+  const areaColor = area.color || "#3b82f6";
 
   return (
     <Polygon
+      ref={polygonRef}
       positions={positions}
       pathOptions={
         editMode
           ? {
-              color: area.color || "#3b82f6",
-              weight: 2,
-              dashArray: "6 4",
-              fillColor: area.color || "#3b82f6",
-              fillOpacity: 0.15,
+              color: areaColor,
+              weight: isSelected ? 3 : 2,
+              dashArray: isSelected ? undefined : "6 4",
+              fillColor: areaColor,
+              fillOpacity: isSelected ? 0.25 : 0.15,
             }
           : {
               color: "transparent",
               weight: 0,
-              fillColor: "transparent",
+              fillColor: areaColor,
               fillOpacity: 0,
             }
       }
       eventHandlers={
         editMode
-          ? {}
+          ? {
+              click: (e) => {
+                L.DomEvent.stopPropagation(e);
+                onSelect(area.id);
+              },
+            }
           : {
               click: () => {
                 if (area.article) {
                   router.push(`/articles/${area.article.slug}`);
                 }
+              },
+              mouseover: () => {
+                polygonRef.current?.setStyle({
+                  fillColor: areaColor,
+                  fillOpacity: 0.2,
+                  color: areaColor,
+                  weight: 1,
+                });
+              },
+              mouseout: () => {
+                polygonRef.current?.setStyle({
+                  fillColor: areaColor,
+                  fillOpacity: 0,
+                  color: "transparent",
+                  weight: 0,
+                });
               },
             }
       }
@@ -101,20 +229,6 @@ function AreaPolygon({
         <Tooltip sticky>
           <strong>{area.label}</strong>
         </Tooltip>
-      )}
-      {/* Edit mode: popup with delete */}
-      {editMode && (
-        <Popup>
-          <div className="min-w-[150px]">
-            <strong className="text-sm">{area.label}</strong>
-            <button
-              onClick={() => onDelete(area.id)}
-              className="mt-2 block text-xs text-red-600 hover:underline"
-            >
-              Delete
-            </button>
-          </div>
-        </Popup>
       )}
     </Polygon>
   );
@@ -130,11 +244,16 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
   const [articles, setArticles] = useState<{ id: string; title: string }[]>([]);
   const [imageBounds, setImageBounds] = useState<L.LatLngBoundsLiteral | null>(null);
 
-  // Drawing state
+  // Drawing state (new areas)
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingPoints, setDrawingPoints] = useState<[number, number][]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [newArea, setNewArea] = useState({ label: "", articleId: "" });
+  const [newArea, setNewArea] = useState({ label: "", articleId: "", color: "#3b82f6" });
+
+  // Editing state (existing areas)
+  const [editingAreaId, setEditingAreaId] = useState<string | null>(null);
+  const [editingPolygon, setEditingPolygon] = useState<[number, number][] | null>(null);
+  const [editForm, setEditForm] = useState({ label: "", articleId: "", color: "#3b82f6" });
 
   // Load image to get its natural dimensions
   useEffect(() => {
@@ -161,6 +280,14 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
     }
   }, [editMode]);
 
+  // Clear editing state when leaving edit mode
+  useEffect(() => {
+    if (!editMode) {
+      handleCancelEdit();
+      handleCancelDrawing();
+    }
+  }, [editMode]);
+
   const handleAddPoint = useCallback(
     (lat: number, lng: number) => {
       if (!isDrawing) return;
@@ -173,7 +300,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
     if (drawingPoints.length < 3) return;
     setIsDrawing(false);
     setShowForm(true);
-    setNewArea({ label: "", articleId: "" });
+    setNewArea({ label: "", articleId: "", color: "#3b82f6" });
   }, [drawingPoints.length]);
 
   async function handleCreateArea(e: React.FormEvent) {
@@ -184,6 +311,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
       body: JSON.stringify({
         label: newArea.label,
         polygon: drawingPoints,
+        color: newArea.color,
         articleId: newArea.articleId || null,
       }),
     });
@@ -198,6 +326,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
   async function handleDeleteArea(id: string) {
     await fetch(`/api/map-markers/${id}`, { method: "DELETE" });
     setAreas((prev) => prev.filter((a) => a.id !== id));
+    if (editingAreaId === id) handleCancelEdit();
   }
 
   function handleCancelDrawing() {
@@ -205,6 +334,62 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
     setDrawingPoints([]);
     setShowForm(false);
   }
+
+  // --- Editing existing areas ---
+
+  function handleSelectArea(id: string) {
+    if (isDrawing) return;
+    const area = areas.find((a) => a.id === id);
+    if (!area) return;
+
+    setEditingAreaId(id);
+    setEditingPolygon(area.polygon.map((p) => [...p] as [number, number]));
+    setEditForm({
+      label: area.label,
+      articleId: area.article?.id || "",
+      color: area.color || "#3b82f6",
+    });
+  }
+
+  function handleCancelEdit() {
+    setEditingAreaId(null);
+    setEditingPolygon(null);
+    setEditForm({ label: "", articleId: "", color: "#3b82f6" });
+  }
+
+  async function handleUpdateArea(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editingAreaId) return;
+
+    const res = await fetch(`/api/map-markers/${editingAreaId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        label: editForm.label,
+        polygon: editingPolygon,
+        color: editForm.color,
+        articleId: editForm.articleId || null,
+      }),
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      setAreas((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
+      handleCancelEdit();
+    }
+  }
+
+  const handleVertexDrag = useCallback(
+    (index: number, lat: number, lng: number) => {
+      setEditingPolygon((prev) => {
+        if (!prev) return prev;
+        const updated = [...prev];
+        updated[index] = [lat, lng];
+        return updated;
+      });
+    },
+    []
+  );
 
   if (!imageBounds) {
     return (
@@ -229,14 +414,30 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
         <ImageOverlay url={mapImage} bounds={imageBounds} />
 
         {/* Render saved areas */}
-        {areas.map((area) => (
-          <AreaPolygon
-            key={area.id}
-            area={area}
-            editMode={editMode}
-            onDelete={handleDeleteArea}
+        {areas.map((area) => {
+          const displayArea =
+            editingAreaId === area.id && editingPolygon
+              ? { ...area, polygon: editingPolygon, color: editForm.color }
+              : area;
+          return (
+            <AreaPolygon
+              key={area.id}
+              area={displayArea}
+              editMode={editMode}
+              isSelected={editingAreaId === area.id}
+              onSelect={handleSelectArea}
+            />
+          );
+        })}
+
+        {/* Draggable vertex markers for selected area */}
+        {editMode && editingAreaId && editingPolygon && (
+          <VertexMarkers
+            polygon={editingPolygon}
+            color={editForm.color}
+            onVertexDrag={handleVertexDrag}
           />
-        ))}
+        )}
 
         {/* Drawing preview: lines between placed points */}
         {editMode && isDrawing && drawingPoints.length >= 2 && (
@@ -267,9 +468,9 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
           <Polygon
             positions={drawingPoints}
             pathOptions={{
-              color: "#3b82f6",
+              color: newArea.color,
               weight: 2,
-              fillColor: "#3b82f6",
+              fillColor: newArea.color,
               fillOpacity: 0.2,
             }}
           />
@@ -277,6 +478,11 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
 
         {editMode && isDrawing && (
           <DrawingHandler onAddPoint={handleAddPoint} onFinish={handleFinishDrawing} />
+        )}
+
+        {/* Deselect when clicking empty map space */}
+        {editMode && editingAreaId && !isDrawing && (
+          <DeselectHandler onDeselect={handleCancelEdit} />
         )}
       </MapContainer>
 
@@ -286,6 +492,7 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
           {!isDrawing ? (
             <button
               onClick={() => {
+                handleCancelEdit();
                 setDrawingPoints([]);
                 setShowForm(false);
                 setIsDrawing(true);
@@ -345,6 +552,10 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
                 No articles yet. Create articles first to link them.
               </p>
             )}
+            <ColorPickerField
+              value={newArea.color}
+              onChange={(c) => setNewArea((p) => ({ ...p, color: c }))}
+            />
             <div className="flex gap-2">
               <button
                 type="submit"
@@ -358,6 +569,70 @@ export default function WorldMap({ mapImage, editMode = false }: Props) {
                 className="border border-border px-3 py-1 text-[12px] text-foreground hover:bg-surface-hover"
               >
                 Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Edit area form */}
+      {editingAreaId && !showForm && (
+        <div className="absolute right-4 top-4 z-[1000] w-72 border border-border bg-surface p-4 shadow-md">
+          <h3 className="mb-3 text-[13px] font-bold text-heading">Edit Area</h3>
+          <form onSubmit={handleUpdateArea} className="space-y-2">
+            <input
+              type="text"
+              value={editForm.label}
+              onChange={(e) => setEditForm((p) => ({ ...p, label: e.target.value }))}
+              placeholder="Label..."
+              required
+              className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground focus:border-accent focus:outline-none"
+            />
+            {articles.length > 0 ? (
+              <select
+                value={editForm.articleId}
+                onChange={(e) => setEditForm((p) => ({ ...p, articleId: e.target.value }))}
+                className="w-full border border-border bg-surface px-2 py-1 text-[13px] text-foreground"
+              >
+                <option value="">No linked article</option>
+                {articles.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.title}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-[11px] text-muted italic">
+                No articles yet. Create articles first to link them.
+              </p>
+            )}
+            <ColorPickerField
+              value={editForm.color}
+              onChange={(c) => setEditForm((p) => ({ ...p, color: c }))}
+            />
+            <p className="text-[11px] text-muted italic">
+              Drag vertices on the map to reshape the area.
+            </p>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="bg-accent px-3 py-1 text-[12px] font-bold text-white hover:bg-accent-hover"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={handleCancelEdit}
+                className="border border-border px-3 py-1 text-[12px] text-foreground hover:bg-surface-hover"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeleteArea(editingAreaId)}
+                className="ml-auto text-[12px] text-red-600 hover:underline"
+              >
+                Delete
               </button>
             </div>
           </form>

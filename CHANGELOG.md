@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## [1.5.0] - 2026-02-25
+
+- Added full map area editing: select existing areas, edit label/article/color, and save changes
+- Added draggable polygon vertex handles for reshaping areas in real-time
+- Added color picker with 8 preset colors and custom color input for map areas
+- New area form also supports color selection
+- Hover tint on map areas in view mode uses stored area color
+- Click-to-select areas in edit mode replaces popups with a side panel form
+- Click empty map space to deselect current area
+- Fixed link editing bubble: now appears on hover instead of requiring a click
+- Added NodeSelection detection for wiki link atoms in the editor
+- Prevented accidental navigation when clicking links inside the editor
+- Dismiss timer with 200ms delay allows moving mouse from link to bubble
+- Updated help page and help.md with map editing and link hover documentation
+
 ## [1.4.0](https://github.com/mohammed-alsalhi/wiki-app/commit/4308e71) - 2026-02-25
 
 - Added link editing bubble: floating Edit/Remove tooltip appears when cursor is on a link

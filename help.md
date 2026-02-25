@@ -121,8 +121,20 @@ The interactive map feature is optional and disabled by default. When enabled (v
 
 - A custom map image as the background
 - Clickable polygon areas linked to articles
-- Hover tooltips showing area names
+- Hover tooltips showing area names with a color tint
 - Edit mode for drawing new polygon areas (admin only)
+
+### Editing areas (admin)
+
+Toggle **Edit Mode** to access area management. In edit mode:
+
+- **Draw new areas** — click the map to place polygon vertices, then click "Finish Drawing" to complete the shape
+- **Select existing areas** — click any polygon to select it; an edit panel appears on the right
+- **Edit properties** — change the label, linked article, or color of the selected area
+- **Reshape polygons** — drag the white vertex handles to move individual polygon points in real-time
+- **Color picker** — choose from 8 preset colors or pick any custom color via the color input
+- **Delete areas** — click the delete button in the edit panel to remove an area
+- Click empty space on the map to deselect the current area
 
 ## Administration
 
@@ -143,12 +155,12 @@ The editor supports inserting and editing tables directly in your articles.
 
 ## Link Editing
 
-When your cursor is on a link (either a regular URL link or a wiki link), a floating bubble appears below it with two options:
+When you hover over a link (either a regular URL link or a wiki link) in the editor, a floating bubble appears below it with two options:
 
 - **Edit** — opens an inline text input to change the URL (for regular links) or the article title (for wiki links)
 - **Remove** — removes the link but keeps the text in place
 
-Press **Enter** to save your edit, or **Escape** to cancel.
+Press **Enter** to save your edit, or **Escape** to cancel. The bubble also appears when you navigate to a link via keyboard.
 
 ## Redirect Pages
 

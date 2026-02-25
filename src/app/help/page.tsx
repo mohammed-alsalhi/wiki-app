@@ -268,13 +268,28 @@ export default function HelpPage() {
             The interactive map feature is optional and disabled by default. When enabled
             (via the{" "}
             <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_MAP_ENABLED=true</code>{" "}
-            environment variable), it adds a map page with:
+            environment variable), it adds a{" "}
+            <Link href="/map">map page</Link> with:
           </p>
-          <ul className="list-disc pl-5 space-y-0.5">
+          <ul className="list-disc pl-5 mb-3 space-y-0.5">
             <li>A custom map image as the background</li>
             <li>Clickable polygon areas linked to articles</li>
-            <li>Hover tooltips showing area names</li>
+            <li>Hover tooltips showing area names with a color tint</li>
             <li>Edit mode for drawing new polygon areas (admin only)</li>
+          </ul>
+
+          <p className="mb-1 font-bold text-heading">Editing areas (admin)</p>
+          <p className="mb-2">
+            Toggle <strong>Edit Mode</strong> to access area management. In edit mode:
+          </p>
+          <ul className="list-disc pl-5 mb-3 space-y-0.5">
+            <li><strong>Draw new areas</strong> &mdash; click the map to place polygon vertices, then click &ldquo;Finish Drawing&rdquo; to complete the shape</li>
+            <li><strong>Select existing areas</strong> &mdash; click any polygon to select it; an edit panel appears on the right</li>
+            <li><strong>Edit properties</strong> &mdash; change the label, linked article, or color of the selected area</li>
+            <li><strong>Reshape polygons</strong> &mdash; drag the white vertex handles to move individual polygon points in real-time</li>
+            <li><strong>Color picker</strong> &mdash; choose from 8 preset colors or pick any custom color via the color input</li>
+            <li><strong>Delete areas</strong> &mdash; click the delete button in the edit panel to remove an area</li>
+            <li>Click empty space on the map to deselect the current area</li>
           </ul>
         </div>
       </div>
@@ -334,7 +349,7 @@ export default function HelpPage() {
         <div className="wiki-portal-header">Link Editing</div>
         <div className="wiki-portal-body text-[13px]">
           <p className="mb-2">
-            When your cursor is on a link (either a regular URL link or a wiki link),
+            When you hover over a link (either a regular URL link or a wiki link) in the editor,
             a floating bubble appears below it with two options:
           </p>
           <ul className="list-disc pl-5 space-y-0.5">
@@ -343,6 +358,7 @@ export default function HelpPage() {
           </ul>
           <p className="mt-2">
             Press <strong>Enter</strong> to save your edit, or <strong>Escape</strong> to cancel.
+            The bubble also appears when you navigate to a link via keyboard.
           </p>
         </div>
       </div>
