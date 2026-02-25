@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [1.1.1] - 2026-02-25
+
+- Added in-app Help page (`/help`) documenting all features, editor tricks, and keyboard shortcuts
+- Added `help.md` for GitHub with the same content in markdown format
+- Added "Help" link to sidebar navigation
+
 ## [1.1.0] - 2026-02-25
 
 - Added wiki link suggester: typing `[[` in the editor opens an autocomplete dropdown

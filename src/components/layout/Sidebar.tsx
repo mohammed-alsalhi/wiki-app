@@ -28,6 +28,7 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
     { href: "/recent-changes", label: "Recent changes" },
     ...(config.mapEnabled ? [{ href: "/map", label: config.mapLabel }] : []),
     { href: "/search", label: "Search" },
+    { href: "/help", label: "Help" },
   ];
 
   return (
