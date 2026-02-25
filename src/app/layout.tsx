@@ -82,7 +82,7 @@ export default async function RootLayout({
 
             {/* Content area */}
             <div className="flex-1 min-w-0 bg-surface border-l border-border">
-              <main className="max-w-5xl px-6 py-4">
+              <main className="max-w-6xl px-6 py-4">
                 {children}
               </main>
               <footer className="border-t border-border px-6 py-3 text-center text-[11px] text-muted">
