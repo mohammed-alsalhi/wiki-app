@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.4] - 2026-02-25
+
+- Widened content area max-width from 1024px to 1152px
+- Redesigned theme toggle as clean sun/moon icon button in header
+- Added global transition class so all elements change theme at the same rate
+- Cleaned up search bar: replaced label/Go button with search icon and placeholder
+- Removed rounded corners from search bar to match wiki style
+- Aligned header right edge with content area padding
+
 ## [1.0.3] - 2026-02-25
 
 - Fixed bold and italic lost when switching from markdown mode back to rich text
