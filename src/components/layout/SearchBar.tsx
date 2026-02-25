@@ -67,25 +67,30 @@ export default function SearchBar() {
   }
 
   return (
-    <div ref={ref} className="relative flex items-center gap-2">
-      <label className="text-[11px] text-muted">Search:</label>
-      <form onSubmit={handleSubmit} className="flex gap-1">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-48 border border-border bg-surface px-2 py-0.5 text-[12px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
-        />
-        <button
-          type="submit"
-          className="border border-border bg-surface-hover px-2 py-0.5 text-[11px] text-foreground hover:bg-background"
-        >
-          Go
-        </button>
+    <div ref={ref} className="relative">
+      <form onSubmit={handleSubmit}>
+        <div className="relative">
+          <svg
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted pointer-events-none"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="11" cy="11" r="8" strokeWidth="2" />
+            <path d="m21 21-4.3-4.3" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search articles..."
+            className="w-56 border border-border bg-surface pl-7 pr-2 py-1 text-[12px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none "
+          />
+        </div>
       </form>
 
       {open && results.length > 0 && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-72 border border-border bg-surface shadow-md">
+        <div className="absolute right-0 top-full z-50 mt-1 w-72 border border-border bg-surface shadow-md ">
           {results.map((result) => (
             <Link
               key={result.id}

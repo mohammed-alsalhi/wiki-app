@@ -65,7 +65,7 @@ export default async function RootLayout({
         <AdminProvider>
           {/* Top banner bar */}
           <header className="bg-surface border-b border-border">
-            <div className="flex items-center justify-between px-4 py-1.5">
+            <div className="flex items-center justify-between pl-4 pr-6 py-1.5">
               <div className="flex items-center gap-4">
                 <span className="text-xs text-muted">{config.tagline}</span>
               </div>
