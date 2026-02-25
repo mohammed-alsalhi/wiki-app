@@ -5,6 +5,8 @@ import type { Editor } from "@tiptap/react";
 type Props = {
   editor: Editor | null;
   onImageUpload: () => void;
+  onDetectLinks: () => void;
+  detectedLinkCount: number;
 };
 
 type ToolbarButton = {
@@ -14,7 +16,7 @@ type ToolbarButton = {
   isActive?: () => boolean;
 };
 
-export default function EditorToolbar({ editor, onImageUpload }: Props) {
+export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount }: Props) {
   if (!editor) return null;
 
   const groups: ToolbarButton[][] = [
@@ -128,7 +130,7 @@ export default function EditorToolbar({ editor, onImageUpload }: Props) {
   ];
 
   return (
-    <div className="flex flex-wrap gap-0.5 py-0.5">
+    <div className="flex flex-wrap items-center gap-0.5 py-0.5">
       {groups.map((group, gi) => (
         <div key={gi} className="flex gap-px">
           {group.map((btn) => (
@@ -151,6 +153,15 @@ export default function EditorToolbar({ editor, onImageUpload }: Props) {
           )}
         </div>
       ))}
+      <div className="mx-1 w-px bg-border" />
+      <button
+        type="button"
+        onClick={onDetectLinks}
+        title="Detect potential wiki links in text"
+        className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
+      >
+        Detect Links{detectedLinkCount > 0 && ` (${detectedLinkCount})`}
+      </button>
     </div>
   );
 }

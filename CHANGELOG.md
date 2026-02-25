@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.1.0] - 2026-02-25
+
+- Added wiki link suggester: typing `[[` in the editor opens an autocomplete dropdown
+- Dropdown searches existing articles with debounced queries, keyboard navigation, and click selection
+- Added "Detect Links" toolbar button that scans text for phrases matching existing article titles
+- Detected links shown with dashed underline; clicking converts them to wiki links
+- Count badge on toolbar button shows number of detected potential links
+- Created PotentialLink Tiptap mark extension for detected link highlighting
+- Created `/api/articles/titles` lightweight endpoint for fetching all article titles
+- Longer title matches take priority; word boundary checking prevents partial matches
+
 ## [1.0.4] - 2026-02-25
 
 - Widened content area max-width from 1024px to 1152px

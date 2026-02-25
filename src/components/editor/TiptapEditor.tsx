@@ -6,8 +6,11 @@ import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import { WikiLink } from "./WikiLinkExtension";
+import { PotentialLink } from "./PotentialLinkExtension";
 import EditorToolbar from "./EditorToolbar";
-import { useRef, useState, useImperativeHandle, forwardRef } from "react";
+import WikiLinkSuggester from "./WikiLinkSuggester";
+import { useWikiLinkSuggester } from "./useWikiLinkSuggester";
+import { useRef, useState, useCallback, useImperativeHandle, forwardRef } from "react";
 
 export type TiptapEditorHandle = {
   getHTML: () => string;
@@ -24,6 +27,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
   function TiptapEditor({ content = "", placeholder = "Start writing..." }, ref) {
     const [markdownMode, setMarkdownMode] = useState(false);
     const [markdownText, setMarkdownText] = useState("");
+    const [detectedCount, setDetectedCount] = useState(0);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const editor = useEditor({
@@ -38,14 +42,146 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
         }),
         Placeholder.configure({ placeholder }),
         WikiLink,
+        PotentialLink,
       ],
       content,
       editorProps: {
         attributes: {
           class: "tiptap max-w-none",
         },
+        handleClick(view, pos) {
+          const resolved = view.state.doc.resolve(pos);
+          const marks = resolved.marks();
+          const potentialMark = marks.find(
+            (m) => m.type.name === "potentialLink"
+          );
+          if (!potentialMark) return false;
+
+          const title = potentialMark.attrs.title as string;
+          const $pos = resolved;
+          const parent = $pos.parent;
+          let from = $pos.before($pos.depth) + 1;
+          let to = from;
+
+          // Walk through the parent's children to find the text range with this mark
+          parent.forEach((node, offset) => {
+            const hasMark = node.marks.some(
+              (m) =>
+                m.type.name === "potentialLink" && m.attrs.title === title
+            );
+            if (hasMark) {
+              const nodeFrom = $pos.start() + offset;
+              const nodeTo = nodeFrom + node.nodeSize;
+              if (pos >= nodeFrom && pos < nodeTo) {
+                from = nodeFrom;
+                to = nodeTo;
+              }
+            }
+          });
+
+          const tr = view.state.tr;
+          tr.removeMark(from, to, potentialMark.type);
+          tr.replaceRangeWith(
+            from,
+            to,
+            view.state.schema.nodes.wikiLink.create({ title })
+          );
+          view.dispatch(tr);
+          setDetectedCount((c) => Math.max(0, c - 1));
+          return true;
+        },
       },
     });
+
+    const suggester = useWikiLinkSuggester(editor);
+
+    const handleDetectLinks = useCallback(async () => {
+      if (!editor) return;
+
+      // First clear any existing potential link marks
+      const { tr } = editor.state;
+      const markType = editor.schema.marks.potentialLink;
+      tr.removeMark(0, editor.state.doc.content.size, markType);
+      editor.view.dispatch(tr);
+
+      // Fetch all article titles
+      const res = await fetch("/api/articles/titles");
+      if (!res.ok) return;
+      const articles: { title: string; slug: string }[] = await res.json();
+      if (articles.length === 0) return;
+
+      // Sort by title length descending so longer matches take priority
+      const sorted = [...articles].sort(
+        (a, b) => b.title.length - a.title.length
+      );
+
+      let count = 0;
+      const { tr: tr2 } = editor.state;
+
+      editor.state.doc.descendants((node, pos) => {
+        if (!node.isText || !node.text) return;
+
+        // Skip text inside wikiLink nodes (parent check)
+        const $pos = editor.state.doc.resolve(pos);
+        if ($pos.parent.type.name === "wikiLink") return;
+        // Skip headings
+        if ($pos.parent.type.name === "heading") return;
+
+        // Skip text that already has a potentialLink mark
+        if (node.marks.some((m) => m.type.name === "potentialLink")) return;
+
+        const text = node.text;
+        // Track which character positions are already matched
+        const matched = new Array(text.length).fill(false);
+
+        for (const article of sorted) {
+          const titleLower = article.title.toLowerCase();
+          const textLower = text.toLowerCase();
+          let searchFrom = 0;
+
+          while (searchFrom < text.length) {
+            const idx = textLower.indexOf(titleLower, searchFrom);
+            if (idx === -1) break;
+
+            const end = idx + article.title.length;
+
+            // Check if any character in this range is already matched
+            let overlap = false;
+            for (let i = idx; i < end; i++) {
+              if (matched[i]) {
+                overlap = true;
+                break;
+              }
+            }
+
+            if (!overlap) {
+              // Check word boundaries
+              const beforeOk =
+                idx === 0 || /\W/.test(text[idx - 1]);
+              const afterOk =
+                end >= text.length || /\W/.test(text[end]);
+
+              if (beforeOk && afterOk) {
+                tr2.addMark(
+                  pos + idx,
+                  pos + end,
+                  markType.create({ title: article.title })
+                );
+                for (let i = idx; i < end; i++) matched[i] = true;
+                count++;
+              }
+            }
+
+            searchFrom = end;
+          }
+        }
+      });
+
+      if (count > 0) {
+        editor.view.dispatch(tr2);
+      }
+      setDetectedCount(count);
+    }, [editor]);
 
     useImperativeHandle(ref, () => ({
       getHTML: () => {
@@ -96,7 +232,12 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
     return (
       <div className="border border-border overflow-hidden">
         <div className="flex items-center justify-between border-b border-border bg-surface-hover px-2 py-1">
-          <EditorToolbar editor={editor} onImageUpload={handleImageUpload} />
+          <EditorToolbar
+            editor={editor}
+            onImageUpload={handleImageUpload}
+            onDetectLinks={handleDetectLinks}
+            detectedLinkCount={detectedCount}
+          />
           <button
             type="button"
             onClick={toggleMarkdownMode}
@@ -127,6 +268,14 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
           accept="image/*"
           onChange={onFileChange}
           className="hidden"
+        />
+
+        <WikiLinkSuggester
+          active={suggester.active}
+          query={suggester.query}
+          position={suggester.position}
+          onSelect={suggester.selectItem}
+          onDismiss={suggester.dismiss}
         />
       </div>
     );
