@@ -1,37 +1,184 @@
-import Link from "next/link";
-import prisma from "@/lib/prisma";
-import { formatDate } from "@/lib/utils";
+"use client";
 
-type Props = {
-  searchParams: Promise<{ category?: string; tag?: string; page?: string }>;
+import { Suspense, useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useAdmin } from "@/components/AdminContext";
+
+export default function ArticlesPageWrapper() {
+  return (
+    <Suspense fallback={<div className="py-8 text-center text-muted italic text-[13px]">Loading...</div>}>
+      <ArticlesPageContent />
+    </Suspense>
+  );
+}
+
+type Article = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  published: boolean;
+  updatedAt: string;
+  category: { id: string; slug: string; name: string; icon: string | null } | null;
+  tags: { tag: { id: string; slug: string; name: string } }[];
 };
 
-export default async function ArticlesPage({ searchParams }: Props) {
-  const { category, tag, page: pageStr } = await searchParams;
-  const page = parseInt(pageStr || "1");
+type Category = {
+  id: string;
+  slug: string;
+  name: string;
+  icon: string | null;
+};
+
+type Tag = {
+  id: string;
+  slug: string;
+  name: string;
+};
+
+function ArticlesPageContent() {
+  const isAdmin = useAdmin();
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category") || "";
+  const tag = searchParams.get("tag") || "";
+  const pageStr = searchParams.get("page") || "1";
+  const page = parseInt(pageStr);
+
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [total, setTotal] = useState(0);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [batchAction, setBatchAction] = useState("");
+  const [batchCategoryId, setBatchCategoryId] = useState("");
+  const [batchWorking, setBatchWorking] = useState(false);
+
   const limit = 20;
-
-  const where: Record<string, unknown> = {};
-  if (category) where.category = { slug: category };
-  if (tag) where.tags = { some: { tag: { slug: tag } } };
-
-  const [articles, total, categories, tags] = await Promise.all([
-    prisma.article.findMany({
-      where,
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: { updatedAt: "desc" },
-      include: {
-        category: true,
-        tags: { include: { tag: true } },
-      },
-    }),
-    prisma.article.count({ where }),
-    prisma.category.findMany({ orderBy: { sortOrder: "asc" } }),
-    prisma.tag.findMany({ orderBy: { name: "asc" } }),
-  ]);
-
   const totalPages = Math.ceil(total / limit);
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setSelected(new Set());
+    const params = new URLSearchParams();
+    if (category) params.set("category", category);
+    if (tag) params.set("tag", tag);
+    params.set("page", page.toString());
+    params.set("limit", limit.toString());
+
+    const [articlesRes, catsRes, tagsRes] = await Promise.all([
+      fetch(`/api/articles?${params}`),
+      fetch("/api/categories"),
+      fetch("/api/tags"),
+    ]);
+
+    if (articlesRes.ok) {
+      const data = await articlesRes.json();
+      setArticles(data.articles);
+      setTotal(data.total);
+    }
+    if (catsRes.ok) {
+      const cats = await catsRes.json();
+      // Flatten nested categories
+      const flat: Category[] = [];
+      function flatten(list: (Category & { children?: Category[] })[]) {
+        for (const c of list) {
+          flat.push({ id: c.id, slug: c.slug, name: c.name, icon: c.icon });
+          if (c.children) flatten(c.children);
+        }
+      }
+      flatten(cats);
+      setCategories(flat);
+    }
+    if (tagsRes.ok) {
+      setTags(await tagsRes.json());
+    }
+    setLoading(false);
+  }, [category, tag, page]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  function toggleSelect(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAll() {
+    if (selected.size === articles.length) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(articles.map((a) => a.id)));
+    }
+  }
+
+  async function handleBatchAction() {
+    if (!selected.size) return;
+    const ids = Array.from(selected);
+
+    if (batchAction === "delete") {
+      if (!confirm(`Delete ${ids.length} article${ids.length > 1 ? "s" : ""}? This cannot be undone.`)) return;
+      setBatchWorking(true);
+      const res = await fetch("/api/articles/batch", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      if (res.ok) {
+        await loadData();
+        setBatchAction("");
+      } else {
+        alert("Failed to delete articles");
+      }
+      setBatchWorking(false);
+      return;
+    }
+
+    if (batchAction === "setCategory") {
+      setBatchWorking(true);
+      const res = await fetch("/api/articles/batch", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids, action: "setCategory", categoryId: batchCategoryId || null }),
+      });
+      if (res.ok) {
+        await loadData();
+        setBatchAction("");
+      } else {
+        alert("Failed to update category");
+      }
+      setBatchWorking(false);
+      return;
+    }
+
+    if (batchAction === "publish" || batchAction === "unpublish") {
+      setBatchWorking(true);
+      const res = await fetch("/api/articles/batch", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids, action: batchAction }),
+      });
+      if (res.ok) {
+        await loadData();
+        setBatchAction("");
+      } else {
+        alert("Failed to update articles");
+      }
+      setBatchWorking(false);
+      return;
+    }
+  }
+
+  function formatDate(dateStr: string) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  }
 
   return (
     <div>
@@ -50,10 +197,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
       {/* Filters */}
       <div className="wiki-notice mb-3">
         <strong>Filter by category: </strong>
-        <Link
-          href="/articles"
-          className={!category && !tag ? "font-bold" : ""}
-        >
+        <Link href="/articles" className={!category && !tag ? "font-bold" : ""}>
           All
         </Link>
         {categories.map((cat) => (
@@ -86,8 +230,10 @@ export default async function ArticlesPage({ searchParams }: Props) {
         )}
       </div>
 
-      {/* Article list — wiki-style table */}
-      {articles.length === 0 ? (
+      {/* Article list */}
+      {loading ? (
+        <div className="py-8 text-center text-muted italic text-[13px]">Loading...</div>
+      ) : articles.length === 0 ? (
         <div className="border border-border bg-surface p-8 text-center text-muted italic">
           No articles found. <Link href="/articles/new">Create one.</Link>
         </div>
@@ -95,6 +241,15 @@ export default async function ArticlesPage({ searchParams }: Props) {
         <table className="w-full border-collapse border border-border bg-surface text-[13px]">
           <thead>
             <tr className="bg-surface-hover">
+              {isAdmin && (
+                <th className="border border-border px-2 py-1.5 w-8 text-center">
+                  <input
+                    type="checkbox"
+                    checked={selected.size === articles.length && articles.length > 0}
+                    onChange={toggleSelectAll}
+                  />
+                </th>
+              )}
               <th className="border border-border px-3 py-1.5 text-left font-bold text-heading">Article</th>
               <th className="border border-border px-3 py-1.5 text-left font-bold text-heading w-32">Category</th>
               <th className="border border-border px-3 py-1.5 text-left font-bold text-heading w-28">Last edited</th>
@@ -103,6 +258,15 @@ export default async function ArticlesPage({ searchParams }: Props) {
           <tbody>
             {articles.map((article) => (
               <tr key={article.id} className="hover:bg-surface-hover">
+                {isAdmin && (
+                  <td className="border border-border px-2 py-1.5 text-center">
+                    <input
+                      type="checkbox"
+                      checked={selected.has(article.id)}
+                      onChange={() => toggleSelect(article.id)}
+                    />
+                  </td>
+                )}
                 <td className="border border-border px-3 py-1.5">
                   <Link href={`/articles/${article.slug}`} className="font-medium">
                     {article.title}
@@ -129,6 +293,47 @@ export default async function ArticlesPage({ searchParams }: Props) {
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* Batch action bar */}
+      {isAdmin && selected.size > 0 && (
+        <div className="mt-3 border border-border bg-surface-hover px-4 py-3 flex items-center gap-3 text-[13px]">
+          <span className="font-bold text-heading">{selected.size} selected</span>
+          <select
+            value={batchAction}
+            onChange={(e) => setBatchAction(e.target.value)}
+            className="border border-border bg-surface px-2 py-1 text-[13px] text-foreground focus:border-accent focus:outline-none"
+          >
+            <option value="">Choose action...</option>
+            <option value="setCategory">Set category</option>
+            <option value="publish">Publish</option>
+            <option value="unpublish">Unpublish</option>
+            <option value="delete">Delete</option>
+          </select>
+          {batchAction === "setCategory" && (
+            <select
+              value={batchCategoryId}
+              onChange={(e) => setBatchCategoryId(e.target.value)}
+              className="border border-border bg-surface px-2 py-1 text-[13px] text-foreground focus:border-accent focus:outline-none"
+            >
+              <option value="">None (remove category)</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          )}
+          <button
+            onClick={handleBatchAction}
+            disabled={!batchAction || batchWorking}
+            className={`px-3 py-1 text-[13px] font-bold text-white disabled:opacity-50 ${
+              batchAction === "delete" ? "bg-red-600 hover:bg-red-700" : "bg-accent hover:bg-accent-hover"
+            }`}
+          >
+            {batchWorking ? "Working..." : "Apply"}
+          </button>
+        </div>
       )}
 
       {/* Pagination */}

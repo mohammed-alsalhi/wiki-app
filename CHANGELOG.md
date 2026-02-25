@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## 1.3.0 - 2026-02-25
+
+- Added batch operations on articles list page (admin only)
+- Checkbox column for selecting articles, with select-all toggle
+- Batch action bar with Set Category, Publish, Unpublish, and Delete actions
+- Category dropdown appears when "Set Category" is selected
+- Delete requires confirmation dialog before proceeding
+- Converted articles page from server component to client component
+- New `/api/articles/batch` endpoint for bulk PUT (category/publish) and DELETE
+- Wrapped page in Suspense boundary for `useSearchParams` compatibility
+
 ## [1.2.0](https://github.com/mohammed-alsalhi/wiki-app/commit/f507fdf) - 2026-02-25
 
 - Added table support in Tiptap editor using TableKit extension
