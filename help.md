@@ -31,6 +31,7 @@ The rich text editor provides a toolbar with these formatting options:
 | Link icon | Insert a URL link |
 | Image icon | Upload an image |
 | **[[]]** | Insert a wiki link |
+| **Table** | Insert a table (see Tables section) |
 | **Detect Links** | Scan text for potential wiki links |
 
 **Markdown mode:** Click the `Markdown` button in the top-right corner of the editor to switch to raw markdown editing. Click `Rich Text` to switch back. Wiki links, bold, italic, and headings are preserved across modes.
@@ -129,6 +130,55 @@ The interactive map feature is optional and disabled by default. When enabled (v
 - **Local development:** If `ADMIN_SECRET` is empty, everyone has admin access automatically
 - **Theme:** Toggle between light and dark mode using the sun/moon icon in the top-right corner
 - **Customization:** Wiki name, tagline, welcome text, footer, and more are all configurable via `NEXT_PUBLIC_*` environment variables. See `.env.example` for the full list.
+
+## Tables
+
+The editor supports inserting and editing tables directly in your articles.
+
+- Click the **Table** toolbar button to insert a 3×3 table with a header row
+- When your cursor is inside a table, additional buttons appear: **+Row**, **+Col**, **-Row**, **-Col**, **xTable**
+- Click cells to edit them directly; use Tab to move between cells
+- Selected cells are highlighted with a blue tint
+- Tables render with borders and header styling on both the editor and the article display
+
+## Link Editing
+
+When your cursor is on a link (either a regular URL link or a wiki link), a floating bubble appears below it with two options:
+
+- **Edit** — opens an inline text input to change the URL (for regular links) or the article title (for wiki links)
+- **Remove** — removes the link but keeps the text in place
+
+Press **Enter** to save your edit, or **Escape** to cancel.
+
+## Redirect Pages
+
+When an article moves to a new URL, you can set up a redirect so the old slug automatically takes visitors to the new article.
+
+- Open the article editor and fill in the **Redirect to** field with the target article's slug
+- Visitors who navigate to the redirecting article will be automatically sent to the target
+- Redirects still appear in search results — clicking them triggers the redirect
+- Leave the redirect field empty for normal (non-redirecting) articles
+
+## Discussion Pages
+
+Every article has a **Discussion** tab where users can post comments and discuss the article content, similar to Wikipedia talk pages.
+
+- Click the **Discussion** tab on any article to view and post comments
+- Comments are open to everyone — no login required
+- Enter an optional author name (defaults to "Anonymous")
+- Comments are shown chronologically with timestamps
+- Admins can delete individual comments
+
+## Batch Operations
+
+Admins can perform bulk actions on articles from the All Articles page (`/articles`).
+
+- Select articles using the checkboxes in the first column, or use the header checkbox to select all
+- **Set Category** — assign a category to all selected articles at once
+- **Publish / Unpublish** — toggle visibility of selected articles
+- **Delete** — permanently delete selected articles (requires confirmation)
+
+Batch operations are only visible when logged in as admin.
 
 ## Keyboard Shortcuts
 

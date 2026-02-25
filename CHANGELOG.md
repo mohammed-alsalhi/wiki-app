@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## 1.4.0 - 2026-02-25
+
+- Added link editing bubble: floating Edit/Remove tooltip appears when cursor is on a link
+- Edit mode for regular links (change URL) and wiki links (change target article title)
+- Remove option keeps text in place but strips the link
+- Updated help page and help.md with documentation for tables, link editing, redirects, discussions, and batch operations
+- Added Table button to editor toolbar documentation
+
 ## [1.3.0](https://github.com/mohammed-alsalhi/wiki-app/commit/ba616cd) - 2026-02-25
 
 - Added batch operations on articles list page (admin only)

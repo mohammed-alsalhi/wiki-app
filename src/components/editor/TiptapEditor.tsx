@@ -10,6 +10,7 @@ import { WikiLink } from "./WikiLinkExtension";
 import { PotentialLink } from "./PotentialLinkExtension";
 import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
+import LinkBubble from "./LinkBubble";
 import { useWikiLinkSuggester } from "./useWikiLinkSuggester";
 import { useRef, useState, useCallback, useImperativeHandle, forwardRef } from "react";
 
@@ -232,7 +233,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
     }
 
     return (
-      <div className="border border-border overflow-hidden">
+      <div className="border border-border overflow-hidden relative">
         <div className="flex items-center justify-between border-b border-border bg-surface-hover px-2 py-1">
           <EditorToolbar
             editor={editor}
@@ -279,6 +280,8 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
           onSelect={suggester.selectItem}
           onDismiss={suggester.dismiss}
         />
+
+        {!markdownMode && <LinkBubble editor={editor} />}
       </div>
     );
   }

@@ -61,6 +61,7 @@ export default function HelpPage() {
             <li><strong>Link icon</strong> &mdash; Insert a URL link</li>
             <li><strong>Image icon</strong> &mdash; Upload an image</li>
             <li><strong>[[]]</strong> &mdash; Insert a wiki link (see below)</li>
+            <li><strong>Table</strong> &mdash; Insert a table (see Tables section below)</li>
             <li><strong>Detect Links</strong> &mdash; Scan text for potential wiki links (see below)</li>
           </ul>
           <p className="mb-2">
@@ -308,6 +309,96 @@ export default function HelpPage() {
               for the full list.
             </li>
           </ul>
+        </div>
+      </div>
+
+      {/* Tables */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Tables</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            The editor supports inserting and editing tables directly in your articles.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Click the <strong>Table</strong> toolbar button to insert a 3&times;3 table with a header row</li>
+            <li>When your cursor is inside a table, additional buttons appear: <strong>+Row</strong>, <strong>+Col</strong>, <strong>-Row</strong>, <strong>-Col</strong>, <strong>xTable</strong></li>
+            <li>Click cells to edit them directly; use Tab to move between cells</li>
+            <li>Selected cells are highlighted with a blue tint</li>
+            <li>Tables render with borders and header styling on both the editor and the article display</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Link Editing */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Link Editing</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            When your cursor is on a link (either a regular URL link or a wiki link),
+            a floating bubble appears below it with two options:
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li><strong>Edit</strong> &mdash; opens an inline text input to change the URL (for regular links) or the article title (for wiki links)</li>
+            <li><strong>Remove</strong> &mdash; removes the link but keeps the text in place</li>
+          </ul>
+          <p className="mt-2">
+            Press <strong>Enter</strong> to save your edit, or <strong>Escape</strong> to cancel.
+          </p>
+        </div>
+      </div>
+
+      {/* Redirect Pages */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Redirect Pages</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            When an article moves to a new URL, you can set up a redirect so the old slug
+            automatically takes visitors to the new article.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Open the article editor and fill in the <strong>Redirect to</strong> field with the target article&apos;s slug</li>
+            <li>Visitors who navigate to the redirecting article will be automatically sent to the target</li>
+            <li>Redirects still appear in search results &mdash; clicking them triggers the redirect</li>
+            <li>Leave the redirect field empty for normal (non-redirecting) articles</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Discussion Pages */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Discussion Pages</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            Every article has a <strong>Discussion</strong> tab where users can post comments
+            and discuss the article content, similar to Wikipedia talk pages.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Click the <strong>Discussion</strong> tab on any article to view and post comments</li>
+            <li>Comments are open to everyone &mdash; no login required</li>
+            <li>Enter an optional author name (defaults to &ldquo;Anonymous&rdquo;)</li>
+            <li>Comments are shown chronologically with timestamps</li>
+            <li>Admins can delete individual comments</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Batch Operations */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Batch Operations</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            Admins can perform bulk actions on articles from the{" "}
+            <Link href="/articles">All Articles</Link> page.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Select articles using the checkboxes in the first column, or use the header checkbox to select all</li>
+            <li><strong>Set Category</strong> &mdash; assign a category to all selected articles at once</li>
+            <li><strong>Publish / Unpublish</strong> &mdash; toggle visibility of selected articles</li>
+            <li><strong>Delete</strong> &mdash; permanently delete selected articles (requires confirmation)</li>
+          </ul>
+          <p className="mt-2 text-muted text-[12px]">
+            Batch operations are only visible when logged in as admin.
+          </p>
         </div>
       </div>
 
