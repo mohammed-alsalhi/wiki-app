@@ -162,17 +162,20 @@ function basicMarkdownToHtml(md: string): string {
   const result: string[] = [];
   let paragraph: string[] = [];
 
-  function convertWikiLinks(text: string): string {
-    return text.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, title, label) => {
-      const slug = slugify(title);
-      const display = label || title;
-      return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${display}</a>`;
-    });
+  function convertInline(text: string): string {
+    return text
+      .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, title, label) => {
+        const slug = slugify(title);
+        const display = label || title;
+        return `<a href="/articles/${slug}" class="wiki-link" data-wiki-link="${title}">${display}</a>`;
+      })
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>");
   }
 
   function flushParagraph() {
     if (paragraph.length > 0) {
-      result.push(`<p>${convertWikiLinks(paragraph.join("<br>"))}</p>`);
+      result.push(`<p>${convertInline(paragraph.join("<br>"))}</p>`);
       paragraph = [];
     }
   }
@@ -187,13 +190,13 @@ function basicMarkdownToHtml(md: string): string {
 
     if (trimmed.startsWith("### ")) {
       flushParagraph();
-      result.push(`<h3>${convertWikiLinks(trimmed.slice(4))}</h3>`);
+      result.push(`<h3>${convertInline(trimmed.slice(4))}</h3>`);
     } else if (trimmed.startsWith("## ")) {
       flushParagraph();
-      result.push(`<h2>${convertWikiLinks(trimmed.slice(3))}</h2>`);
+      result.push(`<h2>${convertInline(trimmed.slice(3))}</h2>`);
     } else if (trimmed.startsWith("# ")) {
       flushParagraph();
-      result.push(`<h1>${convertWikiLinks(trimmed.slice(2))}</h1>`);
+      result.push(`<h1>${convertInline(trimmed.slice(2))}</h1>`);
     } else {
       paragraph.push(trimmed);
     }

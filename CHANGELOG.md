@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.3] - 2026-02-25
+
+- Fixed bold and italic lost when switching from markdown mode back to rich text
+- Added `**bold**` → `<strong>` and `*italic*` → `<em>` conversion in basicMarkdownToHtml
+- Inline formatting now applied to both paragraph and heading content
+
 ## [1.0.2] - 2026-02-25
 
 - Fixed markdown-to-rich-text conversion eating paragraphs into headings
