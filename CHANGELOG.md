@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [1.1.3](https://github.com/mohammed-alsalhi/wiki-app/commit/d6938e5) - 2026-02-25
+## [1.1.3](https://github.com/mohammed-alsalhi/wiki-app/commit/dfb1aae) - 2026-02-25
 
 - Fixed self-referencing commit link for 1.1.2 in CHANGELOG.md
 
