@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## 1.3.0 - 2026-02-25
+## [1.3.0](https://github.com/mohammed-alsalhi/wiki-app/commit/ba616cd) - 2026-02-25
 
 - Added batch operations on articles list page (admin only)
 - Checkbox column for selecting articles, with select-all toggle
