@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## 1.4.0 - 2026-02-25
+## [1.4.0](https://github.com/mohammed-alsalhi/wiki-app/commit/4308e71) - 2026-02-25
 
 - Added link editing bubble: floating Edit/Remove tooltip appears when cursor is on a link
 - Edit mode for regular links (change URL) and wiki links (change target article title)
