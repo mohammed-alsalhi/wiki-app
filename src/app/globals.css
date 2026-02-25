@@ -496,6 +496,59 @@ a:hover {
   background: var(--color-accent-soft);
 }
 
+/* ── Home page stat badges ── */
+.home-stat-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-background);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: var(--color-foreground);
+  transition: background-color 0.15s;
+}
+.home-stat-badge:hover {
+  background: var(--color-surface-hover);
+  text-decoration: none;
+}
+.home-stat-number {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-accent);
+}
+.home-stat-label {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+/* ── Home page action buttons ── */
+.home-action-btn {
+  display: inline-block;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-hover);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.home-action-btn:hover {
+  background: var(--color-background);
+  text-decoration: none;
+}
+.home-action-btn-primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+.home-action-btn-primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
 /* ── Theme transition (applied briefly when toggling dark/light) ── */
 html.theme-transitioning,
 html.theme-transitioning *,

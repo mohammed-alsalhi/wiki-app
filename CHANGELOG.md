@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here.
 
+## [1.6.0] - 2026-02-25
+
+- Redesigned home page with improved layout and visual hierarchy
+- Added stat badges showing article/category/tag counts with links
+- Added styled action buttons (Create, Browse, Search, Map)
+- Added "Featured article" section highlighting the longest published article with excerpt
+- Recent changes list now shows excerpts, category badges, and better spacing
+- Replaced plain Statistics table and Getting started notice with "Explore" quick-links grid
+- Added "View all" links in portal headers for Recent changes and Categories
+- Home page now only counts published articles in stats
+- Added CSS for `.home-stat-badge` and `.home-action-btn` components
+
 ## [1.5.0](https://github.com/mohammed-alsalhi/wiki-app/commit/33312e4) - 2026-02-25
 
 - Added full map area editing: select existing areas, edit label/article/color, and save changes
