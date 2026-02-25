@@ -2,7 +2,11 @@
 
 All notable changes to this project are documented here.
 
-## [1.1.2](https://github.com/mohammed-alsalhi/wiki-app/commit/f5cc5b5) - 2026-02-25
+## [1.1.3](https://github.com/mohammed-alsalhi/wiki-app/commit/d6938e5) - 2026-02-25
+
+- Fixed self-referencing commit link for 1.1.2 in CHANGELOG.md
+
+## [1.1.2](https://github.com/mohammed-alsalhi/wiki-app/commit/a529355) - 2026-02-25
 
 - Added commit links to every version heading in CHANGELOG.md
 - Version headers now link to the corresponding commit on GitHub
