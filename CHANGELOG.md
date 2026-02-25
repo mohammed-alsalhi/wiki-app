@@ -2,13 +2,18 @@
 
 All notable changes to this project are documented here.
 
-## [1.1.1] - 2026-02-25
+## [1.1.2](https://github.com/mohammed-alsalhi/wiki-app/commit/f5cc5b5) - 2026-02-25
+
+- Added commit links to every version heading in CHANGELOG.md
+- Version headers now link to the corresponding commit on GitHub
+
+## [1.1.1](https://github.com/mohammed-alsalhi/wiki-app/commit/d8de900) - 2026-02-25
 
 - Added in-app Help page (`/help`) documenting all features, editor tricks, and keyboard shortcuts
 - Added `help.md` for GitHub with the same content in markdown format
 - Added "Help" link to sidebar navigation
 
-## [1.1.0] - 2026-02-25
+## [1.1.0](https://github.com/mohammed-alsalhi/wiki-app/commit/5d47196) - 2026-02-25
 
 - Added wiki link suggester: typing `[[` in the editor opens an autocomplete dropdown
 - Dropdown searches existing articles with debounced queries, keyboard navigation, and click selection
@@ -19,7 +24,7 @@ All notable changes to this project are documented here.
 - Created `/api/articles/titles` lightweight endpoint for fetching all article titles
 - Longer title matches take priority; word boundary checking prevents partial matches
 
-## [1.0.4] - 2026-02-25
+## [1.0.4](https://github.com/mohammed-alsalhi/wiki-app/commit/2d62cd6) - 2026-02-25
 
 - Widened content area max-width from 1024px to 1152px
 - Redesigned theme toggle as clean sun/moon icon button in header
@@ -28,26 +33,26 @@ All notable changes to this project are documented here.
 - Removed rounded corners from search bar to match wiki style
 - Aligned header right edge with content area padding
 
-## [1.0.3] - 2026-02-25
+## [1.0.3](https://github.com/mohammed-alsalhi/wiki-app/commit/e557aa8) - 2026-02-25
 
 - Fixed bold and italic lost when switching from markdown mode back to rich text
 - Added `**bold**` → `<strong>` and `*italic*` → `<em>` conversion in basicMarkdownToHtml
 - Inline formatting now applied to both paragraph and heading content
 
-## [1.0.2] - 2026-02-25
+## [1.0.2](https://github.com/mohammed-alsalhi/wiki-app/commit/8d4753c) - 2026-02-25
 
 - Fixed markdown-to-rich-text conversion eating paragraphs into headings
 - Headings now always produce separate blocks (double newline after headings in markdown output)
 - Rewrote basicMarkdownToHtml to parse line-by-line instead of splitting by double newlines
 - Single newline after a heading no longer merges the following paragraph into the heading
 
-## [1.0.1] - 2026-02-23
+## [1.0.1](https://github.com/mohammed-alsalhi/wiki-app/commit/e84d1d6) - 2026-02-23
 
 - Added delete button with confirmation dialog on article edit page
 - Added editable slug field with live URL path preview
 - API now validates slug uniqueness on update and returns error if taken
 
-## [1.0.0] - 2026-02-23
+## [1.0.0](https://github.com/mohammed-alsalhi/wiki-app/commit/bf95767) - 2026-02-23
 
 - Added article import feature with CLI and UI
 - Drag-and-drop multi-file import page at /import (admin only)
@@ -58,12 +63,12 @@ All notable changes to this project are documented here.
 - Added `marked` dependency for Markdown-to-HTML conversion
 - Added `npm run import` convenience script
 
-## [0.9.0] - 2026-02-23
+## [0.9.0](https://github.com/mohammed-alsalhi/wiki-app/commit/8617d86) - 2026-02-23
 
 - Added version label at bottom of sidebar, reading from package.json at build time
 - Exposed `NEXT_PUBLIC_APP_VERSION` via next.config.ts
 
-## [0.8.0] - 2026-02-23
+## [0.8.0](https://github.com/mohammed-alsalhi/wiki-app/commit/ac6de47) - 2026-02-23
 
 - Added custom display text for wiki links (`[[Title|Display Text]]` syntax)
 - Added InputRules for auto-converting `[[Title]]` and `[[Title|Label]]` while typing
@@ -72,16 +77,16 @@ All notable changes to this project are documented here.
 - Added text selection support for wiki link toolbar button and keyboard shortcut
 - Changed wiki link keyboard shortcut to Ctrl+Shift+L
 
-## [0.7.2] - 2026-02-23
+## [0.7.2](https://github.com/mohammed-alsalhi/wiki-app/commit/92faed0) - 2026-02-23
 
 - Fixed wiki link typing: `[[Article Name]]` now auto-creates wiki link nodes via InputRule
 - Fixed markdown mode: wiki links preserved when switching between rich text and markdown
 
-## [0.7.1] - 2026-02-23
+## [0.7.1](https://github.com/mohammed-alsalhi/wiki-app/commit/ec5bc04) - 2026-02-23
 
 - Added Vercel Web Analytics integration
 
-## [0.7.0] - 2026-02-23
+## [0.7.0](https://github.com/mohammed-alsalhi/wiki-app/commit/f6d63ad) - 2026-02-23
 
 - Replaced map pin markers with clickable polygon areas
 - Areas are invisible overlays; tooltip appears on hover, click navigates to linked article
@@ -89,21 +94,21 @@ All notable changes to this project are documented here.
 - Existing areas shown with dashed outlines in edit mode with delete option
 - Removed emoji icon system (map image provides visual symbols)
 
-## [0.6.3] - 2026-02-23
+## [0.6.3](https://github.com/mohammed-alsalhi/wiki-app/commit/019a861) - 2026-02-23
 
 - Updated favicon
 
-## [0.6.2] - 2026-02-23
+## [0.6.2](https://github.com/mohammed-alsalhi/wiki-app/commit/c35a2cd) - 2026-02-23
 
 - Updated world map image
 
-## [0.6.1] - 2026-02-23
+## [0.6.1](https://github.com/mohammed-alsalhi/wiki-app/commit/c000fa1) - 2026-02-23
 
 - Added MIT License
 - Added README with deploy instructions
 - Added CLAUDE.md with architecture documentation
 
-## [0.6.0] - 2026-02-23
+## [0.6.0](https://github.com/mohammed-alsalhi/wiki-app/commit/acc5709) - 2026-02-23
 
 - Productized wiki with environment variable configuration
 - All branding driven by `NEXT_PUBLIC_*` env vars with sensible defaults
@@ -113,29 +118,29 @@ All notable changes to this project are documented here.
 - Map feature hidden by default, enabled via `NEXT_PUBLIC_MAP_ENABLED`
 - Created .env.example documenting all environment variables
 
-## [0.5.0] - 2026-02-23
+## [0.5.0](https://github.com/mohammed-alsalhi/wiki-app/commit/196a80a) - 2026-02-23
 
 - Added sub-category management with parent assignment
 - Category tree display with indented subcategories
 - Admin-only category creation with parent selector
 
-## [0.4.0] - 2026-02-23
+## [0.4.0](https://github.com/mohammed-alsalhi/wiki-app/commit/2205b82) - 2026-02-23
 
 - Improved search with relevance-based ranking (exact title > starts with > contains > content-only)
 - Multi-word queries use AND logic (each word must appear somewhere)
 - Trimmed whitespace from search queries
 - Clear search input on navigation and result clicks
 
-## [0.3.2] - 2026-02-23
+## [0.3.2](https://github.com/mohammed-alsalhi/wiki-app/commit/10ac684) - 2026-02-23
 
 - Fixed dark mode: changed `@theme inline` to `@theme` so CSS variable overrides work
 
-## [0.3.1] - 2026-02-23
+## [0.3.1](https://github.com/mohammed-alsalhi/wiki-app/commit/7aafdbb) - 2026-02-23
 
 - Fixed dark mode by replacing ~13 hardcoded `bg-white` instances with `bg-surface`
 - Replaced hardcoded colors in SearchBar and admin page with theme variables
 
-## [0.3.0] - 2026-02-23
+## [0.3.0](https://github.com/mohammed-alsalhi/wiki-app/commit/a9bd57b) - 2026-02-23
 
 - Added article revision history with content snapshots and diff viewer
 - Added nested sub-categories with collapsible sidebar tree
@@ -145,7 +150,7 @@ All notable changes to this project are documented here.
 - Added 6 article templates (Character, Location, Event, Item, Faction, Blank)
 - Added Export to PDF (browser print) and Export to Markdown (file download)
 
-## [0.2.0] - 2026-02-23
+## [0.2.0](https://github.com/mohammed-alsalhi/wiki-app/commit/b7eaf40) - 2026-02-23
 
 - Added cookie-based admin authentication with `ADMIN_SECRET` env var
 - Protected all write API routes with admin check
@@ -153,13 +158,13 @@ All notable changes to this project are documented here.
 - Hidden edit UI for non-admin users
 - No auth required in local dev when `ADMIN_SECRET` is unset
 
-## [0.1.1] - 2026-02-23
+## [0.1.1](https://github.com/mohammed-alsalhi/wiki-app/commit/b3d87be) - 2026-02-23
 
 - Switched image uploads from local filesystem to @vercel/blob cloud storage
 - Added postinstall script for Prisma generate during Vercel build
 - Updated build script to run prisma db push before next build
 
-## [0.1.0] - 2026-02-23
+## [0.1.0](https://github.com/mohammed-alsalhi/wiki-app/commit/e6bfb5b) - 2026-02-23
 
 - Initial release
 - Next.js 16 App Router with React 19, TypeScript, Prisma 7, PostgreSQL
