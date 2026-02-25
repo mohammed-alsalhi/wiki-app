@@ -16,11 +16,13 @@ model Article {
   coverImage       String?
   published        Boolean  @default(true)
   isDisambiguation Boolean  @default(false)
+  redirectTo       String?
   categoryId       String?
   category         Category? @relation(fields: [categoryId], references: [id])
   tags             ArticleTag[]
   mapMarkers       MapMarker[]
   revisions        ArticleRevision[]
+  discussions      Discussion[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -71,6 +73,18 @@ model ArticleRevision {
   title       String
   editSummary String?
   createdAt   DateTime @default(now())
+
+  @@index([articleId])
+  @@index([createdAt])
+}
+
+model Discussion {
+  id        String   @id @default(cuid())
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  author    String   @default("Anonymous")
+  content   String   @db.Text
+  createdAt DateTime @default(now())
 
   @@index([articleId])
   @@index([createdAt])

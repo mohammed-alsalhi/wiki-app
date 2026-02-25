@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
@@ -23,6 +23,7 @@ export default async function ArticlePage({ params }: Props) {
   });
 
   if (!article) notFound();
+  if (article.redirectTo) redirect(`/articles/${article.redirectTo}`);
 
   const [resolvedContent, backlinks] = await Promise.all([
     resolveWikiLinks(article.content),
@@ -37,6 +38,9 @@ export default async function ArticlePage({ params }: Props) {
         <AdminEditTab slug={slug} />
         <Link href={`/articles/${slug}/history`} className="wiki-tab">
           History
+        </Link>
+        <Link href={`/articles/${slug}/discussion`} className="wiki-tab">
+          Discussion
         </Link>
       </div>
 

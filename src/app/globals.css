@@ -361,6 +361,28 @@ a:hover {
 .tiptap a { color: var(--color-wiki-link); text-decoration: none; }
 .tiptap a:hover { text-decoration: underline; }
 
+/* ── Tables (editor + display) ── */
+.tiptap table, .wiki-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+.tiptap th, .tiptap td,
+.wiki-content th, .wiki-content td {
+  border: 1px solid var(--color-border);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  font-size: 0.85rem;
+  vertical-align: top;
+}
+.tiptap th, .wiki-content th {
+  background: var(--color-surface-hover);
+  font-weight: 700;
+}
+.tiptap .selectedCell {
+  background: var(--color-accent-soft);
+}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--color-background); }

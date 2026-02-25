@@ -14,6 +14,7 @@ type Article = {
   slug: string;
   content: string;
   categoryId: string | null;
+  redirectTo: string | null;
   tags: { tag: { id: string } }[];
 };
 
@@ -27,6 +28,7 @@ export default function EditArticlePage() {
   const [slug, setSlug] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
+  const [redirectTo, setRedirectTo] = useState("");
   const [editSummary, setEditSummary] = useState("");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -50,6 +52,7 @@ export default function EditArticlePage() {
               setTitle(articleData.title);
               setSlug(articleData.slug);
               setCategoryId(articleData.categoryId || "");
+              setRedirectTo(articleData.redirectTo || "");
               setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
             }
           }
@@ -64,6 +67,7 @@ export default function EditArticlePage() {
         setTitle(articleData.title);
         setSlug(articleData.slug);
         setCategoryId(articleData.categoryId || "");
+        setRedirectTo(articleData.redirectTo || "");
         setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
       }
       setLoading(false);
@@ -90,6 +94,7 @@ export default function EditArticlePage() {
         excerpt: content.replace(/<[^>]*>/g, "").substring(0, 200),
         categoryId: categoryId || null,
         tagIds,
+        redirectTo: redirectTo.trim() || null,
         editSummary: editSummary.trim() || null,
       }),
     });
@@ -145,6 +150,9 @@ export default function EditArticlePage() {
         <Link href={`/articles/${article.slug}/history`} className="wiki-tab">
           History
         </Link>
+        <Link href={`/articles/${article.slug}/discussion`} className="wiki-tab">
+          Discussion
+        </Link>
       </div>
 
       {/* Edit form */}
@@ -180,6 +188,25 @@ export default function EditArticlePage() {
                 className="flex-1 border border-border bg-surface px-3 py-1.5 text-[14px] text-foreground font-mono focus:border-accent focus:outline-none"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-bold text-heading mb-1">Redirect to (optional):</label>
+            <div className="flex items-center gap-1 text-[13px] text-muted">
+              <span>/articles/</span>
+              <input
+                type="text"
+                value={redirectTo}
+                onChange={(e) => setRedirectTo(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
+                placeholder="Leave empty for normal article"
+                className="flex-1 border border-border bg-surface px-3 py-1.5 text-[14px] text-foreground font-mono placeholder:text-muted focus:border-accent focus:outline-none"
+              />
+            </div>
+            {redirectTo && (
+              <p className="text-[11px] text-muted mt-1">
+                Visitors to this article will be redirected to <strong>/articles/{redirectTo}</strong>
+              </p>
+            )}
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">

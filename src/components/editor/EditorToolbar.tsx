@@ -14,6 +14,7 @@ type ToolbarButton = {
   icon: string;
   action: () => void;
   isActive?: () => boolean;
+  hidden?: () => boolean;
 };
 
 export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount }: Props) {
@@ -127,27 +128,67 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         },
       },
     ],
+    [
+      {
+        label: "Insert Table",
+        icon: "Table",
+        action: () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+      },
+      {
+        label: "Add Row",
+        icon: "+Row",
+        action: () => editor.chain().focus().addRowAfter().run(),
+        hidden: () => !editor.isActive("table"),
+      },
+      {
+        label: "Add Column",
+        icon: "+Col",
+        action: () => editor.chain().focus().addColumnAfter().run(),
+        hidden: () => !editor.isActive("table"),
+      },
+      {
+        label: "Delete Row",
+        icon: "-Row",
+        action: () => editor.chain().focus().deleteRow().run(),
+        hidden: () => !editor.isActive("table"),
+      },
+      {
+        label: "Delete Column",
+        icon: "-Col",
+        action: () => editor.chain().focus().deleteColumn().run(),
+        hidden: () => !editor.isActive("table"),
+      },
+      {
+        label: "Delete Table",
+        icon: "xTable",
+        action: () => editor.chain().focus().deleteTable().run(),
+        hidden: () => !editor.isActive("table"),
+      },
+    ],
   ];
 
   return (
     <div className="flex flex-wrap items-center gap-0.5 py-0.5">
       {groups.map((group, gi) => (
         <div key={gi} className="flex gap-px">
-          {group.map((btn) => (
-            <button
-              key={btn.label}
-              type="button"
-              onClick={btn.action}
-              title={btn.label}
-              className={`px-1.5 py-0.5 text-[11px] font-medium transition-colors ${
-                btn.isActive?.()
-                  ? "bg-accent text-white"
-                  : "text-foreground hover:bg-surface hover:text-accent"
-              }`}
-            >
-              {btn.icon}
-            </button>
-          ))}
+          {group.map((btn) => {
+            if (btn.hidden?.()) return null;
+            return (
+              <button
+                key={btn.label}
+                type="button"
+                onClick={btn.action}
+                title={btn.label}
+                className={`px-1.5 py-0.5 text-[11px] font-medium transition-colors ${
+                  btn.isActive?.()
+                    ? "bg-accent text-white"
+                    : "text-foreground hover:bg-surface hover:text-accent"
+                }`}
+              >
+                {btn.icon}
+              </button>
+            );
+          })}
           {gi < groups.length - 1 && (
             <div className="mx-1 w-px bg-border" />
           )}

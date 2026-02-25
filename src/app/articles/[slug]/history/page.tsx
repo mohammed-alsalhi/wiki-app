@@ -37,6 +37,9 @@ export default async function HistoryPage({ params }: Props) {
         </Link>
         <AdminEditTab slug={slug} />
         <span className="wiki-tab wiki-tab-active">History</span>
+        <Link href={`/articles/${slug}/discussion`} className="wiki-tab">
+          Discussion
+        </Link>
       </div>
 
       <div className="border border-t-0 border-border bg-surface px-5 py-4">

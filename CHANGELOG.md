@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here.
 
+## 1.2.0 - 2026-02-25
+
+- Added table support in Tiptap editor using TableKit extension
+- Toolbar shows Insert Table button, plus row/col add/delete when cursor is inside a table
+- Added table CSS styles for both editor and article display (borders, header highlighting, selected cell)
+- Added redirect pages: articles can redirect to another article via `redirectTo` field
+- Redirect field in article edit page with slug input and preview
+- Server-side redirect in article display page when `redirectTo` is set
+- Added per-article discussion/talk pages with comment threads
+- Discussion tab added to all article sub-pages (article, edit, history, diff)
+- Anyone can post comments with optional author name; admin can delete comments
+- New Discussion model in Prisma schema with article relation
+- New API endpoint `/api/articles/[id]/discussions` (GET, POST, DELETE)
+
 ## [1.1.3](https://github.com/mohammed-alsalhi/wiki-app/commit/d6938e5) - 2026-02-25
 
 - Fixed self-referencing commit link for 1.1.2 in CHANGELOG.md

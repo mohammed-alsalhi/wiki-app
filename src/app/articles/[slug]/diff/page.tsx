@@ -83,6 +83,7 @@ export default function DiffPage() {
         <Link href={`/articles/${slug}`} className="wiki-tab">Article</Link>
         <Link href={`/articles/${slug}/history`} className="wiki-tab">History</Link>
         <span className="wiki-tab wiki-tab-active">Diff</span>
+        <Link href={`/articles/${slug}/discussion`} className="wiki-tab">Discussion</Link>
       </div>
 
       <div className="border border-t-0 border-border bg-surface px-5 py-4">
