@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## 1.2.0 - 2026-02-25
+## [1.2.0](https://github.com/mohammed-alsalhi/wiki-app/commit/f507fdf) - 2026-02-25
 
 - Added table support in Tiptap editor using TableKit extension
 - Toolbar shows Insert Table button, plus row/col add/delete when cursor is inside a table
