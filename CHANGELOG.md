@@ -2,6 +2,36 @@
 
 All notable changes to this project are documented here.
 
+## [1.8.0] - 2026-02-25
+
+- Added subcategory-specific infobox schemas modeled after Wikipedia infobox templates
+- Leaders: reign, predecessor, successor, dynasty, coronation
+- Artists: medium, style, notable works, influences, patron
+- Scientists: fields, institutions, alma mater, doctoral advisor
+- Warriors: allegiance, rank, unit, commands, battles fought
+- Merchants: guild, trade goods, trade routes, wealth
+- Cities: country, region, demonym, elevation, landmarks
+- Regions: capital, borders, terrain, resources, major cities
+- Landmarks: elevation, span, significance
+- Buildings: architect, style, floors, purpose
+- Governments: head of state, legislature, ideology, currency
+- Military: branch, strength, equipment, engagements, motto
+- Religious orgs: deity, scripture, holy sites, practices
+- Guilds: trade, ranks, services, rivals
+- Battles: belligerents, commanders, strength, casualties per side
+- Ceremonies: frequency, traditions, significance
+- Discoveries: discoverer, field, method
+- Disasters: deaths, injuries, damage, aftermath
+- Weapons: smith, length, weight, wielders, battles
+- Artifacts: powers, age, previous owners
+- Documents: author, language, pages, copies, significance
+- Tools: used for, used by
+- Magic: source, requirements, limitations, applications
+- Religions: deities, holy text, clergy, core beliefs
+- Laws: jurisdiction, penalties, enforced by, supersedes
+- Languages: family, writing system, ancestor language, speakers
+- Seed script now updates icons on re-run instead of skipping existing records
+
 ## [1.7.1](https://github.com/mohammed-alsalhi/wiki-app/commit/b31dd22) - 2026-02-25
 
 - Added ARCHITECTURE.md documenting stack, directory structure, database models, key patterns, and API routes
