@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [1.7.1] - 2026-02-25
+
+- Added ARCHITECTURE.md documenting stack, directory structure, database models, key patterns, and API routes
+- Added CONTRIBUTING.md with setup guide, development workflow, code style, and contribution guidelines
+- Added ROADMAP.md with planned features organized by near-term, medium-term, and long-term goals
+
 ## [1.7.0](https://github.com/mohammed-alsalhi/wiki-app/commit/eb6f0a8) - 2026-02-25
 
 - Added category-specific infobox fields: each root category (People, Places, Organizations, Events, Things, Concepts) has its own field schema
