@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [1.7.0] - 2026-02-25
+## [1.7.0](https://github.com/mohammed-alsalhi/wiki-app/commit/eb6f0a8) - 2026-02-25
 
 - Added category-specific infobox fields: each root category (People, Places, Organizations, Events, Things, Concepts) has its own field schema
 - Infobox fields include text, textarea, number, wikilink, and list types with placeholders
