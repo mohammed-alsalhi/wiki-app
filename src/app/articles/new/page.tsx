@@ -6,9 +6,12 @@ import Link from "next/link";
 import TiptapEditor, { type TiptapEditorHandle } from "@/components/editor/TiptapEditor";
 import TagPicker from "@/components/TagPicker";
 import CategorySelect from "@/components/CategorySelect";
+import InfoboxEditor from "@/components/InfoboxEditor";
 import TemplatePicker from "@/components/TemplatePicker";
 import { useAdmin } from "@/components/AdminContext";
 import type { ArticleTemplate } from "@/lib/templates";
+
+type CategoryItem = { id: string; name: string; slug: string; icon: string | null; parentId: string | null; children?: CategoryItem[] };
 
 type SimilarArticle = {
   id: string;
@@ -27,7 +30,15 @@ export default function NewArticlePage() {
   const [templateId, setTemplateId] = useState("blank");
   const [isDisambiguation, setIsDisambiguation] = useState(false);
   const [similarArticles, setSimilarArticles] = useState<SimilarArticle[]>([]);
+  const [infobox, setInfobox] = useState<Record<string, string>>({});
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then(setCategories);
+  }, []);
 
   // Debounced similar title check
   const checkSimilar = useCallback(async (t: string) => {
@@ -73,6 +84,7 @@ export default function NewArticlePage() {
         categoryId: categoryId || null,
         tagIds,
         isDisambiguation,
+        infobox: Object.keys(infobox).length > 0 ? infobox : null,
       }),
     });
 
@@ -146,13 +158,25 @@ export default function NewArticlePage() {
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <label className="block text-[13px] font-bold text-heading mb-1">Category:</label>
-              <CategorySelect value={categoryId} onChange={setCategoryId} />
+              <CategorySelect value={categoryId} onChange={setCategoryId} categories={categories} />
             </div>
             <div>
               <label className="block text-[13px] font-bold text-heading mb-1">Tags:</label>
               <TagPicker selectedTagIds={tagIds} onChange={setTagIds} />
             </div>
           </div>
+
+          {categoryId && (
+            <div>
+              <label className="block text-[13px] font-bold text-heading mb-1">Infobox fields:</label>
+              <InfoboxEditor
+                categoryId={categoryId}
+                categories={categories}
+                data={infobox}
+                onChange={setInfobox}
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-[13px] font-bold text-heading mb-1">Template:</label>

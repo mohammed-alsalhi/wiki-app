@@ -6,7 +6,10 @@ import Link from "next/link";
 import TiptapEditor, { type TiptapEditorHandle } from "@/components/editor/TiptapEditor";
 import TagPicker from "@/components/TagPicker";
 import CategorySelect from "@/components/CategorySelect";
+import InfoboxEditor from "@/components/InfoboxEditor";
 import { useAdmin } from "@/components/AdminContext";
+
+type CategoryItem = { id: string; name: string; slug: string; icon: string | null; parentId: string | null; children?: CategoryItem[] };
 
 type Article = {
   id: string;
@@ -15,6 +18,7 @@ type Article = {
   content: string;
   categoryId: string | null;
   redirectTo: string | null;
+  infobox: Record<string, string> | null;
   tags: { tag: { id: string } }[];
 };
 
@@ -29,10 +33,18 @@ export default function EditArticlePage() {
   const [categoryId, setCategoryId] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
   const [redirectTo, setRedirectTo] = useState("");
+  const [infobox, setInfobox] = useState<Record<string, string>>({});
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [editSummary, setEditSummary] = useState("");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then(setCategories);
+  }, []);
 
   useEffect(() => {
     async function load() {
@@ -53,6 +65,7 @@ export default function EditArticlePage() {
               setSlug(articleData.slug);
               setCategoryId(articleData.categoryId || "");
               setRedirectTo(articleData.redirectTo || "");
+              setInfobox(articleData.infobox || {});
               setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
             }
           }
@@ -68,6 +81,7 @@ export default function EditArticlePage() {
         setSlug(articleData.slug);
         setCategoryId(articleData.categoryId || "");
         setRedirectTo(articleData.redirectTo || "");
+        setInfobox(articleData.infobox || {});
         setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
       }
       setLoading(false);
@@ -95,6 +109,7 @@ export default function EditArticlePage() {
         categoryId: categoryId || null,
         tagIds,
         redirectTo: redirectTo.trim() || null,
+        infobox: Object.keys(infobox).length > 0 ? infobox : null,
         editSummary: editSummary.trim() || null,
       }),
     });
@@ -212,13 +227,25 @@ export default function EditArticlePage() {
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <label className="block text-[13px] font-bold text-heading mb-1">Category:</label>
-              <CategorySelect value={categoryId} onChange={setCategoryId} />
+              <CategorySelect value={categoryId} onChange={setCategoryId} categories={categories} />
             </div>
             <div>
               <label className="block text-[13px] font-bold text-heading mb-1">Tags:</label>
               <TagPicker selectedTagIds={tagIds} onChange={setTagIds} />
             </div>
           </div>
+
+          {categoryId && (
+            <div>
+              <label className="block text-[13px] font-bold text-heading mb-1">Infobox fields:</label>
+              <InfoboxEditor
+                categoryId={categoryId}
+                categories={categories}
+                data={infobox}
+                onChange={setInfobox}
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-[13px] font-bold text-heading mb-1">Content:</label>

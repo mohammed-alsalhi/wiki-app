@@ -17,6 +17,7 @@ model Article {
   published        Boolean  @default(true)
   isDisambiguation Boolean  @default(false)
   redirectTo       String?
+  infobox          Json?
   categoryId       String?
   category         Category? @relation(fields: [categoryId], references: [id])
   tags             ArticleTag[]
@@ -71,6 +72,7 @@ model ArticleRevision {
   content     String   @db.Text
   contentRaw  String?  @db.Text
   title       String
+  infobox     Json?
   editSummary String?
   createdAt   DateTime @default(now())
 

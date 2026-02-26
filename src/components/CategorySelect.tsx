@@ -14,16 +14,22 @@ type Category = {
 type Props = {
   value: string;
   onChange: (id: string) => void;
+  categories?: Category[];
 };
 
-export default function CategorySelect({ value, onChange }: Props) {
-  const [categories, setCategories] = useState<Category[]>([]);
+export type { Category as CategoryOption };
+
+export default function CategorySelect({ value, onChange, categories: externalCategories }: Props) {
+  const [fetched, setFetched] = useState<Category[]>([]);
 
   useEffect(() => {
+    if (externalCategories) return;
     fetch("/api/categories")
       .then((r) => r.json())
-      .then(setCategories);
-  }, []);
+      .then(setFetched);
+  }, [externalCategories]);
+
+  const categories = externalCategories || fetched;
 
   // Build root-only tree (API may return all or just roots)
   const roots = categories.filter((c) => !c.parentId);

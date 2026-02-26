@@ -188,10 +188,9 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
 
     useImperativeHandle(ref, () => ({
       getHTML: () => {
-        if (markdownMode) {
-          return editor?.getHTML() || "";
-        }
-        return editor?.getHTML() || "";
+        const html = editor?.getHTML() || "";
+        // Strip potential-link marks — they're editor-only hints, not saved content
+        return html.replace(/<span[^>]*data-suggest-title="[^"]*"[^>]*>(.*?)<\/span>/g, "$1");
       },
       getMarkdown: () => markdownText,
       setContent: (content: string) => {

@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## [1.7.0] - 2026-02-25
+
+- Added category-specific infobox fields: each root category (People, Places, Organizations, Events, Things, Concepts) has its own field schema
+- Infobox fields include text, textarea, number, wikilink, and list types with placeholders
+- Subcategories inherit their parent's infobox schema via parent chain walk
+- InfoboxEditor component shows relevant fields when a category is selected on new/edit pages
+- InfoboxDisplay component renders filled fields above standard rows (Category, Tags, Created, Updated)
+- Wikilink fields render as clickable article links; list fields display as comma-separated items
+- Added `infobox` JSON field to Article and ArticleRevision models in Prisma schema
+- API routes (POST/PUT) now accept and store infobox data; revisions snapshot infobox state
+- CategorySelect now accepts optional external `categories` prop to avoid duplicate fetches
+- Added 24 subcategories across all 6 root categories in seed file (Leaders, Cities, Guilds, Battles, Weapons, Magic, etc.)
+- Fixed "Detect Links" potential link marks persisting in saved content and showing to viewers
+- Existing articles without infobox data continue to display correctly (backward compatible)
+
 ## [1.6.0](https://github.com/mohammed-alsalhi/wiki-app/commit/3890f0f) - 2026-02-25
 
 - Redesigned home page with improved layout and visual hierarchy

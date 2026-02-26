@@ -6,6 +6,7 @@ import { config } from "@/lib/config";
 import { resolveWikiLinks, getBacklinks } from "@/lib/wikilinks";
 import AdminEditTab from "@/components/AdminEditTab";
 import ArticleExportButtons from "@/components/ArticleExportButtons";
+import InfoboxDisplay from "@/components/InfoboxDisplay";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -25,9 +26,18 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
   if (article.redirectTo) redirect(`/articles/${article.redirectTo}`);
 
-  const [resolvedContent, backlinks] = await Promise.all([
+  const [resolvedContent, backlinks, allCategories] = await Promise.all([
     resolveWikiLinks(article.content),
     getBacklinks(slug),
+    prisma.category.findMany({
+      orderBy: { sortOrder: "asc" },
+      include: {
+        children: {
+          orderBy: { sortOrder: "asc" },
+          include: { children: { orderBy: { sortOrder: "asc" } } },
+        },
+      },
+    }),
   ]);
 
   return (
@@ -76,49 +86,16 @@ export default async function ArticlePage({ params }: Props) {
         )}
 
         {/* Infobox */}
-        {(article.category || article.tags.length > 0 || article.coverImage) && (
-          <div className="wiki-infobox">
-            <div className="wiki-infobox-header">
-              {article.title}
-            </div>
-            {article.coverImage && (
-              <div className="wiki-infobox-image">
-                <img src={article.coverImage} alt={article.title} />
-              </div>
-            )}
-            {article.category && (
-              <div className="wiki-infobox-row">
-                <div className="wiki-infobox-label">Category</div>
-                <div className="wiki-infobox-value">
-                  <Link href={`/categories/${article.category.slug}`}>
-                    {article.category.icon} {article.category.name}
-                  </Link>
-                </div>
-              </div>
-            )}
-            {article.tags.length > 0 && (
-              <div className="wiki-infobox-row">
-                <div className="wiki-infobox-label">Tags</div>
-                <div className="wiki-infobox-value">
-                  {article.tags.map(({ tag }, i) => (
-                    <span key={tag.id}>
-                      {i > 0 && ", "}
-                      <Link href={`/tags/${tag.slug}`}>{tag.name}</Link>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-            <div className="wiki-infobox-row">
-              <div className="wiki-infobox-label">Created</div>
-              <div className="wiki-infobox-value">{formatDate(article.createdAt)}</div>
-            </div>
-            <div className="wiki-infobox-row">
-              <div className="wiki-infobox-label">Updated</div>
-              <div className="wiki-infobox-value">{formatDate(article.updatedAt)}</div>
-            </div>
-          </div>
-        )}
+        <InfoboxDisplay
+          title={article.title}
+          coverImage={article.coverImage}
+          category={article.category}
+          tags={article.tags.map((t) => t.tag)}
+          infobox={article.infobox as Record<string, string> | null}
+          allCategories={allCategories}
+          createdAt={article.createdAt}
+          updatedAt={article.updatedAt}
+        />
 
         {/* Article content */}
         <div
