@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [1.7.1] - 2026-02-25
+## [1.7.1](https://github.com/mohammed-alsalhi/wiki-app/commit/b31dd22) - 2026-02-25
 
 - Added ARCHITECTURE.md documenting stack, directory structure, database models, key patterns, and API routes
 - Added CONTRIBUTING.md with setup guide, development workflow, code style, and contribution guidelines
