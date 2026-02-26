@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [1.9.0] - 2026-02-25
+
+- Added category edit and delete functionality for admin users
+- New API route `/api/categories/[id]` with PUT (rename, reparent, update description) and DELETE
+- Delete is blocked if category has articles or subcategories (must reassign first)
+- CategoryManager redesigned with inline edit/delete controls per category
+- Category list shows article count, description, and nested hierarchy
+
 ## [1.8.0] - 2026-02-25
 
 - Added subcategory-specific infobox schemas modeled after Wikipedia infobox templates
