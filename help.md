@@ -209,3 +209,38 @@ These shortcuts work inside the rich text editor. Replace Ctrl with Cmd on Mac.
 | `Ctrl+Z` / `Ctrl+Shift+Z` | Undo / Redo |
 
 > **Tip:** You can type `[[` anywhere in the editor to quickly search and link to existing articles without leaving the keyboard.
+
+## Keyboard Shortcuts (Global)
+
+| Shortcut | Action |
+|----------|--------|
+| `?` | Show keyboard shortcuts overlay |
+| `/` | Focus search bar |
+| `g` then `h` | Go to home page |
+| `g` then `a` | Go to all articles |
+| `g` then `n` | Create new article |
+| `g` then `s` | Go to search |
+| `g` then `r` | Go to recent changes |
+| `g` then `g` | Go to article graph |
+| `Esc` | Close dialog / blur input |
+
+## New in v2.1
+
+- **Reading progress bar** at top of article pages
+- **Back to top button** when scrolling down
+- **Word count & reading time** on article pages and in editor
+- **Copy Link / Share / Print** buttons on articles
+- **Breadcrumb navigation** showing category hierarchy
+- **"On this day"** homepage section
+- **Tag cloud** at `/tags`
+- **Article status badges** in listings
+- **Last edited by** attribution
+- **Editor status bar** with word/char counts
+- **Insert date** toolbar button
+- **Collapsible sidebar** sections
+- **Toast notifications** system
+- **SEO** — Open Graph, JSON-LD, sitemap.xml, robots.txt
+- **15 new API endpoints** — stats, backlinks, orphans, dead-links, etc.
+- **Review queue** in admin dashboard
+- **Print styles** for clean printing
+- **Keyboard accessibility** improvements

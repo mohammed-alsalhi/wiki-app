@@ -13,4 +13,9 @@ export const config = {
   mapEnabled: process.env.NEXT_PUBLIC_MAP_ENABLED === "true",
   mapLabel: process.env.NEXT_PUBLIC_MAP_LABEL || "Map",
   mapImage: process.env.NEXT_PUBLIC_MAP_IMAGE || "",
+  defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en",
+  articlesPerPage: parseInt(process.env.NEXT_PUBLIC_ARTICLES_PER_PAGE || "20", 10),
+  maxUploadSize: parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE || "5242880", 10),
+  registrationEnabled: process.env.NEXT_PUBLIC_ENABLE_REGISTRATION !== "false",
+  discussionsEnabled: process.env.NEXT_PUBLIC_ENABLE_DISCUSSIONS !== "false",
 };

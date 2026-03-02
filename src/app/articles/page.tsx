@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAdmin } from "@/components/AdminContext";
+import ArticleStatusBadge from "@/components/ArticleStatusBadge";
 
 export default function ArticlesPageWrapper() {
   return (
@@ -19,6 +20,7 @@ type Article = {
   slug: string;
   excerpt: string | null;
   published: boolean;
+  status: string;
   updatedAt: string;
   category: { id: string; slug: string; name: string; icon: string | null } | null;
   tags: { tag: { id: string; slug: string; name: string } }[];
@@ -273,6 +275,9 @@ function ArticlesPageContent() {
                   <Link href={`/articles/${article.slug}`} className="font-medium">
                     {article.title}
                   </Link>
+                  {article.status !== "published" && (
+                    <span className="ml-2"><ArticleStatusBadge status={article.status} /></span>
+                  )}
                   {article.excerpt && (
                     <span className="text-muted text-[12px]">
                       {" "}&ndash; {article.excerpt.substring(0, 100)}{article.excerpt.length > 100 ? "..." : ""}

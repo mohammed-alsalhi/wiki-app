@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { config } from "@/lib/config";
@@ -9,10 +10,49 @@ import ArticleExportButtons from "@/components/ArticleExportButtons";
 import InfoboxDisplay from "@/components/InfoboxDisplay";
 import TableOfContents, { addHeadingIds } from "@/components/TableOfContents";
 import RelatedArticles from "@/components/RelatedArticles";
+import WordCount from "@/components/WordCount";
+import CopyButton from "@/components/CopyButton";
+import ShareButton from "@/components/ShareButton";
+import PrintButton from "@/components/PrintButton";
+import BackToTop from "@/components/BackToTop";
+import ReadingProgress from "@/components/ReadingProgress";
+import Breadcrumb from "@/components/Breadcrumb";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await prisma.article.findUnique({
+    where: { slug },
+    select: { title: true, excerpt: true, coverImage: true, slug: true },
+  });
+
+  if (!article) return { title: "Not Found" };
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+  return {
+    title: `${article.title} — ${config.name}`,
+    description: article.excerpt || undefined,
+    alternates: {
+      canonical: `${baseUrl}/articles/${article.slug}`,
+    },
+    openGraph: {
+      title: article.title,
+      description: article.excerpt || `Read ${article.title} on ${config.name}`,
+      type: "article",
+      url: `${baseUrl}/articles/${article.slug}`,
+      ...(article.coverImage ? { images: [{ url: article.coverImage }] } : {}),
+    },
+    twitter: {
+      card: "summary",
+      title: article.title,
+      description: article.excerpt || undefined,
+    },
+  };
+}
 
 function appendFootnoteSection(html: string): string {
   const footnotes: string[] = [];
@@ -58,8 +98,31 @@ export default async function ArticlePage({ params }: Props) {
     }),
   ]);
 
+  const lastRevision = await prisma.articleRevision.findFirst({
+    where: { articleId: article.id },
+    orderBy: { createdAt: "desc" },
+    include: { user: { select: { username: true, displayName: true } } },
+  });
+
   return (
     <div>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: article.title,
+            datePublished: article.createdAt.toISOString(),
+            dateModified: article.updatedAt.toISOString(),
+            ...(article.excerpt ? { description: article.excerpt } : {}),
+            ...(article.category ? { articleSection: article.category.name } : {}),
+            ...(article.coverImage ? { image: article.coverImage } : {}),
+          }),
+        }}
+      />
+
       {/* Article tabs */}
       <div className="wiki-tabs">
         <span className="wiki-tab wiki-tab-active">Article</span>
@@ -74,6 +137,11 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Article body in bordered content area */}
       <div className="border border-t-0 border-border bg-surface px-5 py-4">
+        <Breadcrumb items={[
+          ...(article.category ? [{ label: article.category.name, href: `/categories/${article.category.slug}` }] : []),
+          { label: article.title },
+        ]} />
+
         {/* Article title */}
         <h1
           className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-0.5"
@@ -84,15 +152,24 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* From World Wiki line + export buttons */}
         <div className="flex items-center justify-between mb-3">
-          <p className="text-[11px] text-muted">
-            From {config.name} &mdash; Last edited {formatDate(article.updatedAt)}
-          </p>
-          <ArticleExportButtons
-            title={article.title}
-            slug={article.slug}
-            contentRaw={article.contentRaw}
-            contentHtml={resolvedContent}
-          />
+          <div className="text-[11px] text-muted">
+            <span>From {config.name} &mdash; Last edited {formatDate(article.updatedAt)}</span>
+            {lastRevision?.user && (
+              <span> by <a href={`/users/${lastRevision.user.username}`} className="text-wiki-link">{lastRevision.user.displayName || lastRevision.user.username}</a></span>
+            )}
+            <span className="ml-2"><WordCount html={article.content} /></span>
+          </div>
+          <div className="flex items-center gap-1">
+            <CopyButton text={`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articles/${article.slug}`} label="Copy link" />
+            <ShareButton title={article.title} />
+            <PrintButton />
+            <ArticleExportButtons
+              title={article.title}
+              slug={article.slug}
+              contentRaw={article.contentRaw}
+              contentHtml={resolvedContent}
+            />
+          </div>
         </div>
 
         {/* Status badge */}
@@ -190,6 +267,9 @@ export default async function ArticlePage({ params }: Props) {
             </ul>
           </div>
         )}
+
+        <BackToTop />
+        <ReadingProgress />
       </div>
     </div>
   );

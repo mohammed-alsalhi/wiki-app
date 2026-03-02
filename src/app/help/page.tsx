@@ -422,6 +422,50 @@ export default function HelpPage() {
       <div className="wiki-portal mb-4">
         <div className="wiki-portal-header">Keyboard Shortcuts</div>
         <div className="wiki-portal-body text-[13px]">
+          <p className="mb-1 font-bold text-heading">Global shortcuts</p>
+          <p className="text-muted text-[12px] mb-2">
+            These shortcuts work anywhere on the wiki. Press <kbd>?</kbd> to show the full overlay.
+          </p>
+          <table className="w-full mb-4">
+            <tbody>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>?</kbd></td>
+                <td className="py-1">Show keyboard shortcuts overlay</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>/</kbd></td>
+                <td className="py-1">Focus search bar</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>g</kbd> then <kbd>h</kbd></td>
+                <td className="py-1">Go to home page</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>g</kbd> then <kbd>a</kbd></td>
+                <td className="py-1">Go to all articles</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>g</kbd> then <kbd>n</kbd></td>
+                <td className="py-1">Create new article</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>g</kbd> then <kbd>s</kbd></td>
+                <td className="py-1">Go to search</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>g</kbd> then <kbd>r</kbd></td>
+                <td className="py-1">Go to recent changes</td>
+              </tr>
+              <tr className="border-b border-border-light">
+                <td className="py-1 pr-4"><kbd>g</kbd> then <kbd>g</kbd></td>
+                <td className="py-1">Go to article graph</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-4"><kbd>Esc</kbd></td>
+                <td className="py-1">Close dialog / blur input</td>
+              </tr>
+            </tbody>
+          </table>
           <p className="mb-2 text-muted text-[12px]">
             These shortcuts work inside the rich text editor. Replace Ctrl with Cmd on Mac.
           </p>
@@ -560,6 +604,32 @@ export default function HelpPage() {
         </div>
       </div>
 
+      {/* Internal API Endpoints */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Additional API Endpoints</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            Beyond the public v1 API, these internal endpoints are available:
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/stats</code> &mdash; Wiki-wide statistics (articles, categories, tags, users)</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/recent?limit=N</code> &mdash; Most recently updated articles</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/[id]/word-count</code> &mdash; Word count, character count, reading time</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/[id]/backlinks</code> &mdash; Articles that link to this one</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/[id]/related</code> &mdash; Related articles by category/tag overlap</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/[id]/views</code> &mdash; View count for an article</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/[id]/export?format=markdown</code> &mdash; Export single article</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/categories/tree</code> &mdash; Full nested category hierarchy</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/tags/popular?limit=N</code> &mdash; Most-used tags sorted by count</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/sitemap</code> &mdash; XML sitemap</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/orphans</code> &mdash; Articles with no incoming links (admin)</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/articles/dead-links</code> &mdash; Broken wiki links across the wiki (admin)</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">PATCH /api/articles/[id]/status</code> &mdash; Quick status change (admin)</li>
+            <li><code className="bg-surface-hover px-1 text-[12px]">GET /api/users</code> &mdash; List all users with contribution counts (admin)</li>
+          </ul>
+        </div>
+      </div>
+
       {/* Article Graph */}
       <div className="wiki-portal mb-4">
         <div className="wiki-portal-header">Article Graph</div>
@@ -573,6 +643,34 @@ export default function HelpPage() {
             <li>Edges represent wiki links between articles</li>
             <li>Drag nodes to rearrange, scroll to zoom, and click to navigate</li>
             <li>Filter by category and control graph depth</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* New in v2.1 */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">New in v2.1</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">Recent improvements across the wiki:</p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li><strong>Reading progress bar</strong> &mdash; scroll indicator at the top of article pages</li>
+            <li><strong>Back to top button</strong> &mdash; appears when scrolling down, click to return to top</li>
+            <li><strong>Word count &amp; reading time</strong> &mdash; shown on article pages and in the editor</li>
+            <li><strong>Copy Link / Share / Print buttons</strong> &mdash; quick actions on article pages</li>
+            <li><strong>Breadcrumb navigation</strong> &mdash; shows category hierarchy on article pages</li>
+            <li><strong>&ldquo;On this day&rdquo;</strong> &mdash; homepage section showing articles created on today&apos;s date</li>
+            <li><strong>Tag cloud</strong> &mdash; visual tag browser at <Link href="/tags">/tags</Link> with size-scaled tags</li>
+            <li><strong>Article status badges</strong> &mdash; Draft/Review/Published badges in article listings</li>
+            <li><strong>Last edited by</strong> &mdash; user attribution on article pages with profile link</li>
+            <li><strong>Editor status bar</strong> &mdash; live word/character/paragraph counts and unsaved changes indicator</li>
+            <li><strong>Insert date button</strong> &mdash; toolbar button to insert current date</li>
+            <li><strong>Collapsible sidebar</strong> &mdash; sidebar sections can be collapsed/expanded</li>
+            <li><strong>Toast notifications</strong> &mdash; app-wide notification system for feedback messages</li>
+            <li><strong>SEO improvements</strong> &mdash; Open Graph tags, JSON-LD, sitemap.xml, robots.txt</li>
+            <li><strong>15 new API endpoints</strong> &mdash; word-count, stats, backlinks, orphans, dead-links, etc.</li>
+            <li><strong>Review queue</strong> &mdash; admin dashboard section for articles needing review</li>
+            <li><strong>Print styles</strong> &mdash; clean print layout for articles (hides navigation UI)</li>
+            <li><strong>Keyboard accessibility</strong> &mdash; focus-visible outlines for keyboard navigation</li>
           </ul>
         </div>
       </div>

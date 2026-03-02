@@ -16,14 +16,14 @@ type Category = {
   children?: Category[];
 };
 
-export default function Sidebar({ categories }: { categories: Category[] }) {
+export default function Sidebar({ categories, articleCount }: { categories: Category[]; articleCount?: number }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const isAdmin = useAdmin();
 
   const navItems = [
     { href: "/", label: "Main Page" },
-    { href: "/articles", label: "All articles" },
+    { href: "/articles", label: articleCount ? `All articles (${articleCount})` : "All articles" },
     { href: "/categories", label: "Categories" },
     { href: "/recent-changes", label: "Recent changes" },
     { href: "/random", label: "Random article" },
@@ -97,6 +97,9 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
           >
             Export
           </SidebarLink>
+          <SidebarLink href="/feed.xml" onClick={() => setMobileOpen(false)}>
+            RSS Feed
+          </SidebarLink>
           <SidebarLink
             href="/admin"
             active={pathname === "/admin"}
@@ -137,9 +140,19 @@ export default function Sidebar({ categories }: { categories: Category[] }) {
           ))}
         </SidebarSection>
 
-        {/* Version label */}
-        <div className="mt-auto px-3 py-2 text-[10px] text-muted text-center">
-          v{process.env.NEXT_PUBLIC_APP_VERSION}
+        {/* Footer links */}
+        <div className="mt-auto border-t border-border">
+          <div className="px-3 py-2 space-y-1">
+            <SidebarLink href="/api-docs" onClick={() => setMobileOpen(false)}>
+              API Docs
+            </SidebarLink>
+            <SidebarLink href="/feed.xml" onClick={() => setMobileOpen(false)}>
+              RSS Feed
+            </SidebarLink>
+          </div>
+          <div className="px-3 py-2 text-[10px] text-muted text-center border-t border-border">
+            v{process.env.NEXT_PUBLIC_APP_VERSION}
+          </div>
         </div>
       </aside>
     </>
@@ -204,17 +217,22 @@ function SidebarCategoryItem({
   );
 }
 
-function SidebarSection({ title, children }: { title: string; children: React.ReactNode }) {
+function SidebarSection({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
     <div className="border-b border-border">
-      <h3
-        className="bg-infobox-header px-3 py-1 text-[11px] font-bold text-foreground uppercase tracking-wider"
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between w-full bg-infobox-header px-3 py-1 text-[11px] font-bold text-foreground uppercase tracking-wider hover:bg-surface-hover transition-colors"
       >
-        {title}
-      </h3>
-      <div className="px-2 py-1">
-        {children}
-      </div>
+        <span>{title}</span>
+        <span className="text-[9px] text-muted">{open ? "\u25BC" : "\u25B6"}</span>
+      </button>
+      {open && (
+        <div className="px-2 py-1">
+          {children}
+        </div>
+      )}
     </div>
   );
 }

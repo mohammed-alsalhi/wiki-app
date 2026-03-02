@@ -2,6 +2,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { config } from "@/lib/config";
+import OnThisDay from "@/components/OnThisDay";
 
 async function getRecentArticles() {
   return prisma.article.findMany({
@@ -295,11 +296,15 @@ export default async function Home() {
             </div>
           </div>
 
+          {/* On this day */}
+          <OnThisDay />
+
           {/* Tip */}
           <div className="wiki-notice text-[12px]">
             <strong>Tip:</strong> Link articles together with{" "}
             <code className="bg-surface-hover px-1 text-[11px]">[[Article Name]]</code>{" "}
             wiki link syntax to build connections across your knowledge base.
+            Press <kbd>?</kbd> to view all keyboard shortcuts.
           </div>
         </div>
       </div>

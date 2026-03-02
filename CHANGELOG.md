@@ -2,6 +2,125 @@
 
 All notable changes to this project are documented here.
 
+## [2.1.0] - 2026-03-02
+
+Improvements across utilities, config, CSS, components, API routes, pages, sidebar, editor, and SEO.
+
+### Utility Functions
+- Added `formatRelativeDate()` for human-readable relative timestamps ("5 minutes ago", "2 days ago")
+- Added `truncateText()` for safe text truncation at word boundaries
+- Added `wordCount()` and `readingTime()` for content statistics
+- Added `stripHtml()` to remove HTML tags and decode entities
+- Added `debounce()` and `throttle()` utility functions
+- Added `copyToClipboard()` async clipboard utility
+- Added `formatFileSize()` for human-readable byte sizes (KB, MB, GB)
+- Added `formatNumber()` for comma-formatted numbers
+- Added `isExternalUrl()` to detect external links
+- Added `generateExcerpt()` for smart excerpt generation at sentence boundaries
+- Added `getInitials()` for user avatar initials
+- Added `pluralize()` for count-aware singular/plural text
+- Added `classNames()` for conditional CSS class joining
+
+### Configuration
+- Added `NEXT_PUBLIC_DEFAULT_LOCALE` config (default: "en")
+- Added `NEXT_PUBLIC_ARTICLES_PER_PAGE` config (default: 20)
+- Added `NEXT_PUBLIC_MAX_UPLOAD_SIZE` config (default: 5MB)
+- Added `NEXT_PUBLIC_ENABLE_REGISTRATION` config (default: true)
+- Added `NEXT_PUBLIC_ENABLE_DISCUSSIONS` config (default: true)
+
+### CSS & Theme
+- Added print styles hiding navigation/UI, expanding content, and showing link URLs
+- Added `:focus-visible` styles for keyboard accessibility
+- Added skeleton loading animations with text, title, and avatar variants
+- Added toast notification styles with slide-up animation and success/error/warning/info variants
+- Added badge/pill styles with semantic color variants and dark mode support
+- Added breadcrumb navigation styles
+- Added tooltip styles with pure CSS hover reveal
+- Added modal/dialog styles with overlay and fade-in animation
+- Added empty state layout styles
+- Added progress bar and reading progress bar styles
+- Added alert/banner styles (info, success, warning, error)
+- Added card hover effect with shadow transition
+- Added `<kbd>` styles for keyboard shortcut display
+- Added tag cloud styles with size variants (lg, md, sm)
+- Added back-to-top button styles with visibility animation
+
+### New Components 
+- Created `Breadcrumb` component with Home link and configurable crumb items
+- Created `Pagination` component with ellipsis, prev/next, and URL builder
+- Created `Toast` notification system with React context provider and auto-dismiss
+- Created `LoadingSkeleton` components: `SkeletonText`, `SkeletonArticleCard`, `SkeletonTable`
+- Created `EmptyState` component with icon, title, description, and action link
+- Created `ConfirmDialog` modal with Escape key, focus management, and danger mode
+- Created `Badge` component with 5 color variants and 2 sizes
+- Created `Tooltip` component with top/bottom positioning
+- Created `ReadingProgress` scroll-based progress bar
+- Created `BackToTop` button appearing after 400px scroll
+- Created `CopyButton` with clipboard API and fallback
+- Created `WordCount` displaying word count and reading time
+- Created `TimeAgo` live-updating relative timestamp component
+- Created `ArticleStatusBadge` mapping status to colored badges
+- Created `UserAvatar` with deterministic color from name hash
+- Created `ShareButton` with Web Share API and clipboard fallback
+- Created `PrintButton` for triggering browser print
+- Created `ScrollSpy` fixed sidebar ToC with IntersectionObserver
+- Created `Collapsible` expandable/collapsible section
+- Created `KeyboardShortcuts` overlay with `?` toggle, `g+*` navigation, `/` search focus
+
+### API Routes
+- Added `GET /api/articles/[id]/word-count` for article word/character/reading time stats
+- Added `GET /api/stats` public endpoint for wiki-wide statistics
+- Added `GET /api/articles/[id]/backlinks` for article backlink queries
+- Added `GET /api/sitemap` generating XML sitemap
+- Added `GET /api/articles/recent` with configurable limit
+- Added `GET /api/categories/tree` returning full nested hierarchy
+- Added `GET /api/tags/popular` sorted by article count
+- Added `GET /api/articles/[id]/related` finding related articles by category/tag overlap
+- Added `GET /api/users` (admin only) for user listing with contribution counts
+- Added `POST/GET /api/articles/[id]/views` for view count tracking via MetricLog
+- Added `PATCH /api/articles/[id]/status` for quick status changes
+- Added `GET /api/articles/orphans` (admin) for articles with no incoming links
+- Added `GET /api/articles/dead-links` (admin) for broken wiki link detection
+- Added `GET /api/articles/[id]/rating` for article rating aggregation
+- Added `GET /api/articles/[id]/export` for single-article Markdown/HTML export
+
+### Page & UX Improvements
+- Added keyboard shortcuts overlay (press `?` anywhere) with navigation and search shortcuts
+- Added word count and reading time display on article pages
+- Added "last edited by" user attribution with link to user profile
+- Added breadcrumb navigation on article pages showing category hierarchy
+- Added Copy Link, Share, and Print buttons on article pages
+- Added back-to-top floating button globally
+- Added reading progress bar at top of article pages
+- Added ArticleStatusBadge inline on article listing page
+- Added OnThisDay section on homepage showing articles created on this date in past years
+- Added keyboard shortcut hint in homepage tip section
+- Updated category description display on category detail pages
+- Created tag cloud page at `/tags` with size-scaled tags
+- Added "Articles needing review" queue on admin page with status badges
+- Integrated ToastProvider in root layout for app-wide toast notifications
+
+### Sidebar & Navigation
+- Made sidebar section headers collapsible with toggle arrows and saved state
+- Added total published article count next to "All articles" in sidebar
+- Added RSS Feed link in sidebar Tools section
+- Added footer links section (API Docs, RSS Feed) at bottom of sidebar
+- Moved version label below footer links with border separator
+
+### Editor Improvements
+- Added word count, character count, and paragraph count status bar below editor
+- Added unsaved changes indicator ("Unsaved changes" / "No changes") in editor status bar
+- Added keyboard shortcuts help button (`?`) to editor toolbar
+- Added "Insert date" button to editor toolbar inserting current date in long format
+
+### SEO & Meta
+- Added Open Graph meta tags for article pages (title, description, image, URL)
+- Added Twitter card meta tags (summary card) for social sharing
+- Added canonical URL meta tags via `alternates.canonical`
+- Added JSON-LD structured data (`schema.org/Article`) with headline, dates, category
+- Created `robots.ts` generating `robots.txt` with crawl rules
+- Created `sitemap.ts` generating dynamic `sitemap.xml` with articles and categories
+
 ## [2.0.0] - 2026-03-02
 
 Complete roadmap implementation — 39 features across 8 phases.

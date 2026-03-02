@@ -224,6 +224,16 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         hidden: () => !editor.isActive("table"),
       },
     ],
+    [
+      {
+        label: "Insert date",
+        icon: "Date",
+        action: () => {
+          const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+          editor.chain().focus().insertContent(date).run();
+        },
+      },
+    ],
   ];
 
   return (
@@ -261,6 +271,14 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
       >
         Detect Links{detectedLinkCount > 0 && ` (${detectedLinkCount})`}
+      </button>
+      <button
+        type="button"
+        onClick={() => alert("Shortcuts:\n\nCtrl+B \u2014 Bold\nCtrl+I \u2014 Italic\nCtrl+Z \u2014 Undo\nCtrl+Y \u2014 Redo\nCtrl+Shift+L \u2014 Wiki Link\nCtrl+Shift+F \u2014 Footnote\n[[…]] \u2014 Auto wiki link")}
+        title="Editor keyboard shortcuts"
+        className="px-1.5 py-0.5 text-[11px] font-medium text-muted hover:bg-surface hover:text-accent transition-colors"
+      >
+        ?
       </button>
     </div>
   );

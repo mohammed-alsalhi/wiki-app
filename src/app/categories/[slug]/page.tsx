@@ -71,7 +71,7 @@ export default async function CategoryPage({ params }: Props) {
         Category: {category.icon} {category.name}
       </h1>
       {category.description && (
-        <p className="text-[13px] text-muted italic mb-2">{category.description}</p>
+        <p className="text-[13px] text-muted mb-3">{category.description}</p>
       )}
       <p className="text-[12px] text-muted mb-3">
         {articles.length} article{articles.length !== 1 ? "s" : ""} in this category

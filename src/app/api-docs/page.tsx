@@ -235,6 +235,63 @@ export default function ApiDocsPage() {
           </ul>
         </section>
 
+        {/* Stats */}
+        <section>
+          <h2
+            className="text-lg font-normal text-heading border-b border-border pb-1 mb-2"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Statistics
+          </h2>
+
+          <h3 className="font-semibold mt-3 mb-1">GET /api/stats</h3>
+          <p className="text-muted mb-2">
+            Get wiki-wide statistics. No authentication required.
+          </p>
+
+          <p className="font-semibold mb-1">Example:</p>
+          <pre className="bg-surface-hover border border-border p-3 text-[12px] font-mono overflow-x-auto whitespace-pre-wrap">
+{`curl "${baseUrl}/api/stats"`}
+          </pre>
+
+          <p className="font-semibold mt-3 mb-1">Response:</p>
+          <pre className="bg-surface-hover border border-border p-3 text-[12px] font-mono overflow-x-auto whitespace-pre-wrap">
+{`{
+  "articles": 42,
+  "categories": 6,
+  "tags": 15,
+  "users": 3,
+  "revisions": 128,
+  "discussions": 24,
+  "recentEditsThisWeek": 12
+}`}
+          </pre>
+        </section>
+
+        {/* Sitemap */}
+        <section>
+          <h2
+            className="text-lg font-normal text-heading border-b border-border pb-1 mb-2"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Sitemap &amp; SEO
+          </h2>
+          <ul className="list-disc pl-6 space-y-1 text-muted">
+            <li>
+              <strong>Sitemap:</strong>{" "}
+              <code className="bg-surface-hover px-1 text-[12px]">/sitemap.xml</code> &mdash; Dynamic sitemap with all articles and categories
+            </li>
+            <li>
+              <strong>Robots:</strong>{" "}
+              <code className="bg-surface-hover px-1 text-[12px]">/robots.txt</code> &mdash; Crawler instructions
+            </li>
+            <li>
+              <strong>API Sitemap:</strong>{" "}
+              <code className="bg-surface-hover px-1 text-[12px]">/api/sitemap</code> &mdash; XML sitemap via API route
+            </li>
+          </ul>
+        </section>
+
         {/* Errors */}
         <section>
           <h2

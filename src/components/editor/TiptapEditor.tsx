@@ -15,7 +15,7 @@ import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
 import LinkBubble from "./LinkBubble";
 import { useWikiLinkSuggester } from "./useWikiLinkSuggester";
-import { useRef, useState, useCallback, useImperativeHandle, forwardRef } from "react";
+import { useRef, useState, useEffect, useCallback, useImperativeHandle, forwardRef } from "react";
 
 export type TiptapEditorHandle = {
   getHTML: () => string;
@@ -33,6 +33,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
     const [markdownMode, setMarkdownMode] = useState(false);
     const [markdownText, setMarkdownText] = useState("");
     const [detectedCount, setDetectedCount] = useState(0);
+    const [hasChanges, setHasChanges] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const lowlight = createLowlight(common);
@@ -150,6 +151,13 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
         },
       },
     });
+
+    useEffect(() => {
+      if (!editor) return;
+      const handler = () => setHasChanges(true);
+      editor.on("update", handler);
+      return () => { editor.off("update", handler); };
+    }, [editor]);
 
     const suggester = useWikiLinkSuggester(editor);
 
@@ -326,6 +334,23 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
           onChange={onFileChange}
           className="hidden"
         />
+
+        {/* Editor status bar */}
+        {!markdownMode && editor && (
+          <div className="flex items-center justify-between border-t border-border bg-surface-hover px-3 py-1 text-[11px] text-muted">
+            <span>
+              {editor.storage.characterCount?.words?.() ??
+                (editor.state.doc.textContent.replace(/\s+/g, " ").trim().split(/\s+/).filter(Boolean).length)} words
+              {" \u00B7 "}
+              {editor.storage.characterCount?.characters?.() ??
+                editor.state.doc.textContent.length} characters
+            </span>
+            <span>{hasChanges ? "Unsaved changes" : "No changes"}</span>
+            <span>
+              {editor.state.doc.content.childCount} paragraphs
+            </span>
+          </div>
+        )}
 
         <WikiLinkSuggester
           active={suggester.active}

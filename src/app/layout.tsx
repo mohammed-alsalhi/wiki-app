@@ -6,6 +6,9 @@ import SearchBar from "@/components/layout/SearchBar";
 import { AdminProvider } from "@/components/AdminContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
+import KeyboardShortcuts from "@/components/KeyboardShortcuts";
+import BackToTop from "@/components/BackToTop";
+import { ToastProvider } from "@/components/Toast";
 import prisma from "@/lib/prisma";
 import { config } from "@/lib/config";
 import { Analytics } from "@vercel/analytics/next";
@@ -50,6 +53,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const categories = await getCategories();
+  const articleCount = await prisma.article.count({ where: { published: true } });
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -66,6 +70,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AdminProvider>
+        <ToastProvider>
           {/* Top banner bar */}
           <header className="bg-surface border-b border-border">
             <div className="flex items-center justify-between pl-4 pr-6 py-1.5">
@@ -82,7 +87,7 @@ export default async function RootLayout({
 
           <div className="flex min-h-[calc(100vh-40px)]">
             {/* Sidebar */}
-            <Sidebar categories={categories} />
+            <Sidebar categories={categories} articleCount={articleCount} />
 
             {/* Content area */}
             <div className="flex-1 min-w-0 bg-surface border-l border-border">
@@ -94,6 +99,9 @@ export default async function RootLayout({
               </footer>
             </div>
           </div>
+        <KeyboardShortcuts />
+        <BackToTop />
+        </ToastProvider>
         </AdminProvider>
         <Analytics />
       </body>
