@@ -13,6 +13,10 @@ export const DEFAULT_PREFERENCES = {
   locale: "en",
   articlesPerPage: 20,
   showReadingProgress: true,
+  // v4.1: Daily digest
+  digestEnabled: false,
+  digestTime: "08:00",
+  digestTimezone: "UTC",
 };
 
 export type UserPreferences = typeof DEFAULT_PREFERENCES;

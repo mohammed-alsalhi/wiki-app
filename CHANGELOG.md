@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented here.
 
+## [4.1.0] - 2026-03-03
+
+### Learning & Retention
+
+- Added `LearningPath`, `LearningPathArticle`, `LearningPathProgress`, `Flashcard`, `QuizAttempt`, `ArticleRead` Prisma models
+- Added `src/lib/sm2.ts` — SM-2 spaced repetition algorithm with interval/ease-factor/repetition tracking
+- Added `src/lib/readability.ts` — re-exports from writing-coach for easy import
+- Added `GET|POST /api/learning-paths`, `GET|PUT|DELETE /api/learning-paths/[id]`, `GET|POST /api/learning-paths/[id]/progress`
+- Added `GET|POST /api/flashcards`, `POST /api/flashcards/[id]/review` (SM-2 grade application)
+- Added `GET /api/ai/quiz?articleId=` — Claude Haiku generates 5 MCQs from article
+- Added `POST /api/quiz-attempts`, `GET /api/quiz-attempts` — persist and retrieve quiz attempt results
+- Added `POST|GET /api/reading-progress` — mark articles as read; reading stats per category
+- Added `POST /api/digest` — cron-triggerable daily digest mailer via nodemailer (gated on `SMTP_HOST`)
+- Added `/learning-paths` browse page with enroll buttons
+- Added `/learning-paths/[id]` path detail with progress bar
+- Added `/learning-paths/new` path creation form
+- Added `/flashcards` spaced-repetition review UI with SM-2 grade buttons (0–5)
+- Added `ArticleComplexityBadge` component — reading time + grade level badge
+- Added `ReadingProgressRing` component — SVG progress ring for category pages
+- Modified `src/lib/preferences.ts` — added `digestEnabled`, `digestTime`, `digestTimezone` defaults
+- Installed `nodemailer` and `@types/nodemailer`
+
 ## [4.0.0] - 2026-03-03
 
 ### AI Intelligence Layer

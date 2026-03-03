@@ -137,12 +137,12 @@ This document outlines planned features and improvements for Wiki App. Contribut
 
 ### Learning & Retention
 
-- [ ] **Learning paths** — editors curate ordered sequences of articles into named tracks (e.g. "Onboarding", "Advanced Topic"); readers see progress through a path
-- [ ] **Spaced-repetition flashcards** — highlight any passage and add it to a personal flashcard deck; the app surfaces cards on an Anki-style schedule via email or push notification
-- [ ] **"Quiz me on this"** — AI generates multiple-choice and short-answer questions from any article for self-testing; scores are logged to the user profile
-- [ ] **Personal reading progress** — track which articles you have read per category; show a % completion ring on category pages
-- [ ] **Article complexity score** — Flesch-Kincaid readability, median sentence length, jargon density, and section-by-section estimated reading time shown alongside each article
-- [ ] **Daily digest** — morning email/push notification summarising articles on your watchlist that changed in the past 24 hours, with a bullet-point diff
+- [x] **Learning paths** — editors curate ordered sequences of articles into named tracks (e.g. "Onboarding", "Advanced Topic"); readers see progress through a path
+- [x] **Spaced-repetition flashcards** — highlight any passage and add it to a personal flashcard deck; the app surfaces cards on an Anki-style schedule via email or push notification
+- [x] **"Quiz me on this"** — AI generates multiple-choice and short-answer questions from any article for self-testing; scores are logged to the user profile
+- [x] **Personal reading progress** — track which articles you have read per category; show a % completion ring on category pages
+- [x] **Article complexity score** — Flesch-Kincaid readability, median sentence length, jargon density, and section-by-section estimated reading time shown alongside each article
+- [x] **Daily digest** — morning email/push notification summarising articles on your watchlist that changed in the past 24 hours, with a bullet-point diff
 
 ### Rich Content Blocks
 

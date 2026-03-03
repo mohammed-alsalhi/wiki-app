@@ -52,6 +52,12 @@ model Article {
 
   embedding        ArticleEmbedding?
 
+  // v4.1 additions
+  learningPaths    LearningPathArticle[]
+  flashcards       Flashcard[]
+  quizAttempts     QuizAttempt[]
+  reads            ArticleRead[]
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -195,6 +201,13 @@ model User {
   themeConfigs     ThemeConfig[]
   ownedWikis       Wiki[]
   wikiMemberships  WikiMembership[]
+
+  // v4.1 additions
+  learningPaths    LearningPath[]
+  learningProgress LearningPathProgress[]
+  flashcards       Flashcard[]
+  quizAttempts     QuizAttempt[]
+  articleReads     ArticleRead[]
 
   createdAt    DateTime  @default(now())
 
@@ -547,6 +560,90 @@ model WikiMembership {
 
   @@unique([wikiId, userId])
   @@index([wikiId])
+  @@index([userId])
+}
+
+// ── v4.1: Learning & Retention ──
+model LearningPath {
+  id          String                @id @default(cuid())
+  name        String
+  description String?               @db.Text
+  authorId    String?
+  isPublic    Boolean               @default(true)
+  articles    LearningPathArticle[]
+  progress    LearningPathProgress[]
+  createdAt   DateTime              @default(now())
+  author      User?                 @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+}
+
+model LearningPathArticle {
+  id        String       @id @default(cuid())
+  pathId    String
+  articleId String
+  order     Int
+  path      LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  article   Article      @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([pathId, articleId])
+  @@index([pathId])
+}
+
+model LearningPathProgress {
+  id                  String       @id @default(cuid())
+  userId              String
+  pathId              String
+  completedArticleIds String[]
+  updatedAt           DateTime     @updatedAt
+  path                LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pathId])
+  @@index([userId])
+}
+
+model Flashcard {
+  id          String   @id @default(cuid())
+  userId      String
+  articleId   String?
+  front       String   @db.Text
+  back        String   @db.Text
+  nextDue     DateTime @default(now())
+  interval    Int      @default(1)
+  easeFactor  Float    @default(2.5)
+  repetitions Int      @default(0)
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article     Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)
+
+  @@index([userId, nextDue])
+}
+
+model QuizAttempt {
+  id             String   @id @default(cuid())
+  userId         String
+  articleId      String
+  score          Int
+  totalQuestions Int
+  answers        Json
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article        Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([articleId])
+}
+
+model ArticleRead {
+  id        String   @id @default(cuid())
+  userId    String
+  articleId String
+  readAt    DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
   @@index([userId])
 }
 
