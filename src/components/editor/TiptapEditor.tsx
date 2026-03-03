@@ -17,10 +17,15 @@ import { SlashCommandExtension, type SlashCommandItem } from "./SlashCommandExte
 import SlashCommandMenu, { type SlashCommandMenuRef } from "./SlashCommandMenu";
 import { CollapsibleBlock } from "./CollapsibleBlockExtension";
 import { InlineComment } from "./InlineCommentExtension";
+import { MermaidBlock } from "./MermaidExtension";
+import { InlineMath, BlockMath } from "./KaTeXExtension";
+import { DataTable } from "./DataTableExtension";
+import { DecisionTree } from "./DecisionTreeExtension";
 import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
 import LinkBubble from "./LinkBubble";
 import WritingCoachPanel from "./WritingCoachPanel";
+import VoiceDictationButton from "./VoiceDictationButton";
 import { useWikiLinkSuggester } from "./useWikiLinkSuggester";
 import { useRef, useState, useEffect, useCallback, useImperativeHandle, forwardRef } from "react";
 
@@ -129,6 +134,11 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             },
           },
         }),
+        MermaidBlock,
+        InlineMath,
+        BlockMath,
+        DataTable,
+        DecisionTree,
       ],
       content,
       editorProps: {

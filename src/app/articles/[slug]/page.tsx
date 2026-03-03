@@ -17,6 +17,7 @@ import PrintButton from "@/components/PrintButton";
 import BackToTop from "@/components/BackToTop";
 import ReadingProgress from "@/components/ReadingProgress";
 import Breadcrumb from "@/components/Breadcrumb";
+import { renderSpecialBlocks } from "@/lib/renderSpecialBlocks";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -163,6 +164,13 @@ export default async function ArticlePage({ params }: Props) {
             <span className="ml-2"><WordCount html={article.content} /></span>
           </div>
           <div className="flex items-center gap-1">
+            <Link
+              href={`/present/${article.slug}`}
+              className="px-2 py-0.5 text-[11px] border border-border rounded hover:bg-surface transition-colors"
+              title="Present this article as a slideshow"
+            >
+              Present
+            </Link>
             <CopyButton text={`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articles/${article.slug}`} label="Copy link" />
             <ShareButton title={article.title} />
             <PrintButton />
@@ -212,10 +220,7 @@ export default async function ArticlePage({ params }: Props) {
         <TableOfContents html={resolvedContent} />
 
         {/* Article content */}
-        <div
-          className="wiki-content"
-          dangerouslySetInnerHTML={{ __html: addHeadingIds(appendFootnoteSection(resolvedContent)) }}
-        />
+        {renderSpecialBlocks(addHeadingIds(appendFootnoteSection(resolvedContent)))}
 
         {/* Clear float from infobox */}
         <div className="clear-both" />

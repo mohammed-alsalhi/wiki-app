@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented here.
 
+## [4.2.0] - 2026-03-03
+
+### Rich Content Blocks
+
+- Added `MermaidExtension` Tiptap extension — renders ` ```mermaid ``` ` code blocks as `data-mermaid` placeholders; client-side `MermaidBlock` calls `mermaid.render()` on mount
+- Added `KaTeXExtension` — `InlineMath` Mark (`$...$`) and `BlockMath` Node (`$$...$$`) store raw LaTeX; client `KaTeXBlock` renders via `katex.render()`
+- Added `DataTableExtension` — paste CSV/JSON into a block stored as base64 `data-table`; client `DataTable` provides sortable/filterable table with CSV download
+- Added `DecisionTreeExtension` — branching yes/no tree stored as JSON; `DecisionTreeDisplay` renders recursive expand/collapse tree
+- Added `VoiceDictationButton` — Web Speech API dictation at cursor; hidden when browser lacks support
+- Added `/present/[slug]` page — Reveal.js-style slideshow splitting article by headings; keyboard nav, dot indicators, exit link
+- Added `GET /api/articles/[id]/present` — parses article HTML into slide array
+- Added `src/lib/renderSpecialBlocks.tsx` — replaces special block HTML with lazy-loaded React client components
+- Modified `TiptapEditor` — registered MermaidBlock, InlineMath, BlockMath, DataTable, DecisionTree extensions
+- Modified `EditorToolbar` — added Σ (KaTeX) button and VoiceDictationButton
+- Modified `SlashCommandExtension` — added Mermaid Diagram, Math (KaTeX), Data Table, Decision Tree slash commands
+- Modified article display page — renders special blocks via `renderSpecialBlocks`; added "Present" button
+- Installed `mermaid`, `katex`, `reveal.js`, `@types/katex`
+
 ## [4.1.0] - 2026-03-03
 
 ### Learning & Retention

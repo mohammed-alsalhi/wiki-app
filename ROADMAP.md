@@ -146,13 +146,13 @@ This document outlines planned features and improvements for Wiki App. Contribut
 
 ### Rich Content Blocks
 
-- [ ] **Mermaid diagrams** — fenced ` ```mermaid ``` ` blocks render flowcharts, sequence diagrams, ER diagrams, and Gantt charts inline; editable in a split-pane code+preview
+- [x] **Mermaid diagrams** — fenced ` ```mermaid ``` ` blocks render flowcharts, sequence diagrams, ER diagrams, and Gantt charts inline; editable in a split-pane code+preview
 - [ ] **Excalidraw whiteboards** — embed a live Excalidraw canvas inside any article; the SVG is stored in object storage and updated on save
-- [ ] **KaTeX math** — `$inline$` and `$$block$$` LaTeX math rendering with copy-as-LaTeX support
-- [ ] **Interactive data tables** — paste a CSV or JSON array into a special block; readers get a sortable, filterable, searchable table with optional chart toggle
-- [ ] **Decision tree blocks** — a branching-logic tree editor (condition → yes/no branches) rendered as an interactive flowchart; useful for troubleshooting guides
-- [ ] **Voice dictation** — microphone button in the toolbar triggers Web Speech API dictation directly into the cursor position
-- [ ] **"Present" mode** — one click converts any article's headings and content blocks into a Reveal.js slideshow; sharable via a `/present/slug` URL
+- [x] **KaTeX math** — `$inline$` and `$$block$$` LaTeX math rendering with copy-as-LaTeX support
+- [x] **Interactive data tables** — paste a CSV or JSON array into a special block; readers get a sortable, filterable, searchable table with optional chart toggle
+- [x] **Decision tree blocks** — a branching-logic tree editor (condition → yes/no branches) rendered as an interactive flowchart; useful for troubleshooting guides
+- [x] **Voice dictation** — microphone button in the toolbar triggers Web Speech API dictation directly into the cursor position
+- [x] **"Present" mode** — one click converts any article's headings and content blocks into a Reveal.js slideshow; sharable via a `/present/slug` URL
 
 ### Discovery & Navigation
 

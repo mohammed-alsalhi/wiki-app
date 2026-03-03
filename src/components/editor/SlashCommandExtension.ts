@@ -115,6 +115,34 @@ export function getSuggestionItems({ query }: { query: string }): SlashCommandIt
           .run();
       },
     },
+    {
+      title: "Mermaid Diagram",
+      description: "Flowchart, sequence diagram, or Gantt chart",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).insertMermaidBlock().run();
+      },
+    },
+    {
+      title: "Math (KaTeX)",
+      description: "LaTeX block math equation",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).insertBlockMath().run();
+      },
+    },
+    {
+      title: "Data Table",
+      description: "Sortable/filterable table from CSV or JSON",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).insertDataTable().run();
+      },
+    },
+    {
+      title: "Decision Tree",
+      description: "Interactive branching decision flowchart",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).insertDecisionTree().run();
+      },
+    },
   ];
 
   if (!query) return items;

@@ -1,6 +1,7 @@
 "use client";
 
 import type { Editor } from "@tiptap/react";
+import VoiceDictationButton from "./VoiceDictationButton";
 
 type Props = {
   editor: Editor | null;
@@ -234,6 +235,14 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         },
       },
     ],
+    [
+      {
+        label: "Insert math formula (KaTeX)",
+        icon: "Σ",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        action: () => (editor.chain().focus() as any).insertBlockMath().run(),
+      },
+    ],
   ];
 
   return (
@@ -280,6 +289,7 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
       >
         ?
       </button>
+      <VoiceDictationButton editor={editor} />
     </div>
   );
 }
