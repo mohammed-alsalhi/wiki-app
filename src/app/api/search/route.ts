@@ -132,6 +132,11 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // Log zero-result queries for the search gap dashboard
+  if (results.length === 0 && semanticResults.length === 0) {
+    prisma.metricLog.create({ data: { type: "search_no_results", path: query, duration: 0 } }).catch(() => {});
+  }
+
   return NextResponse.json({ results, semanticResults, suggestions });
 }
 

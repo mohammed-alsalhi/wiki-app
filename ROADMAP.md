@@ -184,12 +184,12 @@ This document outlines planned features and improvements for Wiki App. Contribut
 
 ### Analytics & Health
 
-- [ ] **Per-article scroll-depth heatmap** — aggregate scroll positions from readers to show which sections actually get read vs. where people drop off
-- [ ] **Search gap dashboard** — admin view of the most-searched queries that returned zero results, sorted by frequency; each row has a "create article" shortcut
-- [ ] **Staleness score** — articles not updated in N months (configurable) get a freshness badge; a report sorts by staleness × view-count to prioritise what needs updating
-- [ ] **Contributor achievements** — automated badges: First Edit, 100 Edits, Category Expert (top editor in a category), Streak (7/30/90 days of consecutive edits), etc.
-- [ ] **Reader path analysis** — after reading article X, where do readers go next? Logged as events and surfaced as a "readers also visited" panel and a Sankey diagram in analytics
-- [ ] **Wiki health score** — a composite dashboard metric: link coverage, average freshness, stub ratio, search gap ratio, and accessibility audit pass rate; shown as a score card on the admin home
+- [x] **Per-article scroll-depth heatmap** — aggregate scroll positions from readers to show which sections actually get read vs. where people drop off
+- [x] **Search gap dashboard** — admin view of the most-searched queries that returned zero results, sorted by frequency; each row has a "create article" shortcut
+- [x] **Staleness score** — articles not updated in N months (configurable) get a freshness badge; a report sorts by staleness × view-count to prioritise what needs updating
+- [x] **Contributor achievements** — automated badges: First Edit, 100 Edits, Category Expert (top editor in a category), Streak (7/30/90 days of consecutive edits), etc.
+- [x] **Reader path analysis** — after reading article X, where do readers go next? Logged as events and surfaced as a "readers also visited" panel and a Sankey diagram in analytics
+- [x] **Wiki health score** — a composite dashboard metric: link coverage, average freshness, stub ratio, search gap ratio, and accessibility audit pass rate; shown as a score card on the admin home
 
 ### Accessibility & Internationalisation
 

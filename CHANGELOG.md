@@ -2,6 +2,29 @@
 
 All notable changes to this project are documented here.
 
+## [4.6.0] - 2026-03-03
+
+### Analytics & Health
+
+- Added `ScrollDepthLog` model — tracks max scroll depth per session per article
+- Added `ReaderPathEvent` model — logs article-to-article navigation for path analysis
+- Added `ContributorAchievement` model — automated badge awards for edit milestones and streaks
+- Added `/api/analytics/scroll` — POST to log scroll depth, GET to retrieve bucketed heatmap data
+- Added `/api/analytics/paths` — POST to log navigation events, GET top next-pages for a given article
+- Added `/api/analytics/search-gaps` — aggregates zero-result search queries from MetricLog
+- Added `/api/analytics/staleness` — lists published articles not updated in N days (default 180)
+- Added `/api/achievements` — GET user's achievements, POST to trigger check for a userId
+- Added `src/lib/achievements.ts` — `checkAndAwardAchievements(userId)` with SM-2 streak detection
+- Added `ScrollDepthTracker` client component — IntersectionObserver-based, debounced POST
+- Added `ReaderPathTracker` client component — logs article navigation via sessionStorage
+- Added `/admin/analytics` page — overview: avg scroll depth, top navigation paths, search gap count
+- Added `/admin/search-gaps` page — zero-result queries table with "Create article" shortcuts
+- Added `/admin/staleness` page — stale articles sorted oldest first with inline Edit links
+- Added `/admin/health` page — wiki health score card with grade (A–F) and metric breakdown
+- Wired `checkAndAwardAchievements` into article PUT route (fire-and-forget)
+- Updated search route to log zero-result queries as `MetricLog` entries
+- Bumped version 4.5.0 → 4.6.0
+
 ## [4.5.0] - 2026-03-03
 
 ### Integrations & Export

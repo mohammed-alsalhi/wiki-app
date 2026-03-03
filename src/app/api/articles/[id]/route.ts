@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/utils";
 import { isAdmin, requireAdmin, getSession } from "@/lib/auth";
+import { checkAndAwardAchievements } from "@/lib/achievements";
 
 export async function GET(
   _request: NextRequest,
@@ -128,6 +129,10 @@ export async function PUT(
   if (article.category?.slug) {
     revalidatePath(`/categories/${article.category.slug}`);
   }
+
+  // Fire-and-forget achievement check
+  const session = await getSession();
+  if (session?.id) checkAndAwardAchievements(session.id).catch(() => {});
 
   return NextResponse.json(article);
 }

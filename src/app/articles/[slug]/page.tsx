@@ -25,6 +25,8 @@ import ArticleReactionBar from "@/components/ArticleReactionBar";
 import CertifiedBadge from "@/components/CertifiedBadge";
 import IssueLinkBadge from "@/components/IssueLinkBadge";
 import ArticleExportMenu from "@/components/ArticleExportMenu";
+import ScrollDepthTracker from "@/components/ScrollDepthTracker";
+import ReaderPathTracker from "@/components/ReaderPathTracker";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -310,6 +312,8 @@ export default async function ArticlePage({ params }: Props) {
         )}
 
         <SessionReadingTrail slug={article.slug} title={article.title} />
+        <ScrollDepthTracker articleId={article.id} />
+        <ReaderPathTracker currentSlug={article.slug} />
         <BackToTop />
         <ReadingProgress />
       </div>
