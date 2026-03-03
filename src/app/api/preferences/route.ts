@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { DEFAULT_PREFERENCES, mergePreferences } from "@/lib/preferences";
@@ -74,10 +75,10 @@ export async function PUT(request: NextRequest) {
       where: { userId: session.id },
       create: {
         userId: session.id,
-        data: merged,
+        data: merged as Prisma.InputJsonValue,
       },
       update: {
-        data: merged,
+        data: merged as Prisma.InputJsonValue,
       },
     });
 

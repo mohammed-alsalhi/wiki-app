@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## [3.0.1] - 2026-03-03
+
+### Fixed
+- Fixed TypeScript build error in `/api/preferences/route.ts` — cast `merged` to `Prisma.InputJsonValue` to satisfy Prisma's JSON field type constraint
+
 ## [3.0.0] - 2026-03-03
 
 Complete implementation of all roadmap features — 40 items across 10 phases.
