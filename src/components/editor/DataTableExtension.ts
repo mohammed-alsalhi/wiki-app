@@ -1,5 +1,11 @@
 import { Node } from "@tiptap/core";
 
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    dataTable: { insertDataTable: () => ReturnType };
+  }
+}
+
 /**
  * DataTableExtension — block node that stores CSV/JSON source.
  * Renders as <div data-table="..."> in HTML (base64-encoded source).

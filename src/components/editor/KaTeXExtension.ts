@@ -1,5 +1,11 @@
 import { Node, Mark } from "@tiptap/core";
 
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    blockMath: { insertBlockMath: () => ReturnType };
+  }
+}
+
 /**
  * KaTeX inline math: $...$
  * Stores raw LaTeX in attr and renders as <span data-katex-inline="...">

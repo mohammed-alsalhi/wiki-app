@@ -12,7 +12,7 @@ export async function DELETE(_req: Request, { params }: Params) {
   const post = await prisma.tILPost.findUnique({ where: { id } });
   if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (post.userId !== user.id && !isAdmin(user)) {
+  if (post.userId !== user.id && !await isAdmin()) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

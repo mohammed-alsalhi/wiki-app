@@ -1,5 +1,11 @@
 import { Node } from "@tiptap/core";
 
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    decisionTree: { insertDecisionTree: () => ReturnType };
+  }
+}
+
 export interface DecisionTreeNode {
   label: string;
   yes?: DecisionTreeNode;

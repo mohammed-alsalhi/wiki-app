@@ -166,12 +166,12 @@ This document outlines planned features and improvements for Wiki App. Contribut
 
 ### Collaboration 2.0
 
-- [ ] **Expert badges per category** — admins designate domain experts; their byline is highlighted on articles and their edits are marked "expert reviewed" in history
-- [ ] **Knowledge bounties** — any user can request an article on a specific topic; editors can claim and fulfill the request; requester is notified and the bounty is linked from the new article
-- [ ] **Article forking** — branch a complete rewrite as a personal draft without touching the live article; propose a merge when ready; diff is shown to admins before accepting
+- [x] **Expert badges per category** — admins designate domain experts; their byline is highlighted on articles and their edits are marked "expert reviewed" in history
+- [x] **Knowledge bounties** — any user can request an article on a specific topic; editors can claim and fulfill the request; requester is notified and the bounty is linked from the new article
+- [x] **Article forking** — branch a complete rewrite as a personal draft without touching the live article; propose a merge when ready; diff is shown to admins before accepting
 - [ ] **@mentions in discussions** — `@username` in article discussion comments triggers an in-app and optional email notification to that user
-- [ ] **Peer-review certification** — after two or more expert reviewers approve an article, it receives a "Verified" badge visible on the article header and in search results
-- [ ] **"This helped me" signal** — a thumbs-up / reaction strip at the foot of every article; aggregate score and top reaction shown on article cards and in analytics
+- [x] **Peer-review certification** — after two or more expert reviewers approve an article, it receives a "Verified" badge visible on the article header and in search results
+- [x] **"This helped me" signal** — a thumbs-up / reaction strip at the foot of every article; aggregate score and top reaction shown on article cards and in analytics
 
 ### Integrations & Import/Export
 

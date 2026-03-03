@@ -2,6 +2,35 @@
 
 All notable changes to this project are documented here.
 
+## [4.4.0] - 2026-03-03
+
+### Build Fixes (v4.2.0 regression)
+
+- Fixed `ssr: false` not allowed in Server Components: replaced `src/lib/renderSpecialBlocks.tsx` with `SpecialBlocksRenderer` client component
+- Fixed Tiptap custom commands type errors: added `declare module "@tiptap/core"` augmentations to MermaidExtension, KaTeXExtension, DataTableExtension, DecisionTreeExtension
+- Fixed `VoiceDictationButton` `SpeechRecognitionEvent` type not found: replaced with inline interface
+- Fixed `DataTable` `sourceType` required prop: made optional with `"csv"` default
+- Fixed digest route: removed invalid `where` clause inside relation `include`; filter applied post-query
+
+### Collaboration 2.0
+
+- Added `ExpertBadge` model — admins designate domain experts per category; badge highlighted on article bylines
+- Added `KnowledgeBounty` model — users request articles; editors claim/fulfill; linked from fulfilled article
+- Added `ArticleFork` model — branch a full article rewrite; propose merge when ready; admin accept/reject with diff
+- Added `ArticleReaction` model — helpful/insightful/outdated/confusing reaction strip per article
+- Added `certified` + `certifiedAt` fields to `Article` — set after ≥2 expert review approvals
+- Added `GET|POST /api/expert-badges`, `DELETE /api/expert-badges/[id]` — admin grants/revokes expert badges
+- Added `GET|POST /api/bounties`, `GET|PUT /api/bounties/[id]` — bounty lifecycle (open→claimed→fulfilled→closed)
+- Added `GET|POST /api/articles/[id]/fork`, `GET|PUT|POST /api/forks/[id]` — fork CRUD + admin merge/reject
+- Added `GET|POST /api/articles/[id]/react` — reaction counts and voting
+- Added `POST /api/articles/[id]/certify` — verifies ≥2 approved reviews, sets certified flag
+- Added `/bounties` page — list open/claimed/fulfilled bounties + request form
+- Added `/forks` admin page — proposed forks with merge/reject buttons
+- Added `ArticleReactionBar` client component — emoji reaction strip with live counts
+- Added `CertifiedBadge` component — "✓ Verified" badge shown in article header
+- Modified article page — added `ArticleReactionBar`, `CertifiedBadge`, "Fork this article" link
+- Added `SpecialBlocksRenderer` client component to handle special block rendering safely
+
 ## [4.3.0] - 2026-03-03
 
 ### Discovery & Navigation

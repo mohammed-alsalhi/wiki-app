@@ -57,12 +57,13 @@ export async function POST(request: Request) {
       include: {
         article: {
           select: { id: true, title: true, slug: true, excerpt: true, updatedAt: true },
-          where: { updatedAt: { gte: since } },
         },
       },
     });
 
-    const updatedArticles = watchlist.map((w) => w.article).filter(Boolean);
+    const updatedArticles = watchlist
+      .map((w) => w.article)
+      .filter((a) => a && a.updatedAt >= since);
     if (updatedArticles.length === 0) continue;
 
     const lines = updatedArticles

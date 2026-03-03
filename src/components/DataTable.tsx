@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 interface Props {
   source: string;
-  sourceType: "csv" | "json";
+  sourceType?: "csv" | "json";
 }
 
 function parseCSV(csv: string): { headers: string[]; rows: string[][] } {
@@ -29,7 +29,7 @@ function parseJSON(json: string): { headers: string[]; rows: string[][] } {
   }
 }
 
-export default function DataTable({ source, sourceType }: Props) {
+export default function DataTable({ source, sourceType = "csv" }: Props) {
   const [sortCol, setSortCol] = useState<number | null>(null);
   const [sortAsc, setSortAsc] = useState(true);
   const [filter, setFilter] = useState("");

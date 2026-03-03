@@ -17,10 +17,12 @@ import PrintButton from "@/components/PrintButton";
 import BackToTop from "@/components/BackToTop";
 import ReadingProgress from "@/components/ReadingProgress";
 import Breadcrumb from "@/components/Breadcrumb";
-import { renderSpecialBlocks } from "@/lib/renderSpecialBlocks";
+import SpecialBlocksRenderer from "@/components/SpecialBlocksRenderer";
 import SessionReadingTrail from "@/components/SessionReadingTrail";
 import BookmarkButton from "@/components/BookmarkButton";
 import AddToReadingList from "@/components/AddToReadingList";
+import ArticleReactionBar from "@/components/ArticleReactionBar";
+import CertifiedBadge from "@/components/CertifiedBadge";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -150,12 +152,17 @@ export default async function ArticlePage({ params }: Props) {
         ]} />
 
         {/* Article title */}
-        <h1
-          className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-0.5"
-          style={{ fontFamily: "var(--font-serif)" }}
-        >
-          {article.title}
-        </h1>
+        <div className="flex items-start gap-2 border-b border-border pb-1 mb-0.5">
+          <h1
+            className="text-[1.7rem] font-normal text-heading flex-1"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            {article.title}
+          </h1>
+          <div className="flex items-center gap-2 mt-2 shrink-0">
+            <CertifiedBadge certifiedAt={article.certifiedAt} />
+          </div>
+        </div>
 
         {/* From World Wiki line + export buttons */}
         <div className="flex items-center justify-between mb-3">
@@ -225,7 +232,7 @@ export default async function ArticlePage({ params }: Props) {
         <TableOfContents html={resolvedContent} />
 
         {/* Article content */}
-        {renderSpecialBlocks(addHeadingIds(appendFootnoteSection(resolvedContent)))}
+        <SpecialBlocksRenderer html={addHeadingIds(appendFootnoteSection(resolvedContent))} />
 
         {/* Clear float from infobox */}
         <div className="clear-both" />
@@ -251,6 +258,21 @@ export default async function ArticlePage({ params }: Props) {
               ))}
             </>
           )}
+        </div>
+
+        {/* Reaction bar */}
+        <ArticleReactionBar articleId={article.id} />
+
+        {/* Fork this article */}
+        <div className="mt-3 text-right">
+          <Link
+            href={`/api/articles/${article.id}/fork`}
+            className="text-[11px] text-muted hover:text-wiki-link transition-colors"
+            title="Fork this article to propose a complete rewrite"
+            prefetch={false}
+          >
+            Fork this article
+          </Link>
         </div>
 
         {/* Related articles */}

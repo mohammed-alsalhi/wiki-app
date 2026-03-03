@@ -1,5 +1,11 @@
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    mermaidBlock: { insertMermaidBlock: () => ReturnType };
+  }
+}
+
 /**
  * MermaidExtension — a CodeBlockLowlight variant that sets language to "mermaid"
  * and adds a data-mermaid attribute for client-side rendering on display.

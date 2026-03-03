@@ -7,10 +7,28 @@ interface Props {
   editor: Editor | null;
 }
 
+interface SpeechRecognitionResultItem {
+  transcript: string;
+}
+interface SpeechRecognitionResultList {
+  0: { 0: SpeechRecognitionResultItem };
+}
+interface SpeechRecognitionResult {
+  results: SpeechRecognitionResultList;
+}
+interface SpeechRecognitionLike extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  onresult: ((event: SpeechRecognitionResult) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start(): void;
+}
+
 declare global {
   interface Window {
-    SpeechRecognition?: new () => SpeechRecognition;
-    webkitSpeechRecognition?: new () => SpeechRecognition;
+    SpeechRecognition?: new () => SpeechRecognitionLike;
+    webkitSpeechRecognition?: new () => SpeechRecognitionLike;
   }
 }
 
@@ -34,7 +52,7 @@ export default function VoiceDictationButton({ editor }: Props) {
     recognition.continuous = false;
     recognition.interimResults = false;
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
+    recognition.onresult = (event: SpeechRecognitionResult) => {
       const transcript = event.results[0][0].transcript;
       editor.chain().focus().insertContent(transcript + " ").run();
     };

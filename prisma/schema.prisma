@@ -63,6 +63,13 @@ model Article {
   readingListItems ReadingListItem[]
   tilPosts         TILPost[]
 
+  // v4.4 additions
+  certified        Boolean  @default(false)
+  certifiedAt      DateTime?
+  forks            ArticleFork[]
+  reactions        ArticleReaction[]
+  bounties         KnowledgeBounty[]
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -80,11 +87,12 @@ model Category {
   description String?
   icon        String?
   sortOrder   Int        @default(0)
-  parentId    String?
-  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
-  children    Category[] @relation("CategoryTree")
-  articles    Article[]
-  createdAt   DateTime   @default(now())
+  parentId     String?
+  parent       Category?   @relation("CategoryTree", fields: [parentId], references: [id])
+  children     Category[]  @relation("CategoryTree")
+  articles     Article[]
+  expertBadges ExpertBadge[]
+  createdAt    DateTime    @default(now())
 
   @@index([parentId])
 }
@@ -219,6 +227,13 @@ model User {
   bookmarks        Bookmark[]
   readingLists     ReadingList[]
   tilPosts         TILPost[]
+
+  // v4.4 additions
+  expertBadges     ExpertBadge[]
+  bountiesRequested KnowledgeBounty[] @relation("BountiesRequested")
+  bountiesClaimed  KnowledgeBounty[] @relation("BountiesClaimed")
+  forks            ArticleFork[]
+  reactions        ArticleReaction[]
 
   createdAt    DateTime  @default(now())
 
@@ -750,4 +765,71 @@ model TILPost {
 
   @@index([createdAt])
   @@index([userId])
+}
+
+// ── v4.4: Collaboration 2.0 ──
+
+model ExpertBadge {
+  id         String   @id @default(cuid())
+  userId     String
+  categoryId String
+  grantedBy  String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId])
+  @@index([categoryId])
+}
+
+model KnowledgeBounty {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  requesterId String
+  claimedBy   String?
+  articleId   String?
+  status      String   @default("open")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  requester   User     @relation("BountiesRequested", fields: [requesterId], references: [id])
+  claimer     User?    @relation("BountiesClaimed", fields: [claimedBy], references: [id])
+  article     Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([requesterId])
+}
+
+model ArticleFork {
+  id                String   @id @default(cuid())
+  originalArticleId String
+  authorId          String
+  title             String
+  content           String   @db.Text
+  contentRaw        String?  @db.Text
+  message           String?
+  status            String   @default("draft")
+  reviewNote        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  original          Article  @relation(fields: [originalArticleId], references: [id], onDelete: Cascade)
+  author            User     @relation(fields: [authorId], references: [id])
+
+  @@index([originalArticleId])
+  @@index([authorId])
+  @@index([status])
+}
+
+model ArticleReaction {
+  id        String   @id @default(cuid())
+  articleId String
+  userId    String?
+  sessionId String?
+  reaction  String
+  createdAt DateTime @default(now())
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([articleId, userId])
+  @@index([articleId])
 }
