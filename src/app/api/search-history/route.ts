@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
     data: {
       userId: user.id,
       query: query.trim(),
-      filters: filters ?? undefined,
+      filters: (filters ?? undefined) as Prisma.InputJsonValue | undefined,
     },
     select: {
       id: true,

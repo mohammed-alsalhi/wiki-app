@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## [3.0.2] - 2026-03-03
+
+### Fixed
+- Fixed TypeScript build errors in `/api/saved-searches/route.ts` and `/api/search-history/route.ts` — cast `filters` to `Prisma.InputJsonValue | undefined` for Prisma JSON field compatibility
+
 ## [3.0.1] - 2026-03-03
 
 ### Fixed
