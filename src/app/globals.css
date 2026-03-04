@@ -100,6 +100,18 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Inline prose links need underline for accessibility (axe link-in-text-block) */
+.wiki-portal-body a,
+.wiki-content p a,
+p a {
+  text-decoration: underline;
+}
+.wiki-portal-body a:hover,
+.wiki-content p a:hover,
+p a:hover {
+  text-decoration: underline;
+}
+
 /* ── MediaWiki-style headings with bottom border ── */
 .wiki-content h1 {
   font-family: var(--font-serif);

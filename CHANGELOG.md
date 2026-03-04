@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [4.8.9] - 2026-03-04
+
+### Bug Fixes
+
+- Fixed homepage crash in CI: wrapped `getRecentArticles()` and `getFeaturedArticle()` in try/catch so the page renders the empty state instead of an error page when DB is unavailable
+- Fixed e2e accessibility failure: added `text-decoration: underline` for inline prose links (`.wiki-portal-body a`, `p a`) to satisfy axe `link-in-text-block` contrast rule
+
 ## [4.8.8] - 2026-03-04
 
 ### CI Fixes

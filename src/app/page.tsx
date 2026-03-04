@@ -6,33 +6,41 @@ import OnThisDay from "@/components/OnThisDay";
 import ArticleCard from "@/components/articles/ArticleCard";
 
 async function getRecentArticles() {
-  return prisma.article.findMany({
-    take: 7,
-    where: { published: true, status: "published" },
-    orderBy: { updatedAt: "desc" },
-    include: {
-      category: true,
-      tags: { include: { tag: true } },
-    },
-  });
+  try {
+    return await prisma.article.findMany({
+      take: 7,
+      where: { published: true, status: "published" },
+      orderBy: { updatedAt: "desc" },
+      include: {
+        category: true,
+        tags: { include: { tag: true } },
+      },
+    });
+  } catch {
+    return [];
+  }
 }
 
 async function getFeaturedArticle() {
-  // Prefer pinned articles; fall back to longest content
-  const pinned = await prisma.article.findFirst({
-    where: { published: true, isPinned: true, status: "published" },
-    orderBy: { updatedAt: "desc" },
-    include: { category: true },
-  });
-  if (pinned) return pinned;
+  try {
+    // Prefer pinned articles; fall back to longest content
+    const pinned = await prisma.article.findFirst({
+      where: { published: true, isPinned: true, status: "published" },
+      orderBy: { updatedAt: "desc" },
+      include: { category: true },
+    });
+    if (pinned) return pinned;
 
-  const articles = await prisma.article.findMany({
-    where: { published: true, status: "published", excerpt: { not: "" } },
-    orderBy: { updatedAt: "desc" },
-    take: 5,
-    include: { category: true },
-  });
-  return articles.sort((a, b) => (b.content?.length || 0) - (a.content?.length || 0))[0] || null;
+    const articles = await prisma.article.findMany({
+      where: { published: true, status: "published", excerpt: { not: "" } },
+      orderBy: { updatedAt: "desc" },
+      take: 5,
+      include: { category: true },
+    });
+    return articles.sort((a, b) => (b.content?.length || 0) - (a.content?.length || 0))[0] || null;
+  } catch {
+    return null;
+  }
 }
 
 export default async function Home() {
