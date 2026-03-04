@@ -45,7 +45,7 @@ export default async function UserProfilePage({ params }: Props) {
       title: true,
       slug: true,
       createdAt: true,
-      category: { select: { name: true, icon: true } },
+      category: { select: { name: true } },
     },
   });
 
@@ -128,7 +128,7 @@ export default async function UserProfilePage({ params }: Props) {
                 </Link>
                 {article.category && (
                   <span className="text-muted text-[12px] ml-1">
-                    ({article.category.icon} {article.category.name})
+                    ({article.category.name})
                   </span>
                 )}
                 <span className="text-muted text-[11px] ml-2">

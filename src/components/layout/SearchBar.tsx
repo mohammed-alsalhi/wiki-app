@@ -9,7 +9,7 @@ type SearchResult = {
   title: string;
   slug: string;
   excerpt: string | null;
-  category: { name: string; icon: string | null } | null;
+  category: { name: string } | null;
 };
 
 export default function SearchBar() {

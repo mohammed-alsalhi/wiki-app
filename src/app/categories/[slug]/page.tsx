@@ -8,12 +8,12 @@ type Props = {
 };
 
 async function getParentChain(parentId: string | null) {
-  const chain: { id: string; name: string; slug: string; icon: string | null; parentId: string | null }[] = [];
+  const chain: { id: string; name: string; slug: string; parentId: string | null }[] = [];
   let currentId = parentId;
   while (currentId) {
     const parent = await prisma.category.findUnique({
       where: { id: currentId },
-      select: { id: true, name: true, slug: true, icon: true, parentId: true },
+      select: { id: true, name: true, slug: true, parentId: true },
     });
     if (!parent) break;
     chain.unshift(parent);
@@ -57,10 +57,10 @@ export default async function CategoryPage({ params }: Props) {
           {parentChain.map((p, i) => (
             <span key={p.id}>
               {i > 0 && " \u203A "}
-              <Link href={`/categories/${p.slug}`}>{p.icon} {p.name}</Link>
+              <Link href={`/categories/${p.slug}`}>{p.name}</Link>
             </span>
           ))}
-          {" \u203A "}{category.icon} {category.name}
+          {" \u203A "}{category.name}
         </nav>
       )}
 
@@ -68,7 +68,7 @@ export default async function CategoryPage({ params }: Props) {
         className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-1"
         style={{ fontFamily: "var(--font-serif)" }}
       >
-        Category: {category.icon} {category.name}
+        Category: {category.name}
       </h1>
       {category.description && (
         <p className="text-[13px] text-muted mb-3">{category.description}</p>
@@ -86,7 +86,7 @@ export default async function CategoryPage({ params }: Props) {
               {category.children.map((child) => (
                 <li key={child.id}>
                   <Link href={`/categories/${child.slug}`}>
-                    {child.icon} {child.name}
+                    {child.name}
                   </Link>
                   {child._count.articles > 0 && (
                     <span className="text-[11px] text-muted ml-1">

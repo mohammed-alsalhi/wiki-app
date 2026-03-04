@@ -9,7 +9,7 @@ type ArticleCardProps = {
     excerpt: string | null;
     coverImage: string | null;
     updatedAt: Date;
-    category: { name: string; slug: string; icon: string | null } | null;
+    category: { name: string; slug: string } | null;
     tags: { tag: { id: string; name: string; slug: string; color: string | null } }[];
   };
 };
@@ -44,7 +44,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         <div className="mt-auto pt-3 flex items-center justify-between text-[11px] text-muted">
           <span>
             {article.category && (
-              <>{article.category.icon} {article.category.name}</>
+              <>{article.category.name}</>
             )}
           </span>
           <span>{formatDate(article.updatedAt)}</span>

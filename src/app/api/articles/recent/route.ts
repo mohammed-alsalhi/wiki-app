@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       slug: true,
       excerpt: true,
       updatedAt: true,
-      category: { select: { name: true, slug: true, icon: true } },
+      category: { select: { name: true, slug: true } },
     },
   });
 

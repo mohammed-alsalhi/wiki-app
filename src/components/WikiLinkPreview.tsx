@@ -7,7 +7,7 @@ type PreviewData = {
   title: string;
   excerpt: string | null;
   coverImage: string | null;
-  category: { name: string; icon?: string | null } | null;
+  category: { name: string } | null;
   updatedAt: string;
   exists: boolean;
 };
@@ -201,7 +201,7 @@ export default function WikiLinkPreview() {
             <div className="wiki-link-preview-title">{preview.title}</div>
             {preview.category && (
               <div className="wiki-link-preview-category">
-                {preview.category.icon} {preview.category.name}
+                {preview.category.name}
               </div>
             )}
             {truncatedExcerpt && (

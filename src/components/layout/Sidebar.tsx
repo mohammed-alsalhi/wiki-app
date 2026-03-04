@@ -322,7 +322,7 @@ function SidebarCategoryItem({
           onClick={onNavigate}
         >
           <span className="flex items-center justify-between w-full">
-            <span>{category.icon ? `${category.icon} ` : ""}{category.name}</span>
+            <span>{category.name}</span>
             {category._count.articles > 0 && (
               <span className="text-[10px] text-muted ml-1 flex-shrink-0">
                 {category._count.articles}

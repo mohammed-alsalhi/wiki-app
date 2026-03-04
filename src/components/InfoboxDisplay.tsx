@@ -83,7 +83,7 @@ export default function InfoboxDisplay({
           <div className="wiki-infobox-label">Category</div>
           <div className="wiki-infobox-value">
             <Link href={`/categories/${category.slug}`}>
-              {category.icon} {category.name}
+              {category.name}
             </Link>
           </div>
         </div>

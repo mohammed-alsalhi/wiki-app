@@ -52,7 +52,7 @@ function buildSelect(
     published: true,
     createdAt: true,
     updatedAt: true,
-    category: { select: { id: true, name: true, slug: true, icon: true } },
+    category: { select: { id: true, name: true, slug: true } },
     tags: { select: { tag: { select: { id: true, name: true, slug: true, color: true } } } },
   };
 

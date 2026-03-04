@@ -72,7 +72,6 @@ export async function GET() {
       name: true,
       slug: true,
       description: true,
-      icon: true,
       sortOrder: true,
       parentId: true,
       _count: { select: { articles: true } },

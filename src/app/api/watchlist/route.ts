@@ -19,7 +19,7 @@ export async function GET() {
           slug: true,
           excerpt: true,
           updatedAt: true,
-          category: { select: { name: true, icon: true } },
+          category: { select: { name: true } },
         },
       },
     },

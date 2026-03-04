@@ -13,7 +13,7 @@ type WatchlistEntry = {
     slug: string;
     excerpt: string | null;
     updatedAt: string;
-    category: { name: string; icon: string | null } | null;
+    category: { name: string } | null;
   };
 };
 
@@ -99,7 +99,7 @@ export default function WatchlistPage() {
                     </Link>
                     {entry.article.category && (
                       <span className="text-muted text-[12px] ml-2">
-                        ({entry.article.category.icon} {entry.article.category.name})
+                        ({entry.article.category.name})
                       </span>
                     )}
                   </div>

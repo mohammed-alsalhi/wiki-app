@@ -11,7 +11,7 @@ type SearchResult = {
   excerpt: string | null;
   highlightedExcerpt: string;
   updatedAt: string;
-  category: { id: string; name: string; icon: string | null; slug: string } | null;
+  category: { id: string; name: string; slug: string } | null;
   tags: { tag: { id: string; name: string; slug: string } }[];
 };
 

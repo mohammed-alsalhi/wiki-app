@@ -61,7 +61,7 @@ export default async function TagPage({ params }: Props) {
                 <td className="border border-border px-3 py-1.5 text-muted">
                   {article.category ? (
                     <Link href={`/categories/${article.category.slug}`}>
-                      {article.category.icon} {article.category.name}
+                      {article.category.name}
                     </Link>
                   ) : (
                     <span className="italic">None</span>

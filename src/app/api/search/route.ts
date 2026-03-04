@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
         select: {
           id: true,
           updatedAt: true,
-          category: { select: { id: true, name: true, icon: true, slug: true } },
+          category: { select: { id: true, name: true, slug: true } },
           tags: { include: { tag: true } },
         },
       });
@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
           where: { id: { in: extra.map((e) => e.id) }, status: "published" },
           select: {
             id: true, title: true, slug: true, excerpt: true, updatedAt: true,
-            category: { select: { id: true, name: true, icon: true, slug: true } },
+            category: { select: { id: true, name: true, slug: true } },
             tags: { include: { tag: true } },
           },
         });
@@ -170,7 +170,7 @@ async function likeBasedSearch(
     excerpt: true,
     content: true,
     updatedAt: true,
-    category: { select: { id: true, name: true, icon: true, slug: true } },
+    category: { select: { id: true, name: true, slug: true } },
     tags: { include: { tag: true } },
   };
 

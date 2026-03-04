@@ -8,7 +8,7 @@ type SearchResult = {
   title: string;
   slug: string;
   excerpt: string | null;
-  category: { name: string; icon: string | null } | null;
+  category: { name: string } | null;
 };
 
 type Props = {
@@ -150,7 +150,7 @@ export default function WikiLinkSuggester({
           <span className="wiki-link-suggester-title">{result.title}</span>
           {result.category && (
             <span className="wiki-link-suggester-category">
-              {result.category.icon} {result.category.name}
+              {result.category.name}
             </span>
           )}
         </button>

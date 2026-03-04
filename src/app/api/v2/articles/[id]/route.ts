@@ -50,7 +50,7 @@ export async function GET(
 
   for (const field of requestedFields) {
     if (field === "category") {
-      select.category = { select: { id: true, name: true, slug: true, icon: true, description: true } };
+      select.category = { select: { id: true, name: true, slug: true, description: true } };
     } else if (field === "tags") {
       select.tags = {
         select: { tag: { select: { id: true, name: true, slug: true, color: true } } },

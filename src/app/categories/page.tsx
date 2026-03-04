@@ -59,7 +59,6 @@ type TreeCategory = {
   id: string;
   name: string;
   slug: string;
-  icon: string | null;
   description: string | null;
   _count: { articles: number };
   children?: TreeCategory[];
@@ -77,7 +76,7 @@ function CategoryTreeRow({ category, depth }: { category: TreeCategory; depth: n
           href={`/categories/${category.slug}`}
           className="text-[13px] font-medium"
         >
-          {category.icon} {category.name}
+          {category.name}
         </Link>
         <span className="text-[11px] text-muted">
           ({category._count.articles} article{category._count.articles !== 1 ? "s" : ""})

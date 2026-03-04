@@ -12,7 +12,7 @@ export default async function RecentChangesPage() {
         select: {
           title: true,
           slug: true,
-          category: { select: { name: true, icon: true, slug: true } },
+          category: { select: { name: true, slug: true } },
         },
       },
     },
@@ -27,7 +27,7 @@ export default async function RecentChangesPage() {
       title: true,
       slug: true,
       createdAt: true,
-      category: { select: { name: true, icon: true, slug: true } },
+      category: { select: { name: true, slug: true } },
     },
   });
 
@@ -39,7 +39,7 @@ export default async function RecentChangesPage() {
     articleTitle: string;
     articleSlug: string;
     summary: string | null;
-    category: { name: string; icon: string | null; slug: string } | null;
+    category: { name: string; slug: string } | null;
   };
 
   const entries: ChangeEntry[] = [
@@ -119,7 +119,7 @@ export default async function RecentChangesPage() {
                       {entry.category && (
                         <span className="text-muted text-[11px] ml-1">
                           (<Link href={`/categories/${entry.category.slug}`}>
-                            {entry.category.icon} {entry.category.name}
+                            {entry.category.name}
                           </Link>)
                         </span>
                       )}

@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [4.8.1] - 2026-03-03
+
+### Categories
+
+- Removed `icon` field from categories — emoji/unicode symbols no longer rendered in sidebar, article cards, search, command palette, or any other UI
+- Dropped `icon` column from `Category` database table
+- Removed `icon` from all Prisma selects and TypeScript types
+
 ## [4.8.0] - 2026-03-03
 
 ### Navigation

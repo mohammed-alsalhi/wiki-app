@@ -10,7 +10,7 @@ type SearchResult = {
   title: string;
   slug: string;
   excerpt?: string | null;
-  category?: { name: string; icon?: string | null } | null;
+  category?: { name: string } | null;
 };
 
 export default function CommandPalette() {
@@ -282,7 +282,7 @@ export default function CommandPalette() {
                     </span>
                     {result.category && (
                       <span className="command-palette-item-category">
-                        {result.category.icon} {result.category.name}
+                        {result.category.name}
                       </span>
                     )}
                   </button>

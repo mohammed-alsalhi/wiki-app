@@ -22,7 +22,7 @@ type Article = {
   published: boolean;
   status: string;
   updatedAt: string;
-  category: { id: string; slug: string; name: string; icon: string | null } | null;
+  category: { id: string; slug: string; name: string } | null;
   tags: { tag: { id: string; slug: string; name: string } }[];
 };
 
@@ -287,7 +287,7 @@ function ArticlesPageContent() {
                 <td className="border border-border px-3 py-1.5 text-muted">
                   {article.category ? (
                     <Link href={`/categories/${article.category.slug}`}>
-                      {article.category.icon} {article.category.name}
+                      {article.category.name}
                     </Link>
                   ) : (
                     <span className="italic">None</span>

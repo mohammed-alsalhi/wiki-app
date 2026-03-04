@@ -11,7 +11,7 @@ export async function PUT(request: NextRequest, { params }: Context) {
 
   const { id } = await params;
   const body = await request.json();
-  const { name, description, icon, parentId } = body;
+  const { name, description, parentId } = body;
 
   const existing = await prisma.category.findUnique({ where: { id } });
   if (!existing) {
@@ -38,7 +38,6 @@ export async function PUT(request: NextRequest, { params }: Context) {
   }
 
   if (description !== undefined) data.description = description || null;
-  if (icon !== undefined) data.icon = icon || null;
   if (parentId !== undefined) {
     // Prevent setting self as parent
     if (parentId === id) {

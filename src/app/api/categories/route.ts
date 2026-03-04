@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   if (denied) return denied;
 
   const body = await request.json();
-  const { name, description, icon, parentId } = body;
+  const { name, description, parentId } = body;
 
   if (!name || typeof name !== "string" || !name.trim()) {
     return NextResponse.json({ error: "Name is required" }, { status: 400 });
@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
       name: name.trim(),
       slug,
       description: description || null,
-      icon: icon || null,
       parentId: parentId || null,
     },
     include: {

@@ -17,7 +17,6 @@ export async function GET(request: NextRequest) {
       name: true,
       slug: true,
       description: true,
-      icon: true,
       sortOrder: true,
       parent: { select: { name: true, slug: true } },
       _count: { select: { articles: true, children: true } },
