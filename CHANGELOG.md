@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [4.8.5] - 2026-03-04
+
+### CI Fixes
+
+- Fixed e2e job: added `npm run dev &` and `npx wait-on http://localhost:3000` before `npx playwright test` so the app server is running when Playwright connects
+
 ## [4.8.4] - 2026-03-04
 
 ### CI Fixes
