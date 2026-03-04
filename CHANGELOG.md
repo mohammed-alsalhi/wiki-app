@@ -2,13 +2,29 @@
 
 All notable changes to this project are documented here.
 
+## [4.8.2] - 2026-03-03
+
+### Home Page
+
+- Redesigned home page with clean magazine/dashboard layout
+- Featured article displayed as a prominent borderless hero section (large serif title, excerpt up to 400 chars, category + date metadata)
+- Recently updated articles shown as a 2-column ArticleCard grid (6 articles, excludes featured article)
+- On This Day moved to right sidebar column alongside recently updated grid
+- Removed: Welcome portal, stat badges, action buttons, category list, Explore quick links, tips notice
+
 ## [4.8.1] - 2026-03-03
 
 ### Categories
 
 - Removed `icon` field from categories — emoji/unicode symbols no longer rendered in sidebar, article cards, search, command palette, or any other UI
 - Dropped `icon` column from `Category` database table
-- Removed `icon` from all Prisma selects and TypeScript types
+- Removed `icon` from all Prisma selects, TypeScript types, and render expressions across `Sidebar.tsx`, `CategorySelect.tsx`, `InfoboxDisplay.tsx`, `articles/page.tsx`, `search/page.tsx`, `articles/new/page.tsx`, `articles/[slug]/edit/page.tsx`, `api/v1/categories/route.ts`, `api/v2/categories/route.ts`
+
+### Lint / CI
+
+- Fixed all ESLint errors and TypeScript errors — CI now passes clean (0 errors)
+- Added `eslint-disable-next-line react-hooks/purity` for `Date.now()` / `Math.random()` in async server components (`admin/health`, `admin/staleness`, `explore`)
+- Fixed `prefer-const` error in `explore/page.tsx`
 
 ## [4.8.0] - 2026-03-03
 

@@ -6,7 +6,6 @@ type CategoryNode = {
   name: string;
   slug: string;
   description: string | null;
-  icon: string | null;
   sortOrder: number;
   articleCount: number;
   children: CategoryNode[];
@@ -17,7 +16,6 @@ type FlatCategory = {
   name: string;
   slug: string;
   description: string | null;
-  icon: string | null;
   sortOrder: number;
   parentId: string | null;
   _count: { articles: number };
@@ -32,7 +30,6 @@ function buildTree(categories: FlatCategory[]): CategoryNode[] {
       name: cat.name,
       slug: cat.slug,
       description: cat.description,
-      icon: cat.icon,
       sortOrder: cat.sortOrder,
       articleCount: cat._count.articles,
       children: [],

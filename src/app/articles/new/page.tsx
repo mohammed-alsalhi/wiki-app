@@ -12,7 +12,7 @@ import { useAdmin } from "@/components/AdminContext";
 import type { ArticleTemplate } from "@/lib/templates";
 import { getCategoryTemplate } from "@/lib/category-templates";
 
-type CategoryItem = { id: string; name: string; slug: string; icon: string | null; parentId: string | null; children?: CategoryItem[] };
+type CategoryItem = { id: string; name: string; slug: string; parentId: string | null; children?: CategoryItem[] };
 
 function flattenCategories(cats: CategoryItem[]): CategoryItem[] {
   const flat: CategoryItem[] = [];

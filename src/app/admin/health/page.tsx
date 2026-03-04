@@ -24,6 +24,7 @@ export default async function WikiHealthPage() {
       prisma.article.count({
         where: {
           status: "published",
+          // eslint-disable-next-line react-hooks/purity
           updatedAt: { lt: new Date(Date.now() - 180 * 86400000) },
         },
       }),

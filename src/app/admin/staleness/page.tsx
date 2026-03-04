@@ -10,6 +10,7 @@ export default async function StalenessPage() {
   const user = await getSession();
   if (!user || !await isAdmin()) redirect("/admin");
 
+  // eslint-disable-next-line react-hooks/purity
   const cutoff = new Date(Date.now() - 180 * 86400000); // 6 months
 
   const articles = await prisma.article.findMany({
@@ -52,6 +53,7 @@ export default async function StalenessPage() {
           </thead>
           <tbody>
             {articles.map((a) => {
+              // eslint-disable-next-line react-hooks/purity
               const daysStale = Math.floor((Date.now() - a.updatedAt.getTime()) / 86400000);
               return (
                 <tr key={a.id} className="border-b border-border hover:bg-surface-hover">

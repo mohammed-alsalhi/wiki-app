@@ -11,7 +11,6 @@ type Category = {
   id: string;
   name: string;
   slug: string;
-  icon: string | null;
   _count: { articles: number };
   children?: Category[];
 };

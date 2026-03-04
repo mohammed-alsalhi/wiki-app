@@ -30,7 +30,6 @@ type Category = {
   id: string;
   slug: string;
   name: string;
-  icon: string | null;
 };
 
 type Tag = {
@@ -88,7 +87,7 @@ function ArticlesPageContent() {
       const flat: Category[] = [];
       function flatten(list: (Category & { children?: Category[] })[]) {
         for (const c of list) {
-          flat.push({ id: c.id, slug: c.slug, name: c.name, icon: c.icon });
+          flat.push({ id: c.id, slug: c.slug, name: c.name });
           if (c.children) flatten(c.children);
         }
       }
@@ -211,7 +210,7 @@ function ArticlesPageContent() {
               href={`/articles?category=${cat.slug}`}
               className={category === cat.slug ? "font-bold" : ""}
             >
-              {cat.icon} {cat.name}
+              {cat.name}
             </Link>
           </span>
         ))}

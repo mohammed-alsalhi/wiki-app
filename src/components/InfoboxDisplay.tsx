@@ -6,7 +6,6 @@ type Category = {
   id: string;
   name: string;
   slug: string;
-  icon: string | null;
   parentId: string | null;
   children?: Category[];
 };
@@ -29,7 +28,7 @@ function flattenCategories(cats: Category[]): Category[] {
   const result: Category[] = [];
   function walk(list: Category[]) {
     for (const c of list) {
-      result.push({ id: c.id, name: c.name, slug: c.slug, icon: c.icon, parentId: c.parentId });
+      result.push({ id: c.id, name: c.name, slug: c.slug, parentId: c.parentId });
       if (c.children) walk(c.children);
     }
   }

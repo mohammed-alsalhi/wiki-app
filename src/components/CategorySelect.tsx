@@ -6,7 +6,6 @@ type Category = {
   id: string;
   name: string;
   slug: string;
-  icon: string | null;
   parentId?: string | null;
   children?: Category[];
 };
@@ -49,7 +48,7 @@ export default function CategorySelect({ value, onChange, categories: externalCa
 function renderOptions(categories: Category[], depth: number): React.ReactNode[] {
   return categories.flatMap((cat) => [
     <option key={cat.id} value={cat.id}>
-      {"\u00A0".repeat(depth * 4)}{depth > 0 ? "\u2514 " : ""}{cat.icon} {cat.name}
+      {"\u00A0".repeat(depth * 4)}{depth > 0 ? "\u2514 " : ""}{cat.name}
     </option>,
     ...(cat.children ? renderOptions(cat.children, depth + 1) : []),
   ]);

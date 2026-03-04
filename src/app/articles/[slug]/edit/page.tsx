@@ -9,7 +9,7 @@ import CategorySelect from "@/components/CategorySelect";
 import InfoboxEditor from "@/components/InfoboxEditor";
 import { useAdmin } from "@/components/AdminContext";
 
-type CategoryItem = { id: string; name: string; slug: string; icon: string | null; parentId: string | null; children?: CategoryItem[] };
+type CategoryItem = { id: string; name: string; slug: string; parentId: string | null; children?: CategoryItem[] };
 
 type Article = {
   id: string;

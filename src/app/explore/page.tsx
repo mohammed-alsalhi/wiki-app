@@ -8,7 +8,7 @@ export default async function ExplorePage({ searchParams }: Props) {
   const { from } = await searchParams;
 
   let article;
-  let trail: string[] = [];
+  const trail: string[] = [];
 
   if (from) {
     // Try semantic walk: find articles similar to the current one
@@ -29,6 +29,7 @@ export default async function ExplorePage({ searchParams }: Props) {
         .filter((s): s is string => !!s && !excludeSlugs.includes(s));
 
       if (candidates.length > 0) {
+        // eslint-disable-next-line react-hooks/purity
         const randomSlug = candidates[Math.floor(Math.random() * Math.min(candidates.length, 5))];
         article = await prisma.article.findUnique({
           where: { slug: randomSlug, status: "published" },
@@ -41,6 +42,7 @@ export default async function ExplorePage({ searchParams }: Props) {
   // Fallback to random published article
   if (!article) {
     const count = await prisma.article.count({ where: { status: "published" } });
+    // eslint-disable-next-line react-hooks/purity
     const skip = Math.floor(Math.random() * count);
     article = await prisma.article.findFirst({
       where: { status: "published" },

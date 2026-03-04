@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
     name: c.name,
     slug: c.slug,
     description: c.description,
-    icon: c.icon,
     sortOrder: c.sortOrder,
     parent: c.parent ? { name: c.parent.name, slug: c.parent.slug } : null,
     articleCount: c._count.articles,
