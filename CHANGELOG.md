@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [4.8.6] - 2026-03-04
+
+### CI Fixes
+
+- Added `wait-on` as devDependency so CI doesn't re-download it on every e2e run
+- Added `--timeout 60000` to `wait-on` so it fails fast instead of hanging indefinitely
+
 ## [4.8.5] - 2026-03-04
 
 ### CI Fixes
