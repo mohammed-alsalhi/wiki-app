@@ -36,6 +36,8 @@ function SearchContent() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [qaAnswer, setQaAnswer] = useState<{ answer: string; sources: { id: string; title: string; slug: string }[] } | null>(null);
+  const [qaLoading, setQaLoading] = useState(false);
 
   // Filter state
   const [categories, setCategories] = useState<Category[]>([]);
@@ -91,6 +93,25 @@ function SearchContent() {
     doSearch();
   }, [doSearch]);
 
+  // Q&A: trigger when query looks like a question
+  useEffect(() => {
+    if (!q || q.length < 5) { setQaAnswer(null); return; }
+    const isQuestion = /^(what|who|when|where|why|how|is|are|can|does|did|was|were)\b/i.test(q) || q.endsWith("?");
+    if (!isQuestion) { setQaAnswer(null); return; }
+
+    setQaLoading(true);
+    setQaAnswer(null);
+    fetch("/api/ai/qa", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: q }),
+    })
+      .then((r) => r.json())
+      .then((data) => { if (data.answer) setQaAnswer(data); })
+      .catch(() => {})
+      .finally(() => setQaLoading(false));
+  }, [q]);
+
   function toggleTag(slug: string) {
     setSelectedTags((prev) =>
       prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
@@ -144,6 +165,31 @@ function SearchContent() {
           {showAdvanced ? "Hide" : "Advanced search"}
         </button>
       </div>
+
+      {/* Q&A answer panel */}
+      {(qaLoading || qaAnswer) && (
+        <div className="mb-4 border border-accent/30 bg-accent/5 px-4 py-3">
+          <p className="text-[11px] font-bold text-accent uppercase tracking-wide mb-1">Direct answer</p>
+          {qaLoading ? (
+            <p className="text-[13px] text-muted italic">Searching for an answer...</p>
+          ) : qaAnswer ? (
+            <>
+              <p className="text-[13px] text-foreground">{qaAnswer.answer}</p>
+              {qaAnswer.sources.length > 0 && (
+                <p className="text-[11px] text-muted mt-2">
+                  Sources:{" "}
+                  {qaAnswer.sources.map((s, i) => (
+                    <span key={s.id}>
+                      {i > 0 && ", "}
+                      <a href={`/articles/${s.slug}`} className="text-accent hover:underline">{s.title}</a>
+                    </span>
+                  ))}
+                </p>
+              )}
+            </>
+          ) : null}
+        </div>
+      )}
 
       <div className="flex gap-4">
         {/* Filter sidebar */}

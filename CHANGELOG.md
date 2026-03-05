@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [4.9.9] - 2026-03-04
+
+### New Features
+
+- **Natural language Q&A in search** — question-pattern queries (starting with what/who/when/where/why/how/is/are/can/does/did/was/were, or ending with ?) trigger an AI-powered direct answer panel above search results
+- POST `/api/ai/qa` keyword-searches up to 5 relevant articles, sends excerpts to Claude Haiku, and returns a concise 1–3 sentence answer with source links
+- Q&A panel shows "Searching for an answer…" while loading, then displays the answer and linked article sources; only appears when `AI_API_KEY` is configured
+
 ## [4.9.8] - 2026-03-05
 
 ### New Features
