@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [4.9.4] - 2026-03-04
+
+### New Features
+
+- **Kanban article pipeline** — drag-and-drop board at `/admin/kanban` showing all articles in Draft / In Review / Published columns
+- Drag cards between columns or use inline promote/demote buttons to change article status
+- Cards show article title (linked), category, and edit link
+- Added "Article pipeline" link to admin sidebar section
+
 ## [4.9.3] - 2026-03-04
 
 ### New Features
