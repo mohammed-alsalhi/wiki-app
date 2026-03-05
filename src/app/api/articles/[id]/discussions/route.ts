@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { isAdmin, requireAdmin } from "@/lib/auth";
+import { logAudit } from "@/lib/audit";
 
 async function createMentionNotifications(
   content: string,
@@ -96,6 +97,7 @@ export async function DELETE(
   }
 
   await prisma.discussion.delete({ where: { id: discussionId } });
+  await logAudit("discussion.delete", { type: "discussion", id: discussionId });
   return NextResponse.json({ success: true });
 }
 

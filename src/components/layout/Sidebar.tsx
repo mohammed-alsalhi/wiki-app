@@ -263,6 +263,9 @@ export default function Sidebar({
             <SidebarLink href="/admin/staleness" active={pathname === "/admin/staleness"} onClick={close}>
               Staleness
             </SidebarLink>
+            <SidebarLink href="/admin/audit-log" active={pathname === "/admin/audit-log"} onClick={close}>
+              Audit log
+            </SidebarLink>
           </SidebarSection>
         )}
 

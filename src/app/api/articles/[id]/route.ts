@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/utils";
 import { isAdmin, requireAdmin, getSession } from "@/lib/auth";
 import { checkAndAwardAchievements } from "@/lib/achievements";
+import { logAudit } from "@/lib/audit";
 
 export async function GET(
   _request: NextRequest,
@@ -145,8 +146,9 @@ export async function DELETE(
   if (denied) return denied;
 
   const { id } = await params;
-  const article = await prisma.article.findUnique({ where: { id }, select: { slug: true } });
+  const article = await prisma.article.findUnique({ where: { id }, select: { slug: true, title: true } });
   await prisma.article.delete({ where: { id } });
+  await logAudit("article.delete", { type: "article", id, label: article?.title ?? article?.slug ?? id });
   if (article?.slug) revalidatePath(`/articles/${article.slug}`);
   revalidatePath("/");
   return NextResponse.json({ success: true });

@@ -928,3 +928,19 @@ model Scratchpad {
 
   @@index([userId])
 }
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  username    String?
+  action      String   // e.g. "article.delete", "user.role_change", "category.delete"
+  entityType  String   // "article", "category", "user", "revision"
+  entityId    String?
+  entityLabel String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([userId])
+}

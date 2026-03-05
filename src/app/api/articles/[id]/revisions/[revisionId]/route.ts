@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { isAdmin, requireAdmin } from "@/lib/auth";
+import { logAudit } from "@/lib/audit";
 
 export async function GET(
   _request: NextRequest,
@@ -64,6 +65,7 @@ export async function POST(
     },
   });
 
+  await logAudit("revision.revert", { type: "article", id, label: article.title }, { revisionId, revertedTo: revision.createdAt });
   return NextResponse.json(article);
 }
 

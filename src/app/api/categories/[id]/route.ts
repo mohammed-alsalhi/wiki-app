@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { isAdmin, requireAdmin } from "@/lib/auth";
 import { generateSlug } from "@/lib/utils";
+import { logAudit } from "@/lib/audit";
 
 type Context = { params: Promise<{ id: string }> };
 
@@ -87,6 +88,7 @@ export async function DELETE(request: NextRequest, { params }: Context) {
   }
 
   await prisma.category.delete({ where: { id } });
+  await logAudit("category.delete", { type: "category", id, label: existing.name });
   return NextResponse.json({ success: true });
 }
 

@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here.
 
+## [4.9.3] - 2026-03-04
+
+### New Features
+
+- **Admin audit log** — immutable log of destructive admin actions at `/admin/audit-log`
+- Added `AuditLog` Prisma model (userId, username, action, entityType, entityId, entityLabel, metadata, createdAt)
+- `logAudit()` helper in `src/lib/audit.ts` — fire-and-forget, never throws
+- Hooked into: article DELETE, category DELETE, revision revert (POST), discussion DELETE
+- GET `/api/admin/audit-log` with action filter and page-50 pagination
+- Admin page shows colour-coded action table, action dropdown filter, and pagination
+- Added "Audit log" link in admin sidebar section
+
 ## [4.9.2] - 2026-03-04
 
 ### New Features
