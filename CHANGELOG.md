@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [4.9.0] - 2026-03-04
+
+### New Features
+
+- **Nested discussion threads** — discussion comments now support threaded replies up to 3 levels deep; each comment shows a "reply" button that opens an inline reply form
+- Added `parentId` self-relation to `Discussion` model in Prisma schema
+- Updated GET /api/articles/[id]/discussions to return top-level comments with nested `replies` (2 levels deep)
+- Updated POST endpoint to accept optional `parentId` for reply creation
+- Rewrote discussion page UI with recursive `Comment` component supporting collapse/expand, reply forms, and comment count in heading
+- Regrouped ROADMAP planned items into logical sections; moved all completed v4.0+ items into a separate collapsible "Completed (v4.0+)" section
+
 ## [4.8.9] - 2026-03-04
 
 ### Bug Fixes

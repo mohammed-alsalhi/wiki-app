@@ -10,6 +10,8 @@ type Discussion = {
   author: string;
   content: string;
   createdAt: string;
+  parentId: string | null;
+  replies: Discussion[];
 };
 
 type ArticleInfo = {
@@ -17,6 +19,171 @@ type ArticleInfo = {
   title: string;
   slug: string;
 };
+
+function CommentForm({
+  onSubmit,
+  onCancel,
+  placeholder = "Share your thoughts...",
+  submitLabel = "Post comment",
+}: {
+  onSubmit: (author: string, content: string) => Promise<void>;
+  onCancel?: () => void;
+  placeholder?: string;
+  submitLabel?: string;
+}) {
+  const [author, setAuthor] = useState("");
+  const [content, setContent] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handle(e: React.FormEvent) {
+    e.preventDefault();
+    if (!content.trim()) return;
+    setSubmitting(true);
+    await onSubmit(author, content);
+    setContent("");
+    setSubmitting(false);
+  }
+
+  return (
+    <form onSubmit={handle} className="space-y-2">
+      <div>
+        <label className="block text-[13px] font-bold text-heading mb-1">Name:</label>
+        <input
+          type="text"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          placeholder="Anonymous"
+          className="w-full max-w-xs border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+        />
+      </div>
+      <div>
+        <label className="block text-[13px] font-bold text-heading mb-1">Comment:</label>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          rows={3}
+          placeholder={placeholder}
+          className="w-full border border-border bg-surface px-3 py-2 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none resize-y"
+        />
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          type="submit"
+          disabled={submitting || !content.trim()}
+          className="bg-accent px-4 py-1.5 text-[13px] font-bold text-white hover:bg-accent-hover disabled:opacity-50"
+        >
+          {submitting ? "Posting..." : submitLabel}
+        </button>
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="text-[13px] text-muted hover:text-foreground"
+          >
+            cancel
+          </button>
+        )}
+      </div>
+    </form>
+  );
+}
+
+function Comment({
+  d,
+  articleId,
+  isAdmin,
+  onDelete,
+  onReply,
+  depth = 0,
+}: {
+  d: Discussion;
+  articleId: string;
+  isAdmin: boolean;
+  onDelete: (id: string) => void;
+  onReply: (parentId: string, author: string, content: string) => Promise<void>;
+  depth?: number;
+}) {
+  const [replying, setReplying] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const hasReplies = d.replies.length > 0;
+
+  return (
+    <div className={depth > 0 ? "ml-6 border-l-2 border-border pl-3" : ""}>
+      <div className="border border-border bg-surface-hover px-4 py-3">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[13px] font-bold text-heading">{d.author}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-muted">
+              {new Date(d.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+            {hasReplies && (
+              <button
+                onClick={() => setCollapsed((v) => !v)}
+                className="text-[11px] text-muted hover:text-foreground"
+              >
+                {collapsed ? `show ${d.replies.length} repl${d.replies.length === 1 ? "y" : "ies"}` : "collapse"}
+              </button>
+            )}
+            {depth < 3 && (
+              <button
+                onClick={() => setReplying((v) => !v)}
+                className="text-[11px] text-accent hover:underline"
+              >
+                reply
+              </button>
+            )}
+            {isAdmin && (
+              <button
+                onClick={() => onDelete(d.id)}
+                className="text-[11px] text-red-500 hover:underline"
+              >
+                delete
+              </button>
+            )}
+          </div>
+        </div>
+        <p className="text-[13px] text-foreground whitespace-pre-wrap">{d.content}</p>
+      </div>
+
+      {replying && (
+        <div className="mt-1 ml-4 border-l-2 border-accent pl-3 pb-1">
+          <CommentForm
+            onSubmit={async (author, content) => {
+              await onReply(d.id, author, content);
+              setReplying(false);
+            }}
+            onCancel={() => setReplying(false)}
+            placeholder={`Reply to ${d.author}...`}
+            submitLabel="Post reply"
+          />
+        </div>
+      )}
+
+      {!collapsed && hasReplies && (
+        <div className="mt-1 space-y-1">
+          {d.replies.map((r) => (
+            <Comment
+              key={r.id}
+              d={r}
+              articleId={articleId}
+              isAdmin={isAdmin}
+              onDelete={onDelete}
+              onReply={onReply}
+              depth={depth + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function DiscussionPage() {
   const isAdmin = useAdmin();
@@ -26,9 +193,6 @@ export default function DiscussionPage() {
   const [article, setArticle] = useState<ArticleInfo | null>(null);
   const [discussions, setDiscussions] = useState<Discussion[]>([]);
   const [loading, setLoading] = useState(true);
-  const [author, setAuthor] = useState("");
-  const [content, setContent] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -36,79 +200,82 @@ export default function DiscussionPage() {
       if (!res.ok) return;
       const data = await res.json();
       const found = data.articles?.find((a: ArticleInfo) => a.slug === slug);
-      if (!found) {
-        setLoading(false);
-        return;
-      }
+      if (!found) { setLoading(false); return; }
       setArticle(found);
-
       const discRes = await fetch(`/api/articles/${found.id}/discussions`);
-      if (discRes.ok) {
-        setDiscussions(await discRes.json());
-      }
+      if (discRes.ok) setDiscussions(await discRes.json());
       setLoading(false);
     }
     load();
   }, [slug]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!article || !content.trim()) return;
+  async function handlePost(author: string, content: string) {
+    if (!article) return;
+    const res = await fetch(`/api/articles/${article.id}/discussions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ author: author.trim() || "Anonymous", content: content.trim() }),
+    });
+    if (res.ok) {
+      const newComment = await res.json();
+      setDiscussions((prev) => [...prev, newComment]);
+    }
+  }
 
-    setSubmitting(true);
+  async function handleReply(parentId: string, author: string, content: string) {
+    if (!article) return;
     const res = await fetch(`/api/articles/${article.id}/discussions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         author: author.trim() || "Anonymous",
         content: content.trim(),
+        parentId,
       }),
     });
-
     if (res.ok) {
-      const newComment = await res.json();
-      setDiscussions((prev) => [...prev, newComment]);
-      setContent("");
+      const newReply = await res.json();
+      setDiscussions((prev) => insertReply(prev, parentId, newReply));
     }
-    setSubmitting(false);
+  }
+
+  function insertReply(list: Discussion[], parentId: string, reply: Discussion): Discussion[] {
+    return list.map((d) => {
+      if (d.id === parentId) return { ...d, replies: [...d.replies, reply] };
+      return { ...d, replies: insertReply(d.replies, parentId, reply) };
+    });
   }
 
   async function handleDelete(discussionId: string) {
     if (!article) return;
-    if (!confirm("Delete this comment?")) return;
-
+    if (!confirm("Delete this comment and all its replies?")) return;
     const res = await fetch(
       `/api/articles/${article.id}/discussions?discussionId=${discussionId}`,
       { method: "DELETE" }
     );
     if (res.ok) {
-      setDiscussions((prev) => prev.filter((d) => d.id !== discussionId));
+      setDiscussions((prev) => removeComment(prev, discussionId));
     }
   }
 
-  if (loading) {
-    return <div className="py-8 text-center text-muted italic text-[13px]">Loading...</div>;
+  function removeComment(list: Discussion[], id: string): Discussion[] {
+    return list
+      .filter((d) => d.id !== id)
+      .map((d) => ({ ...d, replies: removeComment(d.replies, id) }));
   }
 
-  if (!article) {
-    return <div className="py-8 text-center text-muted italic text-[13px]">Article not found.</div>;
-  }
+  if (loading) return <div className="py-8 text-center text-muted italic text-[13px]">Loading...</div>;
+  if (!article) return <div className="py-8 text-center text-muted italic text-[13px]">Article not found.</div>;
+
+  const totalCount = (list: Discussion[]): number =>
+    list.reduce((n, d) => n + 1 + totalCount(d.replies), 0);
 
   return (
     <div>
-      {/* Tabs */}
       <div className="wiki-tabs">
-        <Link href={`/articles/${slug}`} className="wiki-tab">
-          Article
-        </Link>
-        {isAdmin && (
-          <Link href={`/articles/${slug}/edit`} className="wiki-tab">
-            Edit
-          </Link>
-        )}
-        <Link href={`/articles/${slug}/history`} className="wiki-tab">
-          History
-        </Link>
+        <Link href={`/articles/${slug}`} className="wiki-tab">Article</Link>
+        {isAdmin && <Link href={`/articles/${slug}/edit`} className="wiki-tab">Edit</Link>}
+        <Link href={`/articles/${slug}/history`} className="wiki-tab">History</Link>
         <span className="wiki-tab wiki-tab-active">Discussion</span>
       </div>
 
@@ -118,46 +285,30 @@ export default function DiscussionPage() {
           style={{ fontFamily: "var(--font-serif)" }}
         >
           Discussion: {article.title}
+          {totalCount(discussions) > 0 && (
+            <span className="ml-2 text-[1rem] text-muted font-normal">
+              ({totalCount(discussions)} comment{totalCount(discussions) !== 1 ? "s" : ""})
+            </span>
+          )}
         </h1>
 
-        {/* Comments list */}
         {discussions.length === 0 ? (
-          <p className="text-[13px] text-muted italic mb-4">
-            No comments yet. Be the first to start a discussion.
-          </p>
+          <p className="text-[13px] text-muted italic mb-4">No comments yet. Be the first to start a discussion.</p>
         ) : (
           <div className="space-y-3 mb-4">
             {discussions.map((d) => (
-              <div key={d.id} className="border border-border bg-surface-hover px-4 py-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[13px] font-bold text-heading">{d.author}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-muted">
-                      {new Date(d.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
-                    {isAdmin && (
-                      <button
-                        onClick={() => handleDelete(d.id)}
-                        className="text-[11px] text-red-500 hover:underline"
-                      >
-                        delete
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <p className="text-[13px] text-foreground whitespace-pre-wrap">{d.content}</p>
-              </div>
+              <Comment
+                key={d.id}
+                d={d}
+                articleId={article.id}
+                isAdmin={isAdmin}
+                onDelete={handleDelete}
+                onReply={handleReply}
+              />
             ))}
           </div>
         )}
 
-        {/* Add comment form */}
         <div className="border-t border-border pt-3">
           <h2
             className="text-base font-normal text-heading mb-2"
@@ -165,36 +316,7 @@ export default function DiscussionPage() {
           >
             Add a comment
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-2">
-            <div>
-              <label className="block text-[13px] font-bold text-heading mb-1">Name:</label>
-              <input
-                type="text"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                placeholder="Anonymous"
-                className="w-full max-w-xs border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-[13px] font-bold text-heading mb-1">Comment:</label>
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-                rows={4}
-                placeholder="Share your thoughts..."
-                className="w-full border border-border bg-surface px-3 py-2 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none resize-y"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={submitting || !content.trim()}
-              className="bg-accent px-4 py-1.5 text-[13px] font-bold text-white hover:bg-accent-hover disabled:opacity-50"
-            >
-              {submitting ? "Posting..." : "Post comment"}
-            </button>
-          </form>
+          <CommentForm onSubmit={handlePost} />
         </div>
       </div>
     </div>

@@ -148,17 +148,21 @@ model ArticleRevision {
 }
 
 model Discussion {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   articleId String
-  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  author    String   @default("Anonymous")
-  content   String   @db.Text
+  article   Article      @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  author    String       @default("Anonymous")
+  content   String       @db.Text
   userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  user      User?        @relation(fields: [userId], references: [id])
+  parentId  String?
+  parent    Discussion?  @relation("Replies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Discussion[] @relation("Replies")
+  createdAt DateTime     @default(now())
 
   @@index([articleId])
   @@index([createdAt])
+  @@index([parentId])
 }
 
 model MapMarker {

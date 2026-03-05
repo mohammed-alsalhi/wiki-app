@@ -8,8 +8,18 @@ export async function GET(
 ) {
   const { id } = await params;
   const discussions = await prisma.discussion.findMany({
-    where: { articleId: id },
+    where: { articleId: id, parentId: null },
     orderBy: { createdAt: "asc" },
+    include: {
+      replies: {
+        orderBy: { createdAt: "asc" },
+        include: {
+          replies: {
+            orderBy: { createdAt: "asc" },
+          },
+        },
+      },
+    },
   });
   return NextResponse.json(discussions);
 }
@@ -20,7 +30,7 @@ export async function POST(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { author, content } = body;
+  const { author, content, parentId } = body;
 
   if (!content?.trim()) {
     return NextResponse.json({ error: "Content is required" }, { status: 400 });
@@ -31,6 +41,10 @@ export async function POST(
       articleId: id,
       author: author?.trim() || "Anonymous",
       content: content.trim(),
+      parentId: parentId ?? null,
+    },
+    include: {
+      replies: true,
     },
   });
 

@@ -124,10 +124,12 @@ This document outlines planned features and improvements for Wiki App. Contribut
 
 ---
 
-## Planned (v4.0+)
+## Completed (v4.0+)
+
+<details>
+<summary>All features shipped in v4.0 and later</summary>
 
 ### AI Intelligence Layer
-
 - [x] **Semantic search via embeddings** — use `pgvector` to index article embeddings; find conceptually related articles even when no keywords match
 - [x] **Knowledge gap detector** — AI scans all articles and surfaces topics that are heavily referenced (via wiki links) but have no article yet; shown as a prioritised "create these" list
 - [x] **Smart duplicate detection** — warn editors when a new article draft is semantically close to existing content, with a similarity score and diff
@@ -136,7 +138,6 @@ This document outlines planned features and improvements for Wiki App. Contribut
 - [x] **Category gap suggestions** — on any category page the AI proposes sub-topics that fit the theme but haven't been written yet
 
 ### Learning & Retention
-
 - [x] **Learning paths** — editors curate ordered sequences of articles into named tracks (e.g. "Onboarding", "Advanced Topic"); readers see progress through a path
 - [x] **Spaced-repetition flashcards** — highlight any passage and add it to a personal flashcard deck; the app surfaces cards on an Anki-style schedule via email or push notification
 - [x] **"Quiz me on this"** — AI generates multiple-choice and short-answer questions from any article for self-testing; scores are logged to the user profile
@@ -145,9 +146,7 @@ This document outlines planned features and improvements for Wiki App. Contribut
 - [x] **Daily digest** — morning email/push notification summarising articles on your watchlist that changed in the past 24 hours, with a bullet-point diff
 
 ### Rich Content Blocks
-
 - [x] **Mermaid diagrams** — fenced ` ```mermaid ``` ` blocks render flowcharts, sequence diagrams, ER diagrams, and Gantt charts inline; editable in a split-pane code+preview
-- [ ] **Excalidraw whiteboards** — embed a live Excalidraw canvas inside any article; the SVG is stored in object storage and updated on save
 - [x] **KaTeX math** — `$inline$` and `$$block$$` LaTeX math rendering with copy-as-LaTeX support
 - [x] **Interactive data tables** — paste a CSV or JSON array into a special block; readers get a sortable, filterable, searchable table with optional chart toggle
 - [x] **Decision tree blocks** — a branching-logic tree editor (condition → yes/no branches) rendered as an interactive flowchart; useful for troubleshooting guides
@@ -155,9 +154,7 @@ This document outlines planned features and improvements for Wiki App. Contribut
 - [x] **"Present" mode** — one click converts any article's headings and content blocks into a Reveal.js slideshow; sharable via a `/present/slug` URL
 
 ### Discovery & Navigation
-
 - [x] **Smart collections** — define a collection by a tag/category/author query; it stays live and auto-updates as matching articles are created or edited
-- [ ] **Concept map per category** — an auto-generated, force-directed mind-map of all articles in a category and their wiki-link relationships; zoomable and clickable
 - [x] **Session reading trail** — a collapsible "you were here" panel showing the last N articles visited in this browser session with forward/back navigation
 - [x] **Personal bookmarks with sticky notes** — bookmark any article with a private freetext note visible only to you; listed on your profile
 - [x] **Shareable reading lists** — any user can build a named, ordered list of articles and share a public link; useful for onboarding packs or curated references
@@ -165,16 +162,13 @@ This document outlines planned features and improvements for Wiki App. Contribut
 - [x] **"Today I Learned" board** — community-curated TIL snippets (max 280 chars + article link) posted by any user; filterable by tag; archived monthly
 
 ### Collaboration 2.0
-
 - [x] **Expert badges per category** — admins designate domain experts; their byline is highlighted on articles and their edits are marked "expert reviewed" in history
 - [x] **Knowledge bounties** — any user can request an article on a specific topic; editors can claim and fulfill the request; requester is notified and the bounty is linked from the new article
 - [x] **Article forking** — branch a complete rewrite as a personal draft without touching the live article; propose a merge when ready; diff is shown to admins before accepting
-- [ ] **@mentions in discussions** — `@username` in article discussion comments triggers an in-app and optional email notification to that user
 - [x] **Peer-review certification** — after two or more expert reviewers approve an article, it receives a "Verified" badge visible on the article header and in search results
 - [x] **"This helped me" signal** — a thumbs-up / reaction strip at the foot of every article; aggregate score and top reaction shown on article cards and in analytics
 
 ### Integrations & Import/Export
-
 - [x] **Obsidian two-way sync** — import a vault (Markdown + front matter), and export any subset back; optional watch-folder for continuous sync via the CLI tool
 - [x] **Notion import** — authenticate with Notion OAuth and import a page tree with inline images, tables, and callouts preserved
 - [x] **Export as ePub / PDF / DOCX** — single article or entire category; preserves headings, images, footnotes, and syntax highlighting
@@ -183,7 +177,6 @@ This document outlines planned features and improvements for Wiki App. Contribut
 - [x] **GitHub Issues / Jira ticket linking** — attach issue URLs to articles; the article shows live status (open/closed/in-progress) via the respective API
 
 ### Analytics & Health
-
 - [x] **Per-article scroll-depth heatmap** — aggregate scroll positions from readers to show which sections actually get read vs. where people drop off
 - [x] **Search gap dashboard** — admin view of the most-searched queries that returned zero results, sorted by frequency; each row has a "create article" shortcut
 - [x] **Staleness score** — articles not updated in N months (configurable) get a freshness badge; a report sorts by staleness × view-count to prioritise what needs updating
@@ -192,12 +185,56 @@ This document outlines planned features and improvements for Wiki App. Contribut
 - [x] **Wiki health score** — a composite dashboard metric: link coverage, average freshness, stub ratio, search gap ratio, and accessibility audit pass rate; shown as a score card on the admin home
 
 ### Accessibility & Internationalisation
-
 - [x] **Full RTL support** — Arabic, Hebrew, Persian language articles with mirrored layout, correct bidirectional text handling in the editor, and RTL-aware CSS
 - [x] **Machine translation drafts** — one-click "Translate to…" via DeepL or Google Translate API creates a draft `ArticleTranslation`; editors can then review and publish
 - [x] **Dyslexia-friendly reading mode** — toggle OpenDyslexic font, increased letter/word spacing, pastel background tint, and wider line measure; persisted in user preferences
 - [x] **Article audio narration** — browser TTS (or optional ElevenLabs API) generates a playable audio version of any article; player appears below the title
 - [x] **Complete keyboard navigation** — every interactive element reachable and operable without a mouse; focus-visible styles throughout; skip-to-content link on every page
+
+</details>
+
+---
+
+## Planned
+
+### Discussions & Collaboration
+- [ ] **Nested discussion threads** — replies to comments with threading and collapse; pairs with `@mentions` for full conversation support
+- [ ] **@mentions in discussions** — `@username` in article discussion comments triggers an in-app and optional email notification to that user
+
+### Personalization
+- [ ] **Personal scratchpad** — a private, unsearchable scratch article per user for rough notes that never appear in search or listings
+- [ ] **Custom user homepage** — drag-and-drop widget grid: recent edits, watchlist activity, reading progress rings, pinned articles
+
+### Content Pipeline & Governance
+- [ ] **Admin audit log** — immutable log of all destructive actions (deletes, role changes, bulk edits) with timestamp and user; filterable and exportable
+- [ ] **Kanban article board** — drag-to-promote view of all articles by status (draft → review → published); editors see the whole pipeline at a glance
+- [ ] **Article expiry / auto-archive** — set a TTL on time-sensitive articles; they auto-move to draft and notify the owner when they expire
+- [ ] **Scheduled review reminders** — assign a "review by" date to any article; overdue articles surface in a dashboard and notify assigned editors
+
+### Navigation & Graph
+- [ ] **Timeline view** — articles with a date metadata field plotted on a horizontal chronological axis; zoomable, filterable by category/tag
+- [ ] **Graph clustering** — auto-detect communities (densely linked article clusters) in the knowledge graph and label them; highlight on hover
+- [ ] **Concept map per category** — an auto-generated, force-directed mind-map of all articles in a category and their wiki-link relationships; zoomable and clickable
+
+### Search & AI
+- [ ] **Natural language Q&A** — type a question ("How do I reset a password?") and get a direct answer extracted from matching articles, shown above normal results
+- [ ] **Cross-wiki federated search** — search across multiple wiki deployments from one query; returns ranked, deduplicated results with source labels
+
+### Editor & Content
+- [ ] **Macro / shortcode system** — define reusable parameterised content snippets (e.g. `{{warning|text}}`) that expand on render; managed from admin panel
+- [ ] **Excalidraw whiteboards** — embed a live Excalidraw canvas inside any article; the SVG is stored in object storage and updated on save
+
+### Notifications
+- [ ] **Per-article change digest** — weekly email summarising all edits to articles on your watchlist, with a paragraph-level diff
+
+### Developer & API
+- [ ] **Custom metadata schemas** — admins define typed fields (date, URL, select, number) per category; editors fill them in; values queryable via API
+- [ ] **GraphQL API** — alternative to REST for clients that need flexible field selection and nested queries in a single request
+- [ ] **Confluence import** — authenticate with Confluence Cloud, browse spaces, and import pages with formatting, attachments, and hierarchy preserved
+
+### Browser & Capture
+- [ ] **"Save to wiki" bookmarklet** — single JS bookmarklet for browsers without extension support; saves current page as a draft article pre-filled with title and URL
+- [ ] **Web clipper browser extension** — highlight text on any external page, click the extension, and it creates a draft article pre-filled with the selection, source URL, and title
 
 ---
 
