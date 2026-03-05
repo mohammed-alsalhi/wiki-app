@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [4.9.6] - 2026-03-05
+
+### New Features
+
+- **Timeline view** — articles plotted chronologically at `/timeline`; grouped by year with a vertical spine, dot-per-article layout, category label, and status badge
+- Category filter and title search filter
+- GET `/api/timeline` returns articles ordered by createdAt with optional categoryId filter
+- Added Timeline link to sidebar navigation section
+
 ## [4.9.5] - 2026-03-04
 
 ### New Features
