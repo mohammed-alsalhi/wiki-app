@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [4.9.1] - 2026-03-04
+
+### New Features
+
+- **@mentions in discussions** — typing `@username` in a comment body automatically notifies the mentioned user via the existing in-app notification system (type: "mention")
+- Mention parsing runs server-side on POST; looks up all matched usernames in the User table and bulk-creates Notification rows
+- `@username` tokens render highlighted in accent colour in the comment display
+
 ## [4.9.0] - 2026-03-04
 
 ### New Features

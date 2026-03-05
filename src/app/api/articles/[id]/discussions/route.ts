@@ -2,6 +2,31 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { isAdmin, requireAdmin } from "@/lib/auth";
 
+async function createMentionNotifications(
+  content: string,
+  articleId: string,
+  authorUsername: string
+) {
+  const mentionRegex = /@([\w-]+)/g;
+  const mentioned = [...new Set([...content.matchAll(mentionRegex)].map((m) => m[1]))];
+  if (mentioned.length === 0) return;
+
+  const users = await prisma.user.findMany({
+    where: { username: { in: mentioned } },
+    select: { id: true, username: true },
+  });
+
+  await prisma.notification.createMany({
+    data: users.map((u) => ({
+      userId: u.id,
+      articleId,
+      type: "mention",
+      message: `${authorUsername} mentioned you in a discussion comment`,
+    })),
+    skipDuplicates: true,
+  });
+}
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -36,17 +61,22 @@ export async function POST(
     return NextResponse.json({ error: "Content is required" }, { status: 400 });
   }
 
+  const trimmedAuthor = author?.trim() || "Anonymous";
+  const trimmedContent = content.trim();
+
   const discussion = await prisma.discussion.create({
     data: {
       articleId: id,
-      author: author?.trim() || "Anonymous",
-      content: content.trim(),
+      author: trimmedAuthor,
+      content: trimmedContent,
       parentId: parentId ?? null,
     },
     include: {
       replies: true,
     },
   });
+
+  await createMentionNotifications(trimmedContent, id, trimmedAuthor);
 
   return NextResponse.json(discussion, { status: 201 });
 }

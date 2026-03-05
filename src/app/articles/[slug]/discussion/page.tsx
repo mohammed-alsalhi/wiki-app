@@ -149,7 +149,15 @@ function Comment({
             )}
           </div>
         </div>
-        <p className="text-[13px] text-foreground whitespace-pre-wrap">{d.content}</p>
+        <p className="text-[13px] text-foreground whitespace-pre-wrap">
+          {d.content.split(/(@[\w-]+)/g).map((part, i) =>
+            /^@[\w-]+$/.test(part) ? (
+              <span key={i} className="text-accent font-medium">{part}</span>
+            ) : (
+              part
+            )
+          )}
+        </p>
       </div>
 
       {replying && (
