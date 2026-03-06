@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [4.10.3] - 2026-03-06
+
+### New Features
+
+- **Excalidraw whiteboards** — create and edit live drawing canvases at `/whiteboards`; canvases auto-save to the database 2 seconds after each change; titles editable inline
+- `Whiteboard` model (slug, title, `data` JSON for Excalidraw scene); GET/POST `/api/whiteboards` and GET/PUT/DELETE `/api/whiteboards/[id]`
+- Whiteboard list page and individual editor page; Excalidraw loaded dynamically (no SSR) with `@excalidraw/excalidraw`
+- Sidebar link added under navigation section
+
 ## [4.10.2] - 2026-03-06
 
 ### New Features

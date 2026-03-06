@@ -125,6 +125,9 @@ export default function Sidebar({
           <SidebarLink href="/timeline" active={pathname === "/timeline"} onClick={close}>
             Timeline
           </SidebarLink>
+          <SidebarLink href="/whiteboards" active={pathname === "/whiteboards" || pathname.startsWith("/whiteboards/")} onClick={close}>
+            Whiteboards
+          </SidebarLink>
           {config.mapEnabled && (
             <SidebarLink href="/map" active={pathname === "/map" || pathname.startsWith("/map/")} onClick={close}>
               {config.mapLabel}

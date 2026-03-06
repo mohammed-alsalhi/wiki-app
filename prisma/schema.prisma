@@ -963,6 +963,21 @@ model MetadataSchema {
   @@index([categoryId])
 }
 
+// ── v4.10: Excalidraw Whiteboards ──
+model Whiteboard {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  data        Json     @default("{}") // Excalidraw scene JSON
+  isPublic    Boolean  @default(true)
+  authorId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([authorId])
+}
+
 // ── v4.10: Macros / Shortcodes ──
 model Macro {
   id          String   @id @default(cuid())
