@@ -171,6 +171,9 @@ export default function Sidebar({
           <SidebarLink href="/watchlist" active={pathname === "/watchlist"} onClick={close}>
             Watchlist
           </SidebarLink>
+          <SidebarLink href="/watchlist/digest" active={pathname === "/watchlist/digest"} onClick={close}>
+            Change digest
+          </SidebarLink>
           <SidebarLink href="/flashcards" active={pathname === "/flashcards"} onClick={close}>
             Flashcards
           </SidebarLink>

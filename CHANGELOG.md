@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [4.10.1] - 2026-03-06
+
+### New Features
+
+- **Per-article change digest** — `/watchlist/digest` shows all edits to watched articles in the past 7 days, grouped by article with editor names and edit counts
+- GET `/api/watchlist/digest` queries revisions for the authenticated user's watchlist articles in the 7-day window
+- POST `/api/cron/digest` (protected by `CRON_SECRET`) creates in-app Notification rows for watchers; deduplicated to one digest notification per article per week
+- "Generate digest now" button lets users trigger digest on demand; sidebar link added under personal section
+
 ## [4.10.0] - 2026-03-06
 
 ### New Features
