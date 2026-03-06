@@ -42,6 +42,7 @@ export default function EditArticlePage() {
   const [isPinned, setIsPinned] = useState(false);
   const [expiresAt, setExpiresAt] = useState("");
   const [reviewDueAt, setReviewDueAt] = useState("");
+  const [metadataFields, setMetadataFields] = useState<{ name: string; label: string; type: string; options?: string; required?: boolean }[]>([]);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -51,6 +52,14 @@ export default function EditArticlePage() {
       .then((r) => r.json())
       .then(setCategories);
   }, []);
+
+  useEffect(() => {
+    if (!categoryId) { setMetadataFields([]); return; }
+    fetch(`/api/metadata-schemas/by-category/${categoryId}`)
+      .then((r) => r.json())
+      .then((d) => setMetadataFields(Array.isArray(d.fields) ? d.fields : []))
+      .catch(() => setMetadataFields([]));
+  }, [categoryId]);
 
   useEffect(() => {
     async function load() {
@@ -262,6 +271,47 @@ export default function EditArticlePage() {
                 data={infobox}
                 onChange={setInfobox}
               />
+            </div>
+          )}
+
+          {metadataFields.length > 0 && (
+            <div>
+              <label className="block text-[13px] font-bold text-heading mb-1">Metadata fields:</label>
+              <div className="border border-border bg-surface p-3 space-y-2">
+                {metadataFields.map((f) => (
+                  <div key={f.name}>
+                    <label className="block text-[12px] text-muted font-bold mb-0.5">
+                      {f.label}{f.required && <span className="text-red-500 ml-0.5">*</span>}
+                    </label>
+                    {f.type === "boolean" ? (
+                      <input
+                        type="checkbox"
+                        checked={infobox[f.name] === "true"}
+                        onChange={(e) => setInfobox({ ...infobox, [f.name]: e.target.checked ? "true" : "false" })}
+                      />
+                    ) : f.type === "select" ? (
+                      <select
+                        value={infobox[f.name] ?? ""}
+                        onChange={(e) => setInfobox({ ...infobox, [f.name]: e.target.value })}
+                        className="w-full border border-border bg-surface px-2 py-1 text-[12px] focus:border-accent focus:outline-none"
+                      >
+                        <option value="">— Select —</option>
+                        {(f.options ?? "").split(",").map((o) => o.trim()).filter(Boolean).map((o) => (
+                          <option key={o} value={o}>{o}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
+                        value={infobox[f.name] ?? ""}
+                        onChange={(e) => setInfobox({ ...infobox, [f.name]: e.target.value })}
+                        required={f.required}
+                        className="w-full border border-border bg-surface px-2 py-1 text-[12px] focus:border-accent focus:outline-none"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

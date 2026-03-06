@@ -103,9 +103,10 @@ model Category {
   parentId     String?
   parent       Category?   @relation("CategoryTree", fields: [parentId], references: [id])
   children     Category[]  @relation("CategoryTree")
-  articles     Article[]
-  expertBadges ExpertBadge[]
-  createdAt    DateTime    @default(now())
+  articles        Article[]
+  expertBadges    ExpertBadge[]
+  metadataSchema  MetadataSchema?
+  createdAt       DateTime    @default(now())
 
   @@index([parentId])
 }
@@ -947,6 +948,19 @@ model AuditLog {
   @@index([createdAt])
   @@index([action])
   @@index([userId])
+}
+
+// ── v4.10: Custom Metadata Schemas ──
+model MetadataSchema {
+  id          String   @id @default(cuid())
+  categoryId  String   @unique
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // JSON array of field definitions: [{name, label, type, options?, required?}]
+  fields      Json     @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
 }
 
 // ── v4.10: Macros / Shortcodes ──

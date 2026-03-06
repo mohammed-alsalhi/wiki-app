@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [4.10.2] - 2026-03-06
+
+### New Features
+
+- **Custom metadata schemas** — admins define typed fields (text, number, date, boolean, select) per category at `/admin/metadata-schemas`; fields appear in the article editor when the article belongs to that category; values stored in the article's `infobox` JSON
+- `MetadataSchema` model added (one schema per category, `fields` JSON array); relation added to `Category`
+- GET `/api/metadata-schemas` lists all schemas; POST creates/updates (upsert); GET `/api/metadata-schemas/by-category/[categoryId]` returns the schema for a given category
+- Article edit form fetches the schema when category changes and renders the appropriate inputs (text, number, date, checkbox for boolean, select for enum)
+- Sidebar link added under admin section
+
 ## [4.10.1] - 2026-03-06
 
 ### New Features

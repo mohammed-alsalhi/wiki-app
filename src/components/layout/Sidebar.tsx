@@ -281,6 +281,9 @@ export default function Sidebar({
             <SidebarLink href="/admin/macros" active={pathname === "/admin/macros"} onClick={close}>
               Macros
             </SidebarLink>
+            <SidebarLink href="/admin/metadata-schemas" active={pathname === "/admin/metadata-schemas"} onClick={close}>
+              Metadata schemas
+            </SidebarLink>
           </SidebarSection>
         )}
 
