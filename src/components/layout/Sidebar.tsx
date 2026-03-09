@@ -131,6 +131,9 @@ export default function Sidebar({
           <SidebarLink href="/bookmarklet" active={pathname === "/bookmarklet"} onClick={close}>
             Bookmarklet
           </SidebarLink>
+          <SidebarLink href="/clipper-extension" active={pathname === "/clipper-extension"} onClick={close}>
+            Clipper extension
+          </SidebarLink>
           {config.mapEnabled && (
             <SidebarLink href="/map" active={pathname === "/map" || pathname.startsWith("/map/")} onClick={close}>
               {config.mapLabel}

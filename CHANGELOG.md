@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [4.10.9] - 2026-03-10
+
+### New Features
+
+- **Web clipper browser extension** — Manifest V3 Chrome/Edge/Brave extension in `extension/`; popup shows pre-filled title and selected text, configurable wiki URL, saves draft via `POST /api/bookmarklet`, offers "Open editor" on success
+- `/clipper-extension` install guide page with step-by-step instructions; cross-links to the bookmarklet alternative
+- Sidebar link added alongside the bookmarklet link
+
 ## [4.10.8] - 2026-03-06
 
 ### New Features
