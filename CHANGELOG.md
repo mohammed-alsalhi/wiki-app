@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [4.10.6] - 2026-03-06
+
+### New Features
+
+- **GraphQL API** — `/api/graphql` powered by `graphql-yoga`; supports GET (GraphiQL playground) and POST (queries/mutations)
+- Schema covers: `Article`, `Category`, `Tag`, `Revision`, `SearchResult`, `WikiStats`
+- Queries: `article(slug)`, `articles(limit, offset, categorySlug, status)`, `category(slug)`, `categories`, `tag(slug)`, `tags`, `search(q, limit)`, `revisions(articleSlug, limit)`, `stats`
+- Category type includes nested `articles(limit, offset)` resolver
+- Auth context forwarded via `getSession()` for future mutation/permission expansion
+
 ## [4.10.5] - 2026-03-06
 
 ### New Features
