@@ -165,6 +165,9 @@ export default function Sidebar({
 
         {/* Personal */}
         <SidebarSection title="Personal">
+          <SidebarLink href="/dashboard" active={pathname === "/dashboard"} onClick={close}>
+            My dashboard
+          </SidebarLink>
           <SidebarLink href="/reading-lists" active={pathname.startsWith("/reading-lists")} onClick={close}>
             Reading lists
           </SidebarLink>

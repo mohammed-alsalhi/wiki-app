@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [4.10.5] - 2026-03-06
+
+### New Features
+
+- **Custom user homepage / dashboard** — `/dashboard` shows a personalizable widget grid; drag cards to reorder, toggle widgets on/off via "Customize" mode; layout saved to user preferences
+- Available widgets: Recent articles, Watchlist, Recent edits, Random article, Scratchpad preview, Wiki stats, Notifications
+- GET `/api/articles/random` — returns a random published article for the random-article widget
+- GET `/api/revisions?limit=N` — returns recent article revisions for the recent-edits widget
+- Widget order and visibility persisted via existing `/api/preferences` (`dashboardWidgets` key)
+- Sidebar link added to top of Personal section
+
 ## [4.10.4] - 2026-03-06
 
 ### New Features
