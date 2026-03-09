@@ -1,0 +1,286 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Features",
+  description: "A complete overview of everything the wiki can do.",
+};
+
+export default function FeaturesPage() {
+  return (
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-1"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        Features
+      </h1>
+      <p className="text-[13px] text-muted mb-5">
+        A complete overview of everything the wiki can do. For step-by-step instructions see the{" "}
+        <Link href="/help">Help &amp; Features Guide</Link>.
+      </p>
+
+      {/* Writing & Editing */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Writing &amp; Editing</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Rich text editor</strong> — Tiptap-based WYSIWYG editor with toolbar, slash commands, and drag-and-drop block reordering</li>
+            <li><strong>Markdown mode</strong> — toggle between rich text and raw Markdown at any time</li>
+            <li><strong>Slash commands</strong> — type <code className="bg-surface-hover px-1 text-[12px]">/</code> for Mermaid diagrams, math blocks, Excalidraw drawings, data tables, decision trees, headings, and more</li>
+            <li><strong>Mermaid diagrams</strong> — flowcharts, sequence diagrams, Gantt charts, and more rendered inline</li>
+            <li><strong>Math (KaTeX)</strong> — inline <code className="bg-surface-hover px-1 text-[12px]">$...$</code> and block <code className="bg-surface-hover px-1 text-[12px]">$$...$$</code> math expressions</li>
+            <li><strong>Excalidraw drawings</strong> — embed interactive whiteboard sketches directly in articles</li>
+            <li><strong>Data tables</strong> — paste CSV or JSON to create sortable, filterable tables with CSV download</li>
+            <li><strong>Decision trees</strong> — define yes/no trees as JSON; renders as an interactive SVG</li>
+            <li><strong>Footnotes &amp; citations</strong> — inline footnote references auto-numbered via CSS counters</li>
+            <li><strong>Syntax highlighting</strong> — code blocks with language detection and theme-aware colours</li>
+            <li><strong>Voice dictation</strong> — click the microphone button to insert speech at the cursor</li>
+            <li><strong>Article templates</strong> — Person, Place, Event, Thing, Group templates with infobox scaffolding</li>
+            <li><strong>Image upload</strong> — drag-and-drop or toolbar insert; stored via Vercel Blob</li>
+            <li><strong>Auto-revisions</strong> — every save snapshots the previous state automatically</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Knowledge Organization */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Knowledge Organization</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Wiki links</strong> — <code className="bg-surface-hover px-1 text-[12px]">[[Article Name]]</code> syntax with autocomplete; broken links shown in red</li>
+            <li><strong>Backlinks</strong> — every article shows which other articles link to it</li>
+            <li><strong>Semantic relations</strong> — link articles with typed relations (is-part-of, related-to, etc.)</li>
+            <li><strong>Hierarchical categories</strong> — tree-structured categories in the sidebar; each article belongs to one</li>
+            <li><strong>Hierarchical tags</strong> — many-to-many; browse all at <Link href="/tags">/tags</Link> with a size-scaled tag cloud</li>
+            <li><strong>Redirects</strong> — set a &ldquo;Redirect to&rdquo; slug to forward old URLs automatically</li>
+            <li><strong>Disambiguation</strong> — notice on articles with ambiguous titles</li>
+            <li><strong>Article status</strong> — Draft, Review, Published; non-published articles hidden from non-admins</li>
+            <li><strong>Pinned articles</strong> — pin important articles to the top of category pages</li>
+            <li><strong>Custom metadata schemas</strong> — define typed fields (text, number, date, boolean, select) per category at <Link href="/admin/metadata-schemas">/admin/metadata-schemas</Link></li>
+            <li><strong>Concept maps</strong> — visual relationship graph per category at <code className="bg-surface-hover px-1 text-[12px]">/categories/[slug]/concept-map</code></li>
+            <li><strong>Article graph</strong> — D3 force-directed graph of all wiki-link connections at <Link href="/graph">/graph</Link></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Discovery & Navigation */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Discovery &amp; Navigation</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Full-text search</strong> — AND-logic multi-word search with relevance ranking; instant results as you type</li>
+            <li><strong>Federated search</strong> — fans out to peer wiki instances and merges results under &ldquo;Results from other wikis&rdquo;</li>
+            <li><strong>Explore mode</strong> — guided walk through articles using semantic similarity at <Link href="/explore">/explore</Link></li>
+            <li><strong>Random article</strong> — <Link href="/random">/random</Link> jumps to a random published article</li>
+            <li><strong>Recent changes</strong> — timeline of all edits grouped by date at <Link href="/recent-changes">/recent-changes</Link></li>
+            <li><strong>Activity feed</strong> — stream of recent contributions at <Link href="/activity">/activity</Link></li>
+            <li><strong>Timeline view</strong> — chronological view of articles at <Link href="/timeline">/timeline</Link></li>
+            <li><strong>Smart collections</strong> — saved searches with filters (tags, category, author, date range) at <Link href="/collections">/collections</Link></li>
+            <li><strong>Bookmarks</strong> — save articles with optional notes at <Link href="/bookmarks">/bookmarks</Link></li>
+            <li><strong>Reading lists</strong> — ordered sequences of articles, shareable via link at <Link href="/reading-lists">/reading-lists</Link></li>
+            <li><strong>TIL (Today I Learned)</strong> — post short (280-char) notes at <Link href="/til">/til</Link></li>
+            <li><strong>Scratchpad</strong> — persistent personal scratch space at <Link href="/scratchpad">/scratchpad</Link></li>
+            <li><strong>Session reading trail</strong> — breadcrumb of your current session&apos;s navigation at the bottom of each article</li>
+            <li><strong>Table of contents</strong> — auto-generated for articles with multiple headings</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Personal Dashboard */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Personal Dashboard</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            A personalizable homepage at <Link href="/dashboard">/dashboard</Link> with a draggable widget grid.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Available widgets: Recent articles, Watchlist, Recent edits, Random article, Scratchpad preview, Wiki stats, Notifications</li>
+            <li>Toggle widgets on/off and reorder via &ldquo;Customize&rdquo; mode</li>
+            <li>Layout saved to your user preferences and restored on next visit</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Learning & Retention */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Learning &amp; Retention</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Learning paths</strong> — curated ordered sequences of articles with per-path progress tracking at <Link href="/learning-paths">/learning-paths</Link></li>
+            <li><strong>Flashcards</strong> — create decks from articles; SM-2 spaced repetition with 0–5 grading at <Link href="/flashcards">/flashcards</Link></li>
+            <li><strong>AI quizzes</strong> — Claude generates 5 multiple-choice questions from any article for self-testing</li>
+            <li><strong>Reading progress</strong> — mark articles as read; category pages show a completion ring</li>
+            <li><strong>Presentation mode</strong> — any article opens as a full-screen slideshow at <code className="bg-surface-hover px-1 text-[12px]">/present/[slug]</code>; each H2/H3 is a slide</li>
+            <li><strong>Watchlist digest</strong> — optional daily email summary of watched article changes at <Link href="/watchlist/digest">/watchlist/digest</Link></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Collaboration */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Collaboration</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Real-time co-editing</strong> — simultaneous editing with cursor presence via Yjs/y-prosemirror</li>
+            <li><strong>Discussions</strong> — threaded comments on every article; <code className="bg-surface-hover px-1 text-[12px]">@mention</code> triggers notifications</li>
+            <li><strong>Article reactions</strong> — Helpful, Insightful, Outdated, Confusing via the reaction bar</li>
+            <li><strong>Change requests</strong> — propose edits without direct write access at <Link href="/change-requests">/change-requests</Link></li>
+            <li><strong>Article forks</strong> — propose a full rewrite; admins review/merge/reject at <Link href="/forks">/forks</Link></li>
+            <li><strong>Review workflow</strong> — assign reviewers and track inline feedback at <Link href="/reviews">/reviews</Link></li>
+            <li><strong>Knowledge bounties</strong> — request new articles; contributors claim and fulfil them at <Link href="/bounties">/bounties</Link></li>
+            <li><strong>Expert badges</strong> — admin-granted per category; highlighted in revision history and bylines</li>
+            <li><strong>Article certification</strong> — &ldquo;Verified by experts&rdquo; badge after review by 2+ experts</li>
+            <li><strong>Contributor achievements</strong> — First edit, 10/100 edits, streak badges, category expert; unlocked with toast notification</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* AI Features */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">AI Features</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">AI features degrade gracefully when API keys are absent.</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Writing coach</strong> — Flesch-Kincaid score, passive-voice count, sentence-length stats, and AI suggestions in the editor</li>
+            <li><strong>Article summaries</strong> — auto-generated on save; used as the page meta description</li>
+            <li><strong>Semantic search</strong> — vector embeddings via OpenAI blend meaning-based results with keyword matches</li>
+            <li><strong>Duplicate detection</strong> — warns when a new article is semantically similar to an existing one</li>
+            <li><strong>Knowledge gaps</strong> — surfaces referenced-but-uncreated topics at <Link href="/admin/knowledge-gaps">/admin/knowledge-gaps</Link></li>
+            <li><strong>Category suggestions</strong> — Claude suggests topics missing from a category</li>
+            <li><strong>Quiz generation</strong> — 5 multiple-choice questions generated per article by Claude</li>
+            <li><strong>Translation</strong> — machine-translate articles via DeepL or Google Translate (requires API key)</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Whiteboards */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Whiteboards</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            Standalone Excalidraw canvases at <Link href="/whiteboards">/whiteboards</Link> — separate from article-embedded drawings.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Create unlimited named canvases; auto-save to the database 2 seconds after each change</li>
+            <li>Edit titles inline; full Excalidraw toolkit (shapes, text, arrows, images)</li>
+            <li>Embed any whiteboard in an article via the Excalidraw slash command</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Web Clipping */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Web Clipping</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">Capture content from the web directly into the wiki without switching context.</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Browser extension</strong> — Manifest V3 Chrome/Edge/Brave extension; popup pre-fills title and selected text, lets you set category, saves as draft via the API. Install guide at <Link href="/clipper-extension">/clipper-extension</Link>.</li>
+            <li><strong>Bookmarklet</strong> — drag-to-install JavaScript bookmark; clips any page URL + title (or selected text) as a draft article. Install at <Link href="/bookmarklet">/bookmarklet</Link>.</li>
+            <li>Selected text is wrapped in a blockquote with a source link; page HTML has nav/scripts stripped automatically</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Import & Export */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Import &amp; Export</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-1 font-bold text-heading">Import</p>
+          <ul className="list-disc pl-5 mb-3 space-y-0.5">
+            <li><strong>File upload</strong> — drag-and-drop <code className="bg-surface-hover px-1 text-[12px]">.md</code>, <code className="bg-surface-hover px-1 text-[12px]">.txt</code>, <code className="bg-surface-hover px-1 text-[12px]">.html</code>, or <code className="bg-surface-hover px-1 text-[12px]">.json</code> at <Link href="/import">/import</Link></li>
+            <li><strong>Obsidian vault</strong> — upload a <code className="bg-surface-hover px-1 text-[12px]">.zip</code>; front matter and <code className="bg-surface-hover px-1 text-[12px]">[[wikilinks]]</code> resolved automatically</li>
+            <li><strong>Notion</strong> — connect integration token and import a page tree</li>
+            <li><strong>Confluence</strong> — paste or upload a Confluence HTML export; title and content extracted, macros stripped</li>
+          </ul>
+          <p className="mb-1 font-bold text-heading">Export</p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>PDF (browser print), Markdown (<code className="bg-surface-hover px-1 text-[12px]">.md</code>), ePub 3, Word (.docx) — per article via the <strong>Export ▾</strong> menu</li>
+            <li>Category export — entire category as multi-chapter ePub or zip from the admin area</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* APIs & Integrations */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">APIs &amp; Integrations</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>REST API v1</strong> — <code className="bg-surface-hover px-1 text-[12px]">/api/v1/</code> with <code className="bg-surface-hover px-1 text-[12px]">X-API-Key</code> auth. See <Link href="/api-docs">API Documentation</Link>.</li>
+            <li><strong>REST API v2</strong> — pagination cursors, field selection</li>
+            <li><strong>GraphQL API</strong> — <code className="bg-surface-hover px-1 text-[12px]">/api/graphql</code> powered by graphql-yoga; includes GraphiQL playground. Queries for articles, categories, tags, revisions, search, and stats.</li>
+            <li><strong>RSS &amp; Atom feeds</strong> — <code className="bg-surface-hover px-1 text-[12px]">/feed.xml</code> and <code className="bg-surface-hover px-1 text-[12px]">/feed/atom</code></li>
+            <li><strong>Webhooks</strong> — HTTP callbacks dispatched on article events; delivery log at <Link href="/admin/webhooks">/admin/webhooks</Link></li>
+            <li><strong>Embeds</strong> — iframe-safe embed tokens per article at <code className="bg-surface-hover px-1 text-[12px]">/embed/[token]</code></li>
+            <li><strong>Slack</strong> — <code className="bg-surface-hover px-1 text-[12px]">/wiki &lt;query&gt;</code> slash command to search from Slack</li>
+            <li><strong>Discord</strong> — <code className="bg-surface-hover px-1 text-[12px]">/wiki</code> slash command in Discord</li>
+            <li><strong>Issue links</strong> — link GitHub, Jira, or Linear issues to articles with inline status badges</li>
+            <li><strong>Federated peers</strong> — configure peer wiki instances for cross-wiki search at <Link href="/admin/federated-peers">/admin/federated-peers</Link></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Interactive Map */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Interactive Map</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">Optional feature. Enable with <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_MAP_ENABLED=true</code>.</p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Multiple maps with custom background images and named layers</li>
+            <li>Clickable polygon areas linked to articles with hover tooltips</li>
+            <li>Different marker detail levels per zoom tier</li>
+            <li>Admin edit mode: draw, reshape, recolor, link to articles</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Accessibility */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Accessibility &amp; Reading Comfort</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li><strong>Dyslexia mode</strong> — OpenDyslexic font, increased spacing, warm background tint (persists across sessions)</li>
+            <li><strong>RTL toggle</strong> — switch article content to right-to-left reading direction</li>
+            <li><strong>Audio narration</strong> — text-to-speech via ElevenLabs (if configured) or browser synthesis; includes speed control</li>
+            <li><strong>Machine translation</strong> — DeepL or Google Translate (requires API key)</li>
+            <li><strong>Skip-to-content link</strong> — visible on keyboard focus on every page</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Administration */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Administration</div>
+        <div className="wiki-portal-body text-[13px]">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Roles</strong> — Viewer (read only), Editor (create/edit), Admin (full access)</li>
+            <li><strong>Multi-user accounts</strong> — registration, profiles at <code className="bg-surface-hover px-1 text-[12px]">/users/[username]</code>, settings at <Link href="/settings">/settings</Link></li>
+            <li><strong>Admin dashboard</strong> — review queue, statistics, embed tokens at <Link href="/admin">/admin</Link></li>
+            <li><strong>Analytics</strong> — scroll depth heatmap, navigation paths at <Link href="/admin/analytics">/admin/analytics</Link></li>
+            <li><strong>Performance metrics</strong> — system metrics at <Link href="/admin/metrics">/admin/metrics</Link></li>
+            <li><strong>Health score</strong> — A–F grade for link coverage, freshness, stub %, search gaps at <Link href="/admin/health">/admin/health</Link></li>
+            <li><strong>Content lint</strong> — broken links, missing excerpts, orphans at <Link href="/admin/lint">/admin/lint</Link></li>
+            <li><strong>Stale articles</strong> — articles not updated in 180+ days at <Link href="/admin/staleness">/admin/staleness</Link></li>
+            <li><strong>Embeddings coverage</strong> — semantic search index per article at <Link href="/admin/embeddings">/admin/embeddings</Link></li>
+            <li><strong>Plugins</strong> — enable/disable wiki plugins at <Link href="/admin/plugins">/admin/plugins</Link></li>
+            <li><strong>Webhooks</strong> — configure HTTP callbacks at <Link href="/admin/webhooks">/admin/webhooks</Link></li>
+            <li><strong>Templates</strong> — manage reusable article templates at <Link href="/admin/templates">/admin/templates</Link></li>
+            <li><strong>Theme</strong> — site-wide colour and typography at <Link href="/admin/theme">/admin/theme</Link></li>
+            <li><strong>Macros</strong> — define reusable content macros at <Link href="/admin/macros">/admin/macros</Link></li>
+            <li><strong>Content schedule</strong> — schedule article publishing at <Link href="/admin/content-schedule">/admin/content-schedule</Link></li>
+            <li><strong>Kanban board</strong> — manage articles as cards in a Kanban workflow at <Link href="/admin/kanban">/admin/kanban</Link></li>
+            <li><strong>Audit log</strong> — complete admin action log at <Link href="/admin/audit-log">/admin/audit-log</Link></li>
+            <li><strong>Import tools</strong> — Confluence, Notion, Obsidian import at <Link href="/admin/import">/admin/import</Link></li>
+            <li><strong>Batch operations</strong> — bulk-assign category, publish/unpublish, or delete from <Link href="/articles">/articles</Link></li>
+            <li><strong>Custom branding</strong> — name, tagline, welcome text, footer via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="wiki-notice">
+        For detailed usage instructions and keyboard shortcuts, see the <Link href="/help">Help &amp; Features Guide</Link>.
+        For API reference, see <Link href="/api-docs">API Documentation</Link>.
+      </div>
+    </div>
+  );
+}

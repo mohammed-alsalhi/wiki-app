@@ -1,6 +1,7 @@
 # Help & Features Guide
 
 This guide covers all features available in the wiki. Use the sections below to learn how to create, edit, organize, and get the most from your articles.
+For a feature overview see `/features`.
 
 ---
 
@@ -116,6 +117,7 @@ Press `Ctrl+Shift+L` (Cmd on Mac) to insert a wiki link.
 - Multi-word queries use **AND** logic — every word must appear somewhere in the article
 - Results are ranked: exact title match > starts with > title contains > content-only
 - **Semantic search:** set `OPENAI_API_KEY` to blend AI-ranked results based on meaning, not just keywords
+- **Federated search:** when peer wikis are configured, results from other wikis appear in a separate section on the search page automatically
 
 ---
 
@@ -151,6 +153,16 @@ AI features are gated on environment variables and degrade gracefully when keys 
 - **TIL (Today I Learned)** — post short (280-char) notes at `/til`. Tag them for discovery.
 - **Explore mode** — guided walk through articles using semantic similarity at `/explore`.
 - **Session reading trail** — collapsible breadcrumb at the bottom of each article showing your navigation history for the current session.
+
+---
+
+## Personal Dashboard
+
+A personalizable homepage at `/dashboard` with a draggable widget grid.
+
+- **Available widgets:** Recent articles, Watchlist, Recent edits, Random article, Scratchpad preview, Wiki stats, Notifications
+- Click **Customize** to show/hide widgets and drag cards to reorder them
+- Layout is saved to your user preferences and restored on every visit
 
 ---
 
@@ -199,6 +211,7 @@ AI features are gated on environment variables and degrade gracefully when keys 
 - **File upload:** drag-and-drop `.md`, `.txt`, `.html`, or `.json` at `/import`
 - **Obsidian vault:** upload a `.zip` at `/import/obsidian`. Front matter and `[[wikilinks]]` are resolved automatically.
 - **Notion:** connect your Notion integration token and import a page tree at `/import/notion`.
+- **Confluence:** upload a Confluence HTML export or paste HTML at `/admin/import`. Title extracted, macros stripped, saved as draft.
 
 ### Export
 
@@ -209,6 +222,30 @@ All formats are in the **Export ▾** dropdown on every article page.
 - **ePub** — downloads as a valid ePub 3 e-book
 - **Word (.docx)** — downloads as a Microsoft Word document
 - **Category export** — export an entire category as a multi-chapter ePub or zip from the admin area
+
+---
+
+## Web Clipping
+
+Save content from the web directly into the wiki without leaving your browser.
+
+### Browser extension
+
+Install the Manifest V3 browser extension (Chrome, Edge, Brave) from `/clipper-extension`. Click the extension popup on any page: the title and selected text are pre-filled; choose a category and click **Save to Wiki**. The article is created as a draft and the popup offers "Open editor" to refine it.
+
+### Bookmarklet
+
+Go to `/bookmarklet` and drag the button to your bookmarks bar (or copy the code). Click the bookmarklet on any page to clip the URL, title, and selected text as a draft article. Selected text is wrapped in a blockquote with a source link; full-page HTML has nav/headers/scripts stripped.
+
+---
+
+## Whiteboards
+
+Create standalone Excalidraw canvases at `/whiteboards` — separate from the Excalidraw blocks you can embed inside articles.
+
+- Create unlimited named canvases; the canvas auto-saves 2 seconds after each change
+- Edit the title inline at the top of the editor
+- Full Excalidraw toolkit: shapes, text, arrows, images, freehand drawing
 
 ---
 
@@ -278,13 +315,21 @@ The sidebar is divided into collapsible sections — click any section header to
 - **Forks** — `/forks`, divergent article versions
 
 **Personal section:**
+- **Dashboard** — `/dashboard`, personalizable widget homepage
 - **Reading lists** — `/reading-lists`, saved ordered reading sequences
 - **Bookmarks** — `/bookmarks`, articles you have starred
 - **Watchlist** — `/watchlist`, articles you are watching for changes
 - **Flashcards** — `/flashcards`, spaced-repetition study from article content
 - **Learning paths** — `/learning-paths`, structured sequences of articles
 - **Today I Learned** — `/til`, short TIL notes
+- **Scratchpad** — `/scratchpad`, persistent personal scratch space
 - **Settings** — `/settings`, personal preferences
+
+**Tools section:**
+- **Whiteboards** — `/whiteboards`, standalone Excalidraw canvases
+- **Timeline** — `/timeline`, chronological article view
+- **Bookmarklet** — `/bookmarklet`, web clipper bookmarklet
+- **Clipper extension** — `/clipper-extension`, browser extension install guide
 
 **Article structure:**
 - **Backlinks** — "What links here" at the bottom of every article
@@ -302,7 +347,7 @@ The sidebar is divided into collapsible sections — click any section header to
 - **Admin dashboard** — `/admin`, review queue, statistics, embed tokens
 - **Analytics** — `/admin/analytics`, page views and usage trends
 - **Metrics** — `/admin/metrics`, performance and system metrics
-- **Health** — `/admin/health`, service health checks
+- **Health** — `/admin/health`, service health checks and A–F grade
 - **Plugins** — `/admin/plugins`, enable/disable wiki plugins
 - **Webhooks** — `/admin/webhooks`, HTTP callbacks for article events
 - **Templates** — `/admin/templates`, reusable article templates
@@ -312,6 +357,13 @@ The sidebar is divided into collapsible sections — click any section header to
 - **Embeddings** — `/admin/embeddings`, semantic search index management
 - **Search gaps** — `/admin/search-gaps`, common searches returning no results
 - **Staleness** — `/admin/staleness`, articles not updated in a long time
+- **Macros** — `/admin/macros`, define reusable content macros
+- **Content schedule** — `/admin/content-schedule`, schedule article publishing
+- **Kanban board** — `/admin/kanban`, manage articles in a Kanban workflow
+- **Audit log** — `/admin/audit-log`, complete log of admin actions
+- **Metadata schemas** — `/admin/metadata-schemas`, typed fields per category
+- **Federated peers** — `/admin/federated-peers`, configure peer wikis for cross-wiki search
+- **Import tools** — `/admin/import`, Confluence/Notion/Obsidian import in one place
 - **Batch operations:** on `/articles`, bulk-assign category, publish/unpublish, or delete
 - **Customization:** name, tagline, welcome text, footer set via `NEXT_PUBLIC_*` environment variables
 
@@ -334,11 +386,13 @@ The sidebar is divided into collapsible sections — click any section header to
 
 ---
 
-## RSS Feeds & Public API
+## RSS Feeds & APIs
 
 - **RSS:** `/feed.xml`
 - **Atom:** `/feed/atom`
-- **Public REST API:** `/api/v1/` with `X-API-Key` authentication. See `/api-docs` for documentation.
+- **Public REST API v1:** `/api/v1/` with `X-API-Key` authentication. See `/api-docs` for documentation.
+- **GraphQL API:** `/api/graphql` — interactive GraphiQL playground at the same URL (GET). Supports queries for articles, categories, tags, revisions, search, and wiki stats.
+- **Webhooks:** configure HTTP callbacks for article events at `/admin/webhooks`; delivery log included.
 
 ---
 

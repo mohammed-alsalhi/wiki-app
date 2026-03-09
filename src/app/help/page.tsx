@@ -17,6 +17,7 @@ export default function HelpPage() {
 
       <p className="text-[13px] text-muted mb-4">
         This guide covers all features available in the wiki. Use the sections below to learn how to create, edit, organize, and get the most from your articles.
+        For a feature overview see <Link href="/features">Features</Link>.
       </p>
 
       {/* Getting Started */}
@@ -149,6 +150,7 @@ export default function HelpPage() {
             <li>Multi-word queries use <strong>AND</strong> logic — every word must appear somewhere in the article</li>
             <li>Results are ranked: exact title match &gt; starts with &gt; title contains &gt; content-only</li>
             <li><strong>Semantic search:</strong> set <code className="bg-surface-hover px-1 text-[12px]">OPENAI_API_KEY</code> to blend AI-ranked results based on meaning, not just keywords</li>
+            <li><strong>Federated search:</strong> when peer wikis are configured, results from other wikis appear in a separate section on the search page automatically</li>
           </ul>
         </div>
       </div>
@@ -273,6 +275,54 @@ export default function HelpPage() {
             <li><strong>Category export:</strong> export an entire category as a multi-chapter ePub or zip from the admin area</li>
           </ul>
           <p className="mt-2">All export formats are in the <strong>Export ▾</strong> dropdown on every article page.</p>
+          <p className="mb-1 mt-3 font-bold text-heading">Confluence import</p>
+          <p className="mb-1">Upload a Confluence HTML export file or paste the HTML directly at <Link href="/admin/import">/admin/import</Link>. The title is extracted from the page heading and Confluence macros are stripped. The result is saved as a draft article.</p>
+        </div>
+      </div>
+
+      {/* Web Clipping */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Web Clipping</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">Save content from the web directly into the wiki without leaving your browser.</p>
+          <p className="mb-1 font-bold text-heading">Browser extension</p>
+          <p className="mb-2">
+            Install the Manifest V3 browser extension (Chrome, Edge, Brave) from <Link href="/clipper-extension">/clipper-extension</Link>. Click the extension popup on any page: the title and selected text are pre-filled; choose a category and click <strong>Save to Wiki</strong>. The article is created as a draft and the popup offers &ldquo;Open editor&rdquo; to refine it.
+          </p>
+          <p className="mb-1 font-bold text-heading">Bookmarklet</p>
+          <p>
+            Go to <Link href="/bookmarklet">/bookmarklet</Link> and drag the button to your bookmarks bar (or copy the code). Click the bookmarklet on any page to clip the URL, title, and selected text as a draft article. Selected text is wrapped in a blockquote with a source link; full-page HTML has nav/headers/scripts stripped.
+          </p>
+        </div>
+      </div>
+
+      {/* Whiteboards */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Whiteboards</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            Create standalone Excalidraw canvases at <Link href="/whiteboards">/whiteboards</Link>. These are separate from the Excalidraw blocks you can embed inside articles.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li>Create unlimited named canvases; the canvas auto-saves 2 seconds after each change</li>
+            <li>Edit the title inline at the top of the editor</li>
+            <li>Full Excalidraw toolkit: shapes, text, arrows, images, freehand drawing</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Dashboard */}
+      <div className="wiki-portal mb-4">
+        <div className="wiki-portal-header">Personal Dashboard</div>
+        <div className="wiki-portal-body text-[13px]">
+          <p className="mb-2">
+            Your personalized homepage at <Link href="/dashboard">/dashboard</Link> shows a grid of widgets you can rearrange and toggle.
+          </p>
+          <ul className="list-disc pl-5 space-y-0.5">
+            <li><strong>Available widgets:</strong> Recent articles, Watchlist, Recent edits, Random article, Scratchpad preview, Wiki stats, Notifications</li>
+            <li>Click <strong>Customize</strong> to show/hide widgets and drag cards to reorder them</li>
+            <li>Layout is saved to your user preferences and restored on every visit</li>
+          </ul>
         </div>
       </div>
 
@@ -348,8 +398,12 @@ export default function HelpPage() {
           </ul>
           <p className="font-semibold mb-0.5">Personal</p>
           <ul className="list-disc pl-5 space-y-0.5 mb-2">
-            <li><Link href="/reading-lists">Reading lists</Link>, <Link href="/bookmarks">Bookmarks</Link>, <Link href="/watchlist">Watchlist</Link></li>
-            <li><Link href="/flashcards">Flashcards</Link>, <Link href="/learning-paths">Learning paths</Link>, <Link href="/til">Today I Learned</Link>, <Link href="/settings">Settings</Link></li>
+            <li><Link href="/dashboard">Dashboard</Link>, <Link href="/reading-lists">Reading lists</Link>, <Link href="/bookmarks">Bookmarks</Link>, <Link href="/watchlist">Watchlist</Link></li>
+            <li><Link href="/flashcards">Flashcards</Link>, <Link href="/learning-paths">Learning paths</Link>, <Link href="/til">Today I Learned</Link>, <Link href="/scratchpad">Scratchpad</Link>, <Link href="/settings">Settings</Link></li>
+          </ul>
+          <p className="font-semibold mb-0.5">Tools</p>
+          <ul className="list-disc pl-5 space-y-0.5 mb-2">
+            <li><Link href="/whiteboards">Whiteboards</Link>, <Link href="/timeline">Timeline</Link>, <Link href="/bookmarklet">Bookmarklet</Link>, <Link href="/clipper-extension">Clipper extension</Link></li>
           </ul>
           <p className="font-semibold mb-0.5">Article structure</p>
           <ul className="list-disc pl-5 space-y-0.5">
@@ -373,6 +427,9 @@ export default function HelpPage() {
             <li><Link href="/admin/analytics">Analytics</Link>, <Link href="/admin/metrics">Metrics</Link>, <Link href="/admin/health">Health</Link></li>
             <li><Link href="/admin/plugins">Plugins</Link>, <Link href="/admin/webhooks">Webhooks</Link>, <Link href="/admin/templates">Templates</Link>, <Link href="/admin/theme">Theme</Link></li>
             <li><Link href="/admin/lint">Content lint</Link>, <Link href="/admin/knowledge-gaps">Knowledge gaps</Link>, <Link href="/admin/search-gaps">Search gaps</Link>, <Link href="/admin/staleness">Staleness</Link>, <Link href="/admin/embeddings">Embeddings</Link></li>
+            <li><Link href="/admin/macros">Macros</Link>, <Link href="/admin/content-schedule">Content schedule</Link>, <Link href="/admin/kanban">Kanban board</Link>, <Link href="/admin/audit-log">Audit log</Link></li>
+            <li><Link href="/admin/metadata-schemas">Metadata schemas</Link> — define typed fields per category; <Link href="/admin/federated-peers">Federated peers</Link> — configure peer wikis for cross-wiki search</li>
+            <li><Link href="/admin/import">Import tools</Link> — Confluence, Notion, Obsidian import in one place</li>
             <li><strong>Batch operations:</strong> on <Link href="/articles">All Articles</Link>, bulk-assign category, publish/unpublish, or delete</li>
             <li><strong>Customization:</strong> name, tagline, welcome text, footer set via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
           </ul>
@@ -406,12 +463,14 @@ export default function HelpPage() {
 
       {/* RSS & API */}
       <div className="wiki-portal mb-4">
-        <div className="wiki-portal-header">RSS Feeds &amp; Public API</div>
+        <div className="wiki-portal-header">RSS Feeds &amp; APIs</div>
         <div className="wiki-portal-body text-[13px]">
           <ul className="list-disc pl-5 space-y-0.5">
             <li><strong>RSS:</strong> <code className="bg-surface-hover px-1 text-[12px]">/feed.xml</code></li>
             <li><strong>Atom:</strong> <code className="bg-surface-hover px-1 text-[12px]">/feed/atom</code></li>
-            <li><strong>Public REST API:</strong> <code className="bg-surface-hover px-1 text-[12px]">/api/v1/</code> with <code className="bg-surface-hover px-1 text-[12px]">X-API-Key</code> authentication. See <Link href="/api-docs">API Documentation</Link>.</li>
+            <li><strong>Public REST API v1:</strong> <code className="bg-surface-hover px-1 text-[12px]">/api/v1/</code> with <code className="bg-surface-hover px-1 text-[12px]">X-API-Key</code> authentication. See <Link href="/api-docs">API Documentation</Link>.</li>
+            <li><strong>GraphQL API:</strong> <code className="bg-surface-hover px-1 text-[12px]">/api/graphql</code> — interactive GraphiQL playground at the same URL (GET). Supports queries for articles, categories, tags, revisions, search, and wiki stats.</li>
+            <li><strong>Webhooks:</strong> configure HTTP callbacks for article events at <Link href="/admin/webhooks">/admin/webhooks</Link>; delivery log included.</li>
           </ul>
         </div>
       </div>

@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [4.11.0] - 2026-03-10
+
+### New Features
+
+- **Features page** — new `/features` page with a complete organized overview of all wiki capabilities grouped by area (writing, organization, discovery, learning, collaboration, AI, web clipping, import/export, APIs, map, accessibility, administration)
+- **`docs/features.md`** — markdown version of the features page kept in sync
+- **Help page updated** — added Web Clipping section (bookmarklet + browser extension), Whiteboards section, Personal Dashboard section; added federated search, GraphQL API, Confluence import, all missing admin pages (`/admin/macros`, `/admin/content-schedule`, `/admin/kanban`, `/admin/audit-log`, `/admin/metadata-schemas`, `/admin/federated-peers`, `/admin/import`) to relevant sections; added Tools navigation subsection (Whiteboards, Timeline, Bookmarklet, Clipper extension); cross-link to new Features page
+- **`docs/help.md`** — fully synced with updated help page
+
 ## [4.10.9] - 2026-03-10
 
 ### New Features
