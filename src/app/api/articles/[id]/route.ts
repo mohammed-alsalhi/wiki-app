@@ -67,17 +67,27 @@ export async function PUT(
 
   // Handle slug change
   let slugUpdate: { slug: string } | Record<string, never> = {};
+  let oldSlugForRedirect: string | null = null;
   if (newSlug !== undefined) {
     const slug = generateSlug(newSlug);
     if (slug) {
       const existing = await prisma.article.findFirst({
         where: { slug, NOT: { id } },
+        select: { id: true },
       });
       if (existing) {
         return NextResponse.json(
           { error: "An article with that slug already exists" },
           { status: 409 }
         );
+      }
+      // Remember old slug so we can create a redirect after saving
+      const currentSlugRow = await prisma.article.findUnique({
+        where: { id },
+        select: { slug: true },
+      });
+      if (currentSlugRow && currentSlugRow.slug !== slug) {
+        oldSlugForRedirect = currentSlugRow.slug;
       }
       slugUpdate = { slug };
     }
@@ -109,6 +119,15 @@ export async function PUT(
       tags: { include: { tag: true } },
     },
   });
+
+  // Auto-create redirect if slug changed
+  if (oldSlugForRedirect && article.slug !== oldSlugForRedirect) {
+    await prisma.redirect.upsert({
+      where: { fromSlug: oldSlugForRedirect },
+      create: { fromSlug: oldSlugForRedirect, toSlug: article.slug },
+      update: { toSlug: article.slug },
+    });
+  }
 
   // Notify watchers (async, don't block response)
   notifyWatchers(id, article.title).catch(() => {});

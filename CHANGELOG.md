@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented here.
 
+## [4.14.0] - 2026-03-10
+
+### New Features
+
+- **Smart redirects** — new `Redirect` Prisma model; article slug renames auto-create redirect records; article page checks `Redirect` table on 404 and redirects; admin management at `/admin/redirects`
+- **Article stub tracker** — `/admin/stubs` lists articles below a configurable word threshold with stub badges and direct "Expand" links; threshold controlled via `?threshold=N` query param
+- **Article quality score** — composite 0–100 score computed from word count, internal links, images, freshness, and excerpt presence; API at `/api/articles/[id]/quality-score`; `ArticleQualityBadge` client component; admin overview at `/admin/quality`
+- **AI revision summaries** — "What changed?" button on history page calls `/api/articles/[id]/revisions/summarize` (Claude Haiku); shows a 2-3 sentence plain-English diff summary inline via `RevisionSummaryButton`
+- **Reading goals** — `/api/reading-goals` GET/PUT; weekly article reading target stored in `UserPreference.data.readingGoal`; `ReadingGoalWidget` SVG progress arc with streak counter
+- **Bulk article operations** — `/api/articles/bulk` supports `setStatus`, `setCategory`, `addTag`, `removeTag` across multiple article IDs; `BulkActionBar` sticky UI component for multi-select workflows
+- **Article transclusion** — `{{embed:slug}}` syntax resolved at render time by new `resolveTransclusions()` in `src/lib/wikilinks.ts`; expands to a bordered block showing the target article's full content
+- **Inline text annotations** — new `Annotation` Prisma model; highlight any article text and save private or shared margin notes; `AnnotationLayer` client component on all article pages; API at `/api/annotations`
+
+### Schema Changes
+
+- Added `Redirect` model (`fromSlug` unique, `toSlug`, `createdAt`)
+- Added `Annotation` model (`articleId`, `userId`, `selector` JSON, `note`, `isShared`, timestamps)
+- Added `annotations` relation to `Article` and `User` models
+
 ## [4.13.0] - 2026-03-10
 
 ### New Features

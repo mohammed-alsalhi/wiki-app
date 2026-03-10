@@ -84,6 +84,9 @@ model Article {
   expiresAt        DateTime?   // auto-archive when this date passes
   reviewDueAt      DateTime?   // remind editors to review by this date
 
+  // v4.13 additions
+  annotations      Annotation[]
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -258,6 +261,9 @@ model User {
 
   // v4.9 additions
   scratchpad       Scratchpad?
+
+  // v4.13 additions
+  annotations      Annotation[]
 
   createdAt    DateTime  @default(now())
 
@@ -1000,4 +1006,32 @@ model Macro {
   updatedAt   DateTime @updatedAt
 
   @@index([name])
+}
+
+// ── v4.13: Smart Redirects ──
+model Redirect {
+  id        String   @id @default(cuid())
+  fromSlug  String   @unique  // old slug that was renamed
+  toSlug    String             // new slug to redirect to
+  createdAt DateTime @default(now())
+
+  @@index([fromSlug])
+}
+
+// ── v4.13: Inline Text Annotations ──
+model Annotation {
+  id        String   @id @default(cuid())
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // JSON selector: { start: string, end: string, text: string } — XPath/text range
+  selector  Json
+  note      String   @db.Text
+  isShared  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([articleId])
+  @@index([userId])
 }

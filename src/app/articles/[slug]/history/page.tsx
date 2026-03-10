@@ -3,6 +3,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import AdminEditTab from "@/components/AdminEditTab";
+import RevisionSummaryButton from "@/components/RevisionSummaryButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -133,21 +134,30 @@ function DiffForm({
                   <span className="text-muted italic">No summary</span>
                 )}
               </td>
-              <td className="py-1.5 px-2 flex gap-2">
-                <Link
-                  href={`/articles/${slug}/diff?from=${rev.id}&to=current`}
-                  className="text-wiki-link text-[12px]"
-                >
-                  view
-                </Link>
-                <form action={`/api/articles/${articleId}/revisions/${rev.id}`} method="post">
-                  <button
-                    type="submit"
-                    className="text-wiki-link-broken text-[12px] hover:underline"
-                  >
-                    revert
-                  </button>
-                </form>
+              <td className="py-1.5 px-2">
+                <div className="flex flex-col gap-1">
+                  <div className="flex gap-2">
+                    <Link
+                      href={`/articles/${slug}/diff?from=${rev.id}&to=current`}
+                      className="text-wiki-link text-[12px]"
+                    >
+                      view
+                    </Link>
+                    <form action={`/api/articles/${articleId}/revisions/${rev.id}`} method="post">
+                      <button
+                        type="submit"
+                        className="text-wiki-link-broken text-[12px] hover:underline"
+                      >
+                        revert
+                      </button>
+                    </form>
+                  </div>
+                  <RevisionSummaryButton
+                    articleId={articleId}
+                    revisionId={rev.id}
+                    compareToId={revisions[i + 1]?.id}
+                  />
+                </div>
               </td>
             </tr>
           ))}

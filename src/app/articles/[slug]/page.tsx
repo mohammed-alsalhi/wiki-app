@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { config } from "@/lib/config";
-import { resolveWikiLinks, getBacklinks } from "@/lib/wikilinks";
+import { resolveWikiLinks, getBacklinks, resolveTransclusions } from "@/lib/wikilinks";
 import { expandMacros } from "@/lib/macros";
 import AdminEditTab from "@/components/AdminEditTab";
 import InfoboxDisplay from "@/components/InfoboxDisplay";
@@ -32,6 +32,8 @@ import DyslexiaToggle from "@/components/DyslexiaToggle";
 import RTLToggle from "@/components/RTLToggle";
 import TranslateButton from "@/components/TranslateButton";
 import { htmlToSpeakableText } from "@/lib/tts";
+import { getSession } from "@/lib/auth";
+import AnnotationLayer from "@/components/AnnotationLayer";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -90,6 +92,7 @@ function appendFootnoteSection(html: string): string {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
+  const session = await getSession();
 
   const article = await prisma.article.findUnique({
     where: { slug },
@@ -99,10 +102,16 @@ export default async function ArticlePage({ params }: Props) {
     },
   });
 
-  if (!article) notFound();
+  if (!article) {
+    // Check the Redirect table — slug may have been renamed
+    const slugRedirect = await prisma.redirect.findUnique({ where: { fromSlug: slug } });
+    if (slugRedirect) redirect(`/articles/${slugRedirect.toSlug}`);
+    notFound();
+  }
   if (article.redirectTo) redirect(`/articles/${article.redirectTo}`);
 
-  const expandedContent = await expandMacros(article.content);
+  const macroExpanded = await expandMacros(article.content);
+  const expandedContent = await resolveTransclusions(macroExpanded);
   const [resolvedContent, backlinks, allCategories] = await Promise.all([
     resolveWikiLinks(expandedContent),
     getBacklinks(slug),
@@ -350,6 +359,7 @@ export default async function ArticlePage({ params }: Props) {
         <SessionReadingTrail slug={article.slug} title={article.title} />
         <ScrollDepthTracker articleId={article.id} />
         <ReaderPathTracker currentSlug={article.slug} />
+        <AnnotationLayer articleId={article.id} isLoggedIn={!!session} />
         <BackToTop />
         <ReadingProgress />
       </div>

@@ -37,6 +37,40 @@ export async function resolveWikiLinks(html: string): Promise<string> {
   return resolved;
 }
 
+/**
+ * Expand {{embed:slug}} transclusion syntax in article content.
+ * Replaces each occurrence with the target article's HTML wrapped in a styled block.
+ * Only resolves one level (no recursive transclusion).
+ */
+export async function resolveTransclusions(content: string): Promise<string> {
+  const regex = /\{\{embed:([a-z0-9-]+)\}\}/gi;
+  const matches = [...content.matchAll(regex)];
+  if (matches.length === 0) return content;
+
+  const slugs = [...new Set(matches.map((m) => m[1].toLowerCase()))];
+  const articles = await prisma.article.findMany({
+    where: { slug: { in: slugs } },
+    select: { slug: true, title: true, content: true },
+  });
+  const bySlug = new Map(articles.map((a) => [a.slug, a]));
+
+  let resolved = content;
+  for (const m of matches) {
+    const full = m[0];
+    const slug = m[1].toLowerCase();
+    const article = bySlug.get(slug);
+    const replacement = article
+      ? `<div class="transclusion my-6 border border-border rounded-lg overflow-hidden">` +
+        `<div class="transclusion-header px-4 py-2 bg-muted/50 border-b border-border text-sm font-medium">` +
+        `<a href="/articles/${article.slug}" class="hover:underline">${article.title}</a></div>` +
+        `<div class="transclusion-body px-4 py-3 prose prose-sm max-w-none">${article.content}</div>` +
+        `</div>`
+      : `<span class="wiki-link wiki-link-broken" title="Embedded article not found">${full}</span>`;
+    resolved = resolved.replace(full, replacement);
+  }
+  return resolved;
+}
+
 export async function getBacklinks(slug: string): Promise<{ id: string; title: string; slug: string }[]> {
   // Find articles whose content contains a wiki link to this article
   const articles = await prisma.article.findMany({
