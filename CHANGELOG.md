@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [4.13.0] - 2026-03-10
+
+### New Features
+
+- **Scheduled review reminders cron** — `/api/cron/review-reminders` finds articles where `reviewDueAt` has passed and status is not "published"; notifies the article author and all watchers with a "review-due" notification; deduplicates within 24-hour windows to prevent spam
+
+### Housekeeping
+
+- **Roadmap v4.12 archived** — all shipped items moved to `docs/archive/ROADMAP-v4.12.md`; ROADMAP.md reset to blank slate for v4.13+
+
 ## [4.12.0] - 2026-03-10
 
 ### Housekeeping
