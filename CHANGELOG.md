@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented here.
 
+## [4.16.0] - 2026-03-10
+
+### New Features
+
+- **Reading time estimator** — "~X min read" displayed inline in every article's metadata line, computed from word count at 200 wpm
+- **Draft share links** — `shareToken` field on Article; `POST /api/articles/[id]/share-token` generates a secret token; `/share/[token]` public preview page lets anyone with the link read a draft without auth
+- **Article comparison view** — `/compare?a=slug1&b=slug2` renders two live articles side by side in scrollable columns
+- **Popularity leaderboard** — `/popular` page ranks published articles by combined read × 2 + reaction score; shows top 50 with per-article stats
+- **Expiry warning banner** — yellow inline banner on articles whose `reviewDueAt` is within 30 days, prompting editors to review
+- **"You might also like" recommendations** — `YouMightAlsoLike` server component on article pages suggests up to 5 articles sharing tags
+- **Mark as verified** — `lastVerifiedAt` field on Article; `POST /api/articles/[id]/verify` stamps the current timestamp; `VerifyButton` shown to admins; verified date displayed in the article byline
+- **Contributor leaderboard** — `/leaderboard` page ranks users by total revision count with gold/silver/bronze rank highlights
+
+### Schema Changes
+
+- Added `shareToken String? @unique` to `Article` model (draft share links)
+- Added `lastVerifiedAt DateTime?` to `Article` model (mark as verified)
+
 ## [4.15.0] - 2026-03-10
 
 ### New Features

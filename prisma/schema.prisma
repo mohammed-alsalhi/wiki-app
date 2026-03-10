@@ -92,6 +92,10 @@ model Article {
   seriesMembers    ArticleSeriesMember[]
   seeAlso          SeeAlso[]
 
+  // v4.16 additions
+  shareToken       String?  @unique  // secret token for draft share links
+  lastVerifiedAt   DateTime?         // when an admin last verified this article
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

@@ -38,6 +38,8 @@ import ArticleSeriesNav from "@/components/ArticleSeriesNav";
 import SeeAlsoSection from "@/components/SeeAlsoSection";
 import ArticleChangelogPanel from "@/components/ArticleChangelogPanel";
 import WordGoalBadge from "@/components/WordGoalBadge";
+import YouMightAlsoLike from "@/components/YouMightAlsoLike";
+import VerifyButton from "@/components/VerifyButton";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -150,13 +152,19 @@ export default async function ArticlePage({ params }: Props) {
     isAdmin(),
   ]);
 
-  // word count for goal badge
+  // word count for goal badge + reading time
   const plainTextWords = article.content
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
+  const readingTimeMin = Math.max(1, Math.round(plainTextWords / 200));
+
+  // expiry warning: reviewDueAt within 30 days
+  const now30 = new Date();
+  now30.setDate(now30.getDate() + 30);
+  const showExpiryWarning = article.reviewDueAt && article.reviewDueAt <= now30 && article.reviewDueAt > new Date();
 
   return (
     <div>
@@ -217,6 +225,13 @@ export default async function ArticlePage({ params }: Props) {
               <span> by <a href={`/users/${lastRevision.user.username}`} className="text-wiki-link">{lastRevision.user.displayName || lastRevision.user.username}</a></span>
             )}
             <span className="ml-2"><WordCount html={article.content} /></span>
+            <span className="ml-2">· ~{readingTimeMin} min read</span>
+            {article.lastVerifiedAt && (
+              <span className="ml-2 inline-flex items-center gap-1 text-green-600 dark:text-green-400">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                Verified {new Date(article.lastVerifiedAt).toLocaleDateString()}
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-1">
             {/* — Navigate — */}
@@ -262,6 +277,14 @@ export default async function ArticlePage({ params }: Props) {
           <div className={`wiki-notice ${article.status === "draft" ? "border-l-3 border-l-yellow-500" : "border-l-3 border-l-blue-500"}`}>
             <strong>{article.status === "draft" ? "Draft" : "Under Review"}</strong>
             {" — "} This article has not been published yet.
+          </div>
+        )}
+
+        {/* Expiry warning banner */}
+        {showExpiryWarning && (
+          <div className="wiki-notice border-l-3 border-l-yellow-500 flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>This article is due for review by <strong>{new Date(article.reviewDueAt!).toLocaleDateString()}</strong>. Please verify its accuracy.</span>
           </div>
         )}
 
@@ -370,6 +393,17 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* See also */}
         <SeeAlsoSection articleId={article.id} isAdmin={adminFlag} />
+
+        {/* You might also like */}
+        <YouMightAlsoLike
+          articleId={article.id}
+          tagIds={article.tags.map(t => t.tag.id)}
+        />
+
+        {/* Verify button (admin only) */}
+        {adminFlag && (
+          <VerifyButton articleId={article.id} lastVerifiedAt={article.lastVerifiedAt?.toISOString() ?? null} />
+        )}
 
         {/* Related articles */}
         <RelatedArticles
