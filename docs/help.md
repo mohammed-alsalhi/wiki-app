@@ -157,12 +157,16 @@ AI features are gated on environment variables and degrade gracefully when keys 
 - **Article comparison** — view two articles side by side at `/compare?a=slug1&b=slug2`.
 - **Contributor leaderboard** — `/leaderboard` shows top editors ranked by revision count.
 - **Discussion index** — `/discussions` lists all open discussion threads across every article, filterable by article slug and author.
+- **Activity heat map** — `/activity` shows a GitHub-style contribution calendar of daily edit counts over the past 52 weeks.
+- **Wiki stats** — `/stats` displays total articles, word count, categories, tags, contributors, revisions, weekly active users, and a top-contributors leaderboard.
+- **Mentions feed** — `/mentions` lists every discussion thread that mentions your `@username` (requires login).
 
 ---
 
 ## Article Page Features
 
 - **Reading time** — every article shows "~X min read" in the byline, estimated at 200 words per minute.
+- **Reading mode** — click "Reading mode" in the toolbar or press `R` to enter a distraction-free view. Press again or `R` to exit.
 - **Draft share links** — admins generate a secret URL (`POST /api/articles/[id]/share-token`) so anyone with the link can preview a draft at `/share/[token]` without needing to log in.
 - **Expiry warning banner** — a yellow notice appears when an article's *Review due* date is within 30 days, prompting editors to verify its accuracy.
 - **Mark as verified** — admins see a "Mark as verified" button at the bottom of each article. Clicking it stamps the current date as *lastVerifiedAt*, shown as a "✓ Verified" badge in the byline.
@@ -172,6 +176,7 @@ AI features are gated on environment variables and degrade gracefully when keys 
 - **Article flags** — admins assign short labels (e.g. "Needs images", "Outdated") that appear as orange badges near the article title.
 - **Article co-authors** — admins link additional contributors; their names appear in the byline after the primary author.
 - **Named snapshots** — save a labeled manual snapshot of the current article state via `POST /api/articles/[id]/snapshots`.
+- **Cover image focal point** — in the edit form, click/drag on the cover image preview to set a focal point; stored as `coverFocalX`/`coverFocalY` and applied as CSS `object-position`.
 
 ---
 
@@ -193,6 +198,8 @@ A personalizable homepage at `/dashboard` with a draggable widget grid.
 - **Expert badges** — admins grant expert badges per category. Expert contributors are highlighted in revision history and bylines.
 - **Article certification** — admins can certify articles reviewed by at least two experts. Certified articles show a "Verified by experts" badge.
 - **Discussions** — every article has a Discussion tab. Mention `@username` to notify a contributor.
+- **Article lock** — opening the editor acquires a 10-minute lock. Other users see a "Being edited by X" warning banner; admins can force-unlock.
+- **Revision restore** — on the history page, click "restore" next to any revision to revert to it (current content is auto-saved as a new revision first).
 
 ---
 
@@ -421,8 +428,9 @@ The sidebar is divided into collapsible sections — click any section header to
 
 | Shortcut | Action |
 |----------|--------|
-| `?` | Show keyboard shortcuts overlay |
+| `?` | Show keyboard shortcuts overlay (categorized modal) |
 | `/` | Focus search bar |
+| `R` | Toggle reading mode on article pages |
 | `g` then `h` | Go to home page |
 | `g` then `a` | All articles |
 | `g` then `n` | New article |

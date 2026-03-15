@@ -15,6 +15,8 @@ type Tag = { id: string; name: string; slug: string };
 type Props = {
   title: string;
   coverImage: string | null;
+  coverFocalX?: number | null;
+  coverFocalY?: number | null;
   category: Category | null;
   tags: Tag[];
   infobox: Record<string, string> | null;
@@ -39,6 +41,8 @@ function flattenCategories(cats: Category[]): Category[] {
 export default function InfoboxDisplay({
   title,
   coverImage,
+  coverFocalX,
+  coverFocalY,
   category,
   tags,
   infobox,
@@ -62,7 +66,12 @@ export default function InfoboxDisplay({
 
       {coverImage && (
         <div className="wiki-infobox-image">
-          <img src={coverImage} alt={title} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={coverImage}
+            alt={title}
+            style={{ objectPosition: `${coverFocalX ?? 50}% ${coverFocalY ?? 50}%` }}
+          />
         </div>
       )}
 

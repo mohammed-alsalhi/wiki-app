@@ -89,6 +89,9 @@ export default function FeaturesPage() {
             <li><strong>&ldquo;You might also like&rdquo;</strong> — sidebar widget on article pages suggesting up to 5 articles sharing the same tags</li>
             <li><strong>Contributor leaderboard</strong> — <Link href="/leaderboard">/leaderboard</Link> ranks users by total revision count</li>
             <li><strong>Discussion index</strong> — <Link href="/discussions">/discussions</Link> lists all open threads across every article</li>
+            <li><strong>Activity heat map</strong> — GitHub-style contribution calendar on <Link href="/activity">/activity</Link> showing daily edit count over the past 52 weeks</li>
+            <li><strong>Wiki stats page</strong> — public <Link href="/stats">/stats</Link> shows total articles, words, categories, tags, contributors, revisions, and a top-contributors leaderboard</li>
+            <li><strong>Mentions feed</strong> — <Link href="/mentions">/mentions</Link> lists all discussions that mention <code className="bg-surface-hover px-1 text-[12px]">@username</code> for the logged-in user</li>
           </ul>
         </div>
       </div>
@@ -111,6 +114,8 @@ export default function FeaturesPage() {
             <li><strong>Article flags</strong> — admin-assigned labels (e.g. &ldquo;Needs images&rdquo;, &ldquo;Outdated&rdquo;) displayed as orange badge chips near the title</li>
             <li><strong>Article co-authors</strong> — link additional contributors to an article; co-author names appear in the byline</li>
             <li><strong>Named snapshots</strong> — manually save a labeled snapshot of any article beyond the automatic revisions</li>
+            <li><strong>Reading mode</strong> — distraction-free reading toggle; hides header and sidebar, widens content; press <kbd>R</kbd> or the toolbar button to toggle</li>
+            <li><strong>Cover image focal point</strong> — click to set a focal point on the cover image so cropped displays always center on the subject</li>
           </ul>
         </div>
       </div>
@@ -272,6 +277,8 @@ export default function FeaturesPage() {
             <li><strong>Audio narration</strong> — text-to-speech via ElevenLabs (if configured) or browser synthesis; includes speed control</li>
             <li><strong>Machine translation</strong> — DeepL or Google Translate (requires API key)</li>
             <li><strong>Skip-to-content link</strong> — visible on keyboard focus on every page</li>
+            <li><strong>Keyboard shortcuts overlay</strong> — press <kbd>?</kbd> anywhere to open a categorized shortcuts modal (navigation, article, editor, general)</li>
+            <li><strong>Article lock</strong> — editor page acquires a 10-minute lock; other users see a &ldquo;Being edited by X&rdquo; warning with admin force-unlock option</li>
           </ul>
         </div>
       </div>

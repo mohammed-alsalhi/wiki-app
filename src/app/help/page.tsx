@@ -201,6 +201,9 @@ export default function HelpPage() {
             <li><strong>Article comparison</strong> &mdash; open two articles side by side at <code className="bg-surface-hover px-1 text-[12px]">/compare?a=slug1&amp;b=slug2</code>.</li>
             <li><strong>Contributor leaderboard</strong> &mdash; <Link href="/leaderboard">/leaderboard</Link> shows top editors ranked by revision count.</li>
             <li><strong>Discussion index</strong> &mdash; <Link href="/discussions">/discussions</Link> lists all open discussion threads across every article, filterable by article slug and author.</li>
+            <li><strong>Activity heat map</strong> &mdash; <Link href="/activity">/activity</Link> shows a GitHub-style contribution calendar of daily edit counts over the past 52 weeks.</li>
+            <li><strong>Wiki stats</strong> &mdash; <Link href="/stats">/stats</Link> displays total articles, word count, categories, tags, contributors, revisions, weekly active users, and a top-contributors leaderboard.</li>
+            <li><strong>Mentions feed</strong> &mdash; <Link href="/mentions">/mentions</Link> lists every discussion thread that mentions your <code className="bg-surface-hover px-1 text-[12px]">@username</code> (requires login).</li>
           </ul>
         </div>
       </div>
@@ -211,6 +214,7 @@ export default function HelpPage() {
         <div className="wiki-portal-body text-[13px]">
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Reading time</strong> &mdash; every article shows &ldquo;~X min read&rdquo; in the byline, estimated at 200 words per minute.</li>
+            <li><strong>Reading mode</strong> &mdash; click &ldquo;Reading mode&rdquo; in the article toolbar (or press <kbd>R</kbd>) to enter a distraction-free view that hides the header and sidebar. Press again or <kbd>R</kbd> to exit.</li>
             <li><strong>Draft share links</strong> &mdash; admins can generate a secret URL (<code className="bg-surface-hover px-1 text-[12px]">POST /api/articles/[id]/share-token</code>) so anyone with the link can preview a draft at <code className="bg-surface-hover px-1 text-[12px]">/share/[token]</code> without needing to log in.</li>
             <li><strong>Expiry warning banner</strong> &mdash; a yellow notice appears when an article&apos;s <em>Review due</em> date is within 30 days, prompting editors to verify its accuracy.</li>
             <li><strong>Mark as verified</strong> &mdash; admins see a &ldquo;Mark as verified&rdquo; button at the bottom of each article. Clicking it stamps the current date as <em>lastVerifiedAt</em>, shown as a &ldquo;✓ Verified&rdquo; badge in the byline.</li>
@@ -220,6 +224,7 @@ export default function HelpPage() {
             <li><strong>Article flags</strong> &mdash; admins assign short labels (e.g. &ldquo;Needs images&rdquo;, &ldquo;Outdated&rdquo;) that appear as orange badges near the article title.</li>
             <li><strong>Article co-authors</strong> &mdash; admins link additional contributors to an article; their names appear in the byline after the primary author.</li>
             <li><strong>Named snapshots</strong> &mdash; admins can save a labeled snapshot of the current article state (e.g. &ldquo;v1.0 – before major rewrite&rdquo;) via <code className="bg-surface-hover px-1 text-[12px]">POST /api/articles/[id]/snapshots</code>.</li>
+            <li><strong>Cover image focal point</strong> &mdash; in the article edit form, click or drag on the cover image preview to set a focal point (X%/Y%). The focal point is stored as <em>coverFocalX</em>/<em>coverFocalY</em> and applied as <code className="bg-surface-hover px-1 text-[12px]">object-position</code> when the image is displayed.</li>
           </ul>
         </div>
       </div>
@@ -235,6 +240,8 @@ export default function HelpPage() {
             <li><strong>Expert badges</strong> &mdash; admins grant expert badges per category. Expert contributors are highlighted in revision history and bylines.</li>
             <li><strong>Article certification</strong> &mdash; admins can certify articles reviewed by at least two experts. Certified articles show a &ldquo;Verified by experts&rdquo; badge.</li>
             <li><strong>Discussions</strong> &mdash; every article has a Discussion tab. Mention <code className="bg-surface-hover px-1 text-[12px]">@username</code> to notify a contributor.</li>
+            <li><strong>Article lock</strong> &mdash; opening the editor acquires a 10-minute lock. Other users editing the same article simultaneously see a &ldquo;Being edited by X&rdquo; warning banner; admins can force-unlock.</li>
+            <li><strong>Revision restore</strong> &mdash; on the article history page, click &ldquo;restore&rdquo; next to any revision to revert to it (current content is auto-saved as a new revision first).</li>
           </ul>
         </div>
       </div>
@@ -506,8 +513,9 @@ export default function HelpPage() {
           <table className="w-full mb-4">
             <tbody>
               {([
-                ["?", "Show keyboard shortcuts overlay"],
+                ["?", "Show keyboard shortcuts overlay (categorized modal)"],
                 ["/", "Focus search bar"],
+                ["R", "Toggle reading mode on article pages"],
                 ["g then h", "Go to home page"],
                 ["g then a", "All articles"],
                 ["g then n", "New article"],

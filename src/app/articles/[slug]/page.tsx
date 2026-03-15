@@ -43,6 +43,7 @@ import VerifyButton from "@/components/VerifyButton";
 import TableOfContentsFloat from "@/components/TableOfContentsFloat";
 import ArticleStatsPanel from "@/components/ArticleStatsPanel";
 import ArticleFlags from "@/components/ArticleFlags";
+import ReadingModeToggle from "@/components/ReadingModeToggle";
 import { computeQualityScore } from "@/app/api/articles/[id]/quality-score/route";
 
 // ISR: revalidate published articles every 5 minutes
@@ -285,6 +286,7 @@ export default async function ArticlePage({ params }: Props) {
             <DyslexiaToggle />
             <RTLToggle defaultDir={article.dir ?? "ltr"} />
             <TranslateButton articleId={article.id} />
+            <ReadingModeToggle />
           </div>
         </div>
 
@@ -345,6 +347,8 @@ export default async function ArticlePage({ params }: Props) {
         <InfoboxDisplay
           title={article.title}
           coverImage={article.coverImage}
+          coverFocalX={article.coverFocalX}
+          coverFocalY={article.coverFocalY}
           category={article.category}
           tags={article.tags.map((t) => t.tag)}
           infobox={article.infobox as Record<string, string> | null}

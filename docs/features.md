@@ -62,6 +62,9 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **"You might also like"** — sidebar widget on article pages suggesting up to 5 articles sharing the same tags
 - **Contributor leaderboard** — `/leaderboard` ranks users by total revision count
 - **Discussion index** — `/discussions` lists all open threads across every article
+- **Activity heat map** — GitHub-style contribution calendar on `/activity` showing daily edit count over the past 52 weeks
+- **Wiki stats page** — public `/stats` shows total articles, words, categories, tags, contributors, revisions, and top contributors
+- **Mentions feed** — `/mentions` lists all discussions mentioning `@username` for the logged-in user
 
 ---
 
@@ -101,6 +104,8 @@ A personalizable homepage at `/dashboard` with a draggable widget grid.
 - **Article flags** — admin-assigned labels (e.g. "Needs images", "Outdated") displayed as orange badge chips near the title
 - **Article co-authors** — link additional contributors; co-author names appear in the byline
 - **Named snapshots** — manually save a labeled snapshot beyond automatic revisions
+- **Reading mode** — distraction-free reading toggle (button or `R` key) that hides header and sidebar
+- **Cover image focal point** — click/drag picker in the edit form sets `coverFocalX`/`coverFocalY`; applied as CSS `object-position` on cover images
 
 ---
 
@@ -114,6 +119,8 @@ A personalizable homepage at `/dashboard` with a draggable widget grid.
 - **Review workflow** — assign reviewers and track inline feedback at `/reviews`
 - **Knowledge bounties** — request new articles; contributors claim and fulfil them at `/bounties`
 - **Expert badges** — admin-granted per category; highlighted in revision history and bylines
+- **Article lock** — editor acquires a 10-min lock; others see "Being edited by X" warning; admins can force-unlock
+- **Revision restore** — one-click restore to any prior revision from the history page (current state auto-saved first)
 - **Article certification** — "Verified by experts" badge after review by 2+ experts
 - **Contributor achievements** — First edit, 10/100 edits, streak badges, category expert; unlocked with toast notification
 

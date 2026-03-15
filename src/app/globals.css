@@ -1155,3 +1155,29 @@ html[data-dyslexia][data-theme="dark"] .wiki-content {
 .skip-to-content:focus {
   top: 0;
 }
+
+/* ── v4.18: Reading mode ── */
+html[data-reading-mode="1"] header,
+html[data-reading-mode="1"] nav,
+html[data-reading-mode="1"] .wiki-sidebar,
+html[data-reading-mode="1"] .wiki-right-sidebar,
+html[data-reading-mode="1"] .wiki-tabs,
+html[data-reading-mode="1"] footer {
+  display: none !important;
+}
+html[data-reading-mode="1"] .wiki-main-content {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+html[data-reading-mode="1"] .wiki-layout {
+  display: block;
+}
+/* Reading mode exit button stays visible */
+html[data-reading-mode="1"] [data-reading-mode-toggle] {
+  display: inline-flex !important;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}

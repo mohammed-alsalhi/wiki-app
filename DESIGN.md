@@ -142,3 +142,11 @@ Dark mode is driven by `html[data-theme="dark"]` overrides — never use `dark:`
 - **No `!important`** — CSS specificity issues are resolved by fixing the selector, not overriding it.
 - **No hardcoded colours in component JSX** — all colour must come from a CSS variable token.
 - **No separate button styles per feature** — one shared token, applied consistently everywhere.
+
+## Reading Mode
+
+Reading mode is toggled via `data-reading-mode="1"` on `<html>`. All suppression rules are in `globals.css` under the `/* ── v4.18: Reading mode ──*/` block. Components that must remain visible in reading mode (e.g. the exit button) use `data-reading-mode-toggle` attribute. Reading mode state persists in `localStorage` key `readingMode`.
+
+## Focal Point Picker
+
+`FocalPointPicker` renders an `<img>` with `object-fit: cover` and overlays a crosshair marker at `(coverFocalX%, coverFocalY%)`. Clicks and drag-moves reposition the marker and call `onChange(x, y)`. Values are integers 0–100 passed directly to CSS `object-position`.

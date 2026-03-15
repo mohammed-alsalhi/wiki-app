@@ -8,6 +8,8 @@ import TagPicker from "@/components/TagPicker";
 import CategorySelect from "@/components/CategorySelect";
 import InfoboxEditor from "@/components/InfoboxEditor";
 import { useAdmin } from "@/components/AdminContext";
+import ArticleLockGuard from "@/components/ArticleLockGuard";
+import FocalPointPicker from "@/components/FocalPointPicker";
 
 type CategoryItem = { id: string; name: string; slug: string; parentId: string | null; children?: CategoryItem[] };
 
@@ -40,6 +42,9 @@ export default function EditArticlePage() {
   const [editSummary, setEditSummary] = useState("");
   const [status, setStatus] = useState("published");
   const [isPinned, setIsPinned] = useState(false);
+  const [coverImage, setCoverImage] = useState("");
+  const [coverFocalX, setCoverFocalX] = useState(50);
+  const [coverFocalY, setCoverFocalY] = useState(50);
   const [expiresAt, setExpiresAt] = useState("");
   const [reviewDueAt, setReviewDueAt] = useState("");
   const [metadataFields, setMetadataFields] = useState<{ name: string; label: string; type: string; options?: string; required?: boolean }[]>([]);
@@ -83,6 +88,9 @@ export default function EditArticlePage() {
               setInfobox(articleData.infobox || {});
               setStatus(articleData.status || "published");
               setIsPinned(articleData.isPinned || false);
+              setCoverImage(articleData.coverImage || "");
+              setCoverFocalX(articleData.coverFocalX ?? 50);
+              setCoverFocalY(articleData.coverFocalY ?? 50);
               setExpiresAt(articleData.expiresAt ? articleData.expiresAt.slice(0, 10) : "");
               setReviewDueAt(articleData.reviewDueAt ? articleData.reviewDueAt.slice(0, 10) : "");
               setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
@@ -103,6 +111,9 @@ export default function EditArticlePage() {
         setInfobox(articleData.infobox || {});
         setStatus(articleData.status || "published");
         setIsPinned(articleData.isPinned || false);
+        setCoverImage(articleData.coverImage || "");
+        setCoverFocalX(articleData.coverFocalX ?? 50);
+        setCoverFocalY(articleData.coverFocalY ?? 50);
         setExpiresAt(articleData.expiresAt ? articleData.expiresAt.slice(0, 10) : "");
         setReviewDueAt(articleData.reviewDueAt ? articleData.reviewDueAt.slice(0, 10) : "");
         setTagIds(articleData.tags.map((t: { tag: { id: string } }) => t.tag.id));
@@ -136,6 +147,9 @@ export default function EditArticlePage() {
         editSummary: editSummary.trim() || null,
         status,
         isPinned,
+        coverImage: coverImage.trim() || null,
+        coverFocalX,
+        coverFocalY,
         expiresAt: expiresAt || null,
         reviewDueAt: reviewDueAt || null,
       }),
@@ -199,6 +213,7 @@ export default function EditArticlePage() {
 
       {/* Edit form */}
       <div className="border border-t-0 border-border bg-surface px-5 py-4">
+        <ArticleLockGuard articleId={article.id} isAdmin={isAdmin} />
         <h1
           className="text-[1.5rem] font-normal text-heading border-b border-border pb-1 mb-3"
           style={{ fontFamily: "var(--font-serif)" }}
@@ -366,6 +381,29 @@ export default function EditArticlePage() {
               />
               <p className="text-[11px] text-muted mt-0.5">Shows in Content Schedule when overdue</p>
             </div>
+          </div>
+
+          {/* Cover image + focal point */}
+          <div>
+            <label className="block text-[13px] font-bold text-heading mb-1">Cover image URL:</label>
+            <input
+              type="url"
+              value={coverImage}
+              onChange={(e) => setCoverImage(e.target.value)}
+              placeholder="https://example.com/image.jpg"
+              className="w-full border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
+            />
+            {coverImage && (
+              <div className="mt-2">
+                <label className="block text-[13px] font-bold text-heading mb-1">Focal point:</label>
+                <FocalPointPicker
+                  imageUrl={coverImage}
+                  focalX={coverFocalX}
+                  focalY={coverFocalY}
+                  onChange={(x, y) => { setCoverFocalX(x); setCoverFocalY(y); }}
+                />
+              </div>
+            )}
           </div>
 
           <div>

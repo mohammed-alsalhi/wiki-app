@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
+import ActivityHeatmap from "@/components/ActivityHeatmap";
 
 type ActivityUser = {
   id: string;
@@ -174,6 +175,8 @@ export default function ActivityPage() {
       >
         Recent Activity
       </h1>
+
+      <ActivityHeatmap />
 
       {/* Filter tabs */}
       <div className="flex gap-1 mb-4 border-b border-border">

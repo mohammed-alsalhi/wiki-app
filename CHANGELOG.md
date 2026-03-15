@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented here.
 
+## [4.18.0] - 2026-03-16
+
+### New Features
+
+- **Keyboard shortcuts overlay** — press `?` anywhere to open a categorized modal listing navigation, article, editor, and general shortcuts; enhanced `KeyboardShortcuts` component with grouped two-column layout
+- **Reading mode** — distraction-free reading toggle on article pages; hides header, sidebar, and tabs; widens content column to 720 px; toggled via toolbar button or `R` hotkey; persists in `localStorage`; `ReadingModeToggle` component + `data-reading-mode` CSS attribute in `globals.css`
+- **Activity heat map** — GitHub-style 52-week contribution calendar on `/activity` showing colour-coded daily edit intensity; `ActivityHeatmap` client component + `/api/activity/heatmap` API route
+- **Wiki stats page** — public `/stats` page with total articles, total words, categories, tags, contributors, revisions, weekly active users, and a top-5 all-time contributor leaderboard
+- **Article lock** — `ArticleLock` model; opening the editor acquires a 10-minute lock (auto-refreshed every 5 minutes); other users see a yellow "Being edited by X" warning banner with dismiss and admin force-unlock; `ArticleLockGuard` component + `/api/articles/[id]/lock` GET/POST/DELETE
+- **Revision restore** — "restore" button on the article history page; `POST /api/articles/[id]/revisions/[revId]/restore` snapshots the current content then applies the selected revision; `RestoreRevisionButton` client component replaces the old plain-form revert button
+- **Mentions feed** — `/mentions` page lists all discussion threads containing `@username` for the logged-in user; sorted by recency; requires auth
+- **Cover image focal point** — `coverFocalX` / `coverFocalY` Float fields on Article; interactive `FocalPointPicker` component in the article edit form; `InfoboxDisplay` applies `object-position` from the stored values
+
+### Schema Changes
+
+- Added `coverFocalX Float?` and `coverFocalY Float?` fields to `Article` model
+- Added `locks ArticleLock[]` relation to `Article` and `articleLocks ArticleLock[]` relation to `User`
+- New model: `ArticleLock`
+
 ## [4.17.0] - 2026-03-10
 
 ### New Features

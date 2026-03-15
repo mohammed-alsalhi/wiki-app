@@ -101,6 +101,11 @@ model Article {
   coAuthors        ArticleCoAuthor[]
   snapshots        ArticleSnapshot[]
 
+  // v4.18 additions
+  coverFocalX      Float?   // focal point X% (0–100) for cover image object-position
+  coverFocalY      Float?   // focal point Y% (0–100) for cover image object-position
+  locks            ArticleLock[]
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -284,6 +289,9 @@ model User {
 
   // v4.13 additions
   annotations      Annotation[]
+
+  // v4.18 additions
+  articleLocks     ArticleLock[]
 
   createdAt    DateTime  @default(now())
 
@@ -1136,4 +1144,20 @@ model ArticleCoAuthor {
   @@unique([articleId, userId])
   @@index([articleId])
   @@index([userId])
+}
+
+// ── v4.18: Article editor lock ──
+model ArticleLock {
+  id        String   @id @default(cuid())
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime // auto-expire after 10 minutes; editor refreshes every 5 min
+  createdAt DateTime @default(now())
+
+  @@unique([articleId])   // only one active lock per article
+  @@index([articleId])
+  @@index([userId])
+  @@index([expiresAt])
 }

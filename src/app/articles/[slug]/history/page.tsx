@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import AdminEditTab from "@/components/AdminEditTab";
 import RevisionSummaryButton from "@/components/RevisionSummaryButton";
+import RestoreRevisionButton from "@/components/RestoreRevisionButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -143,14 +144,7 @@ function DiffForm({
                     >
                       view
                     </Link>
-                    <form action={`/api/articles/${articleId}/revisions/${rev.id}`} method="post">
-                      <button
-                        type="submit"
-                        className="text-wiki-link-broken text-[12px] hover:underline"
-                      >
-                        revert
-                      </button>
-                    </form>
+                    <RestoreRevisionButton articleId={articleId} revisionId={rev.id} />
                   </div>
                   <RevisionSummaryButton
                     articleId={articleId}
