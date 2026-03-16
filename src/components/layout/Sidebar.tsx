@@ -268,6 +268,9 @@ export default function Sidebar({
             <SidebarLink href="/admin" active={pathname === "/admin"} onClick={close}>
               Dashboard
             </SidebarLink>
+            <SidebarLink href="/admin/users" active={pathname === "/admin/users"} onClick={close}>
+              Users
+            </SidebarLink>
             <SidebarLink href="/admin/analytics" active={pathname === "/admin/analytics"} onClick={close}>
               Analytics
             </SidebarLink>

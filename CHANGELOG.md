@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [4.22.0] - 2026-03-17
+
+### New Features
+
+- **Admin user management** — new `/admin/users` page lists all users with article/edit counts and a role dropdown (viewer / editor / admin); changes are saved instantly via PATCH `/api/users`
+- Added Users link to Admin sidebar section
+
 ## [4.21.0] - 2026-03-17
 
 ### Enhancements
