@@ -91,12 +91,6 @@ export default function LoginPage() {
           </Link>
         </p>
 
-        <p className="text-[12px] text-muted mt-2">
-          Admin?{" "}
-          <Link href="/admin" className="text-accent hover:underline">
-            Use admin login
-          </Link>
-        </p>
       </div>
     </div>
   );
