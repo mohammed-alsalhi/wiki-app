@@ -1,5 +1,7 @@
 # Changelog
 
+> **Status: Beta** — All versions listed here are pre-release. The project is under active development and APIs, features, and data models may change without notice. A stable v5.0.0 will be tagged when core features are production-hardened and the auth/multi-user system is fully vetted.
+
 All notable changes to this project are documented here.
 
 ## [4.22.0] - 2026-03-17
