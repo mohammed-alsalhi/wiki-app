@@ -218,6 +218,7 @@ Optional feature. Enable with `NEXT_PUBLIC_MAP_ENABLED=true`.
 - **Audio narration** — text-to-speech via ElevenLabs (if configured) or browser synthesis; includes speed control
 - **Machine translation** — DeepL or Google Translate (requires API key)
 - **Skip-to-content link** — visible on keyboard focus on every page
+- **Keyboard shortcut customization** — remap navigation chords at `/settings/shortcuts`; overrides saved in browser localStorage
 
 ---
 
@@ -244,5 +245,7 @@ Optional feature. Enable with `NEXT_PUBLIC_MAP_ENABLED=true`.
 - **Metadata schemas** — typed fields per category at `/admin/metadata-schemas`
 - **Federated peers** — configure peer wikis for cross-wiki search at `/admin/federated-peers`
 - **Import tools** — Confluence, Notion, Obsidian import at `/admin/import`
+- **Category merge** — merge two categories at `/admin/categories`; all articles reassigned to target, source deleted
+- **Word-count distribution** — histogram of article lengths at `/admin/word-count` with longest/shortest tables and average word count
 - **Batch operations** — bulk-assign category, publish/unpublish, or delete from `/articles`
 - **Custom branding** — name, tagline, welcome text, footer via `NEXT_PUBLIC_*` environment variables

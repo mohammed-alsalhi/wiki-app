@@ -274,6 +274,19 @@ export default function SettingsPage() {
           </div>
         </section>
 
+        {/* Keyboard Shortcuts link */}
+        <section className="border border-border bg-surface">
+          <div className="bg-infobox-header px-4 py-2 text-[13px] font-bold text-foreground border-b border-border">
+            Keyboard Shortcuts
+          </div>
+          <div className="px-4 py-3 text-[13px]">
+            <p className="text-muted mb-2">Customise the two-key navigation chords (e.g. <code className="bg-surface-hover px-1">gh</code> for home).</p>
+            <Link href="/settings/shortcuts" className="text-accent hover:underline text-[13px]">
+              Customise shortcuts →
+            </Link>
+          </div>
+        </section>
+
         {/* Editor Snippets link */}
         <section className="border border-border bg-surface">
           <div className="bg-infobox-header px-4 py-2 text-[13px] font-bold text-foreground border-b border-border">

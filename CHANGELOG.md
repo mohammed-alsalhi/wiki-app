@@ -4,6 +4,15 @@
 
 All notable changes to this project are documented here.
 
+## [4.27.0] - 2026-03-27
+
+### New Features
+
+- **Category merge tool** — admin page at `/admin/categories` with source/target dropdowns; `POST /api/admin/categories/merge` reassigns all articles and sub-categories from the source into the target, then deletes the source category
+- **Word-count distribution chart** — admin page at `/admin/word-count` shows a horizontal bar chart bucketing published articles by word count, plus longest/shortest article tables and summary stats (total, average, max, min)
+- **Keyboard shortcut customization** — new `/settings/shortcuts` page lets users remap the two-key navigation chords (gh, ga, gn, gs, gr, gg) stored in localStorage; `KeyboardShortcuts` component reads overrides at runtime; settings page links to it
+- **Wiki creation timeline** — `/timeline` page displays all published articles grouped by year and month in chronological order, with category filters
+
 ## [4.26.0] - 2026-03-26
 
 ### New Features

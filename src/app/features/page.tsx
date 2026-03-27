@@ -289,6 +289,7 @@ export default function FeaturesPage() {
             <li><strong>Machine translation</strong> — DeepL or Google Translate (requires API key)</li>
             <li><strong>Skip-to-content link</strong> — visible on keyboard focus on every page</li>
             <li><strong>Keyboard shortcuts overlay</strong> — press <kbd>?</kbd> anywhere to open a categorized shortcuts modal (navigation, article, editor, general)</li>
+            <li><strong>Keyboard shortcut customization</strong> — remap navigation chords at <Link href="/settings/shortcuts">/settings/shortcuts</Link>; overrides saved in browser localStorage</li>
             <li><strong>Article lock</strong> — editor page acquires a 10-minute lock; other users see a &ldquo;Being edited by X&rdquo; warning with admin force-unlock option</li>
           </ul>
         </div>
@@ -318,6 +319,8 @@ export default function FeaturesPage() {
             <li><strong>Kanban board</strong> — manage articles as cards in a Kanban workflow at <Link href="/admin/kanban">/admin/kanban</Link></li>
             <li><strong>Audit log</strong> — complete admin action log at <Link href="/admin/audit-log">/admin/audit-log</Link></li>
             <li><strong>Import tools</strong> — Confluence, Notion, Obsidian import at <Link href="/admin/import">/admin/import</Link></li>
+            <li><strong>Category merge</strong> — merge two categories at <Link href="/admin/categories">/admin/categories</Link>; all articles and sub-categories from the source are reassigned to the target, then the source is deleted</li>
+            <li><strong>Word-count distribution</strong> — histogram of article lengths at <Link href="/admin/word-count">/admin/word-count</Link> with longest/shortest tables and average word count</li>
             <li><strong>Batch operations</strong> — bulk-assign category, publish/unpublish, or delete from <Link href="/articles">/articles</Link></li>
             <li><strong>Custom branding</strong> — name, tagline, welcome text, footer via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
           </ul>

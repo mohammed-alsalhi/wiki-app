@@ -1,54 +1,76 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import {
+  loadShortcuts,
+  SHORTCUT_LABELS,
+  SHORTCUT_DESTINATIONS,
+  type ShortcutMap,
+} from "@/lib/shortcuts";
 
-const SHORTCUT_GROUPS = [
-  {
-    category: "Navigation",
-    items: [
-      { keys: ["g", "h"], description: "Go to home page" },
-      { keys: ["g", "a"], description: "Go to all articles" },
-      { keys: ["g", "n"], description: "New article" },
-      { keys: ["g", "s"], description: "Go to search" },
-      { keys: ["g", "r"], description: "Go to recent changes" },
-      { keys: ["g", "g"], description: "Go to graph" },
-      { keys: ["/"], description: "Focus search bar" },
-    ],
-  },
-  {
-    category: "Article Page",
-    items: [
-      { keys: ["R"], description: "Toggle reading mode" },
-      { keys: ["E"], description: "Edit article (admin/editor)" },
-    ],
-  },
-  {
-    category: "Editor",
-    items: [
-      { keys: ["Ctrl+B"], description: "Bold" },
-      { keys: ["Ctrl+I"], description: "Italic" },
-      { keys: ["Ctrl+K"], description: "Insert link" },
-      { keys: ["Ctrl+Z"], description: "Undo" },
-      { keys: ["Ctrl+Shift+Z"], description: "Redo" },
-      { keys: ["Ctrl+S"], description: "Save article" },
-      { keys: ["/"], description: "Slash command menu" },
-    ],
-  },
-  {
-    category: "General",
-    items: [
-      { keys: ["?"], description: "Show this dialog" },
-      { keys: ["Esc"], description: "Close dialog / blur input" },
-    ],
-  },
-];
+function buildNavMap(shortcuts: ShortcutMap): Record<string, string> {
+  const map: Record<string, string> = {};
+  for (const key of Object.keys(shortcuts) as (keyof ShortcutMap)[]) {
+    map[shortcuts[key]] = SHORTCUT_DESTINATIONS[key];
+  }
+  return map;
+}
+
+function buildShortcutGroups(shortcuts: ShortcutMap) {
+  return [
+    {
+      category: "Navigation",
+      items: [
+        ...(Object.keys(shortcuts) as (keyof ShortcutMap)[]).map((k) => ({
+          keys: shortcuts[k].split("").map((c, i) => (i === 0 && shortcuts[k].length > 1 ? c : c)),
+          description: SHORTCUT_LABELS[k],
+        })),
+        { keys: ["/"], description: "Focus search bar" },
+      ],
+    },
+    {
+      category: "Article Page",
+      items: [
+        { keys: ["R"], description: "Toggle reading mode" },
+        { keys: ["E"], description: "Edit article (admin/editor)" },
+      ],
+    },
+    {
+      category: "Editor",
+      items: [
+        { keys: ["Ctrl+B"], description: "Bold" },
+        { keys: ["Ctrl+I"], description: "Italic" },
+        { keys: ["Ctrl+K"], description: "Insert link" },
+        { keys: ["Ctrl+Z"], description: "Undo" },
+        { keys: ["Ctrl+Shift+Z"], description: "Redo" },
+        { keys: ["Ctrl+S"], description: "Save article" },
+        { keys: ["/"], description: "Slash command menu" },
+      ],
+    },
+    {
+      category: "General",
+      items: [
+        { keys: ["?"], description: "Show this dialog" },
+        { keys: ["Esc"], description: "Close dialog / blur input" },
+      ],
+    },
+  ];
+}
 
 export default function KeyboardShortcuts() {
   const [open, setOpen] = useState(false);
+  const [shortcuts, setShortcuts] = useState(loadShortcuts);
+
+  useEffect(() => {
+    setShortcuts(loadShortcuts());
+  }, []);
+
+  const SHORTCUT_GROUPS = buildShortcutGroups(shortcuts);
 
   useEffect(() => {
     let pending = "";
     let timer: ReturnType<typeof setTimeout>;
+    const nav = buildNavMap(shortcuts);
 
     function handler(e: KeyboardEvent) {
       const target = e.target as HTMLElement;
@@ -76,15 +98,6 @@ export default function KeyboardShortcuts() {
       pending += e.key.toLowerCase();
       timer = setTimeout(() => { pending = ""; }, 500);
 
-      const nav: Record<string, string> = {
-        gh: "/",
-        ga: "/articles",
-        gn: "/articles/new",
-        gs: "/search",
-        gr: "/recent-changes",
-        gg: "/graph",
-      };
-
       if (nav[pending]) {
         window.location.href = nav[pending];
         pending = "";
@@ -93,7 +106,7 @@ export default function KeyboardShortcuts() {
 
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, []);
+  }, [shortcuts]);
 
   if (!open) return null;
 

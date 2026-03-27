@@ -310,6 +310,12 @@ export default function Sidebar({
             <SidebarLink href="/admin/announcements" active={pathname === "/admin/announcements"} onClick={close}>
               Announcements
             </SidebarLink>
+            <SidebarLink href="/admin/categories" active={pathname === "/admin/categories"} onClick={close}>
+              Category merge
+            </SidebarLink>
+            <SidebarLink href="/admin/word-count" active={pathname === "/admin/word-count"} onClick={close}>
+              Word count
+            </SidebarLink>
             <SidebarLink href="/admin/staleness" active={pathname === "/admin/staleness"} onClick={close}>
               Staleness
             </SidebarLink>

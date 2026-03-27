@@ -39,7 +39,7 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/wiki-app
 
 ## v4.27
 
-- [ ] Category merge tool — admin tool to merge two categories, reassigning all articles
-- [ ] Word-count distribution chart — admin histogram of article lengths across the wiki
-- [ ] Keyboard shortcut customization — per-user reassignment of shortcuts in settings
-- [ ] Wiki creation timeline — visual page showing when each article was first created
+- [x] Category merge tool — admin tool to merge two categories, reassigning all articles
+- [x] Word-count distribution chart — admin histogram of article lengths across the wiki
+- [x] Keyboard shortcut customization — per-user reassignment of shortcuts in settings
+- [x] Wiki creation timeline — visual page showing when each article was first created
