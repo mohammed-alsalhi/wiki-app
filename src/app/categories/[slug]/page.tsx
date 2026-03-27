@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
+import CategoryWatchButton from "@/components/CategoryWatchButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -76,12 +77,15 @@ export default async function CategoryPage({ params }: Props) {
         </nav>
       )}
 
-      <h1
-        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-1"
-        style={{ fontFamily: "var(--font-serif)" }}
-      >
-        Category: {category.name}
-      </h1>
+      <div className="flex items-center justify-between mb-1">
+        <h1
+          className="text-[1.7rem] font-normal text-heading border-b border-border pb-1"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          Category: {category.name}
+        </h1>
+        <CategoryWatchButton categoryId={category.id} />
+      </div>
       {category.description && (
         <p className="text-[13px] text-muted mb-3">{category.description}</p>
       )}

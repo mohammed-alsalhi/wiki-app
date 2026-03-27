@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 // ─── Widget definitions ───────────────────────────────────────────────────────
 
 const ALL_WIDGETS = [
+  { id: "readingStreak", label: "Reading streak" },
   { id: "recentArticles", label: "Recent articles" },
   { id: "watchlist", label: "Watchlist" },
   { id: "recentEdits", label: "Recent edits" },
@@ -170,6 +171,24 @@ function StatsWidget() {
   );
 }
 
+function ReadingStreakWidget() {
+  const { data } = useApiData<{ streak: number }>("/api/reading-streak", { streak: 0 });
+  const streak = data?.streak ?? 0;
+  if (streak === 0) return <p className="text-[12px] text-muted italic">Read an article today to start your streak!</p>;
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-[2rem] leading-none">🔥</span>
+      <div>
+        <div className="text-[1.4rem] font-bold text-heading leading-tight">{streak}</div>
+        <div className="text-[11px] text-muted">day streak</div>
+      </div>
+      <p className="text-[12px] text-muted ml-2">
+        {streak === 1 ? "Great start! Come back tomorrow." : `Keep it up — ${streak} days in a row!`}
+      </p>
+    </div>
+  );
+}
+
 function NotificationsWidget() {
   const { data, loading } = useApiData<{ id: string; message: string; read: boolean; createdAt: string }[]>(
     "/api/notifications?limit=5", []
@@ -195,6 +214,7 @@ function NotificationsWidget() {
 
 function renderWidget(id: WidgetId) {
   switch (id) {
+    case "readingStreak": return <ReadingStreakWidget />;
     case "recentArticles": return <RecentArticlesWidget />;
     case "watchlist": return <WatchlistWidget />;
     case "recentEdits": return <RecentEditsWidget />;

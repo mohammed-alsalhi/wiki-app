@@ -378,6 +378,31 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
       },
     }));
 
+    async function handleAiRewrite() {
+      if (!editor) return;
+      const { from, to } = editor.state.selection;
+      if (from === to) {
+        window.alert("Select some text first, then click AI Rewrite.");
+        return;
+      }
+      const selectedText = editor.state.doc.textBetween(from, to, " ");
+      const instruction = window.prompt("Rewrite instruction (optional — leave blank for default):", "") ?? "";
+      const res = await fetch("/api/ai/rewrite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: selectedText, instruction: instruction.trim() }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Request failed" }));
+        window.alert(err.error ?? "AI rewrite failed.");
+        return;
+      }
+      const { result } = await res.json();
+      if (result) {
+        editor.chain().focus().deleteRange({ from, to }).insertContent(result).run();
+      }
+    }
+
     function handleInsertToc() {
       if (!editor) return;
 
@@ -459,6 +484,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             onDetectLinks={handleDetectLinks}
             detectedLinkCount={detectedCount}
             onInsertToc={handleInsertToc}
+            onAiRewrite={handleAiRewrite}
           />
           <button
             type="button"

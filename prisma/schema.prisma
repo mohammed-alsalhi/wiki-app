@@ -109,6 +109,9 @@ model Article {
   // v4.23 additions
   accessPassword   String?  // optional plain-text password to gate non-admin readers
 
+  // v4.25 additions
+  pageViews        ArticleView[]
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -132,6 +135,7 @@ model Category {
   articles        Article[]
   expertBadges    ExpertBadge[]
   metadataSchema  MetadataSchema?
+  watchers        CategoryWatch[]
   createdAt       DateTime    @default(now())
 
   @@index([parentId])
@@ -299,6 +303,10 @@ model User {
 
   // v4.25 additions
   snippets         Snippet[]
+
+  // v4.26 additions
+  readingStreakLogs ReadingStreakLog[]
+  categoryWatches   CategoryWatch[]
 
   createdAt    DateTime  @default(now())
 
@@ -1179,6 +1187,30 @@ model Snippet {
   @@index([userId])
 }
 
+// ── v4.26: Category watchlist ──
+model CategoryWatch {
+  userId     String
+  categoryId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([userId, categoryId])
+  @@index([userId])
+  @@index([categoryId])
+}
+
+// ── v4.26: Reading streak ──
+model ReadingStreakLog {
+  id     String   @id @default(cuid())
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date   String   // ISO date "YYYY-MM-DD"
+
+  @@unique([userId, date])
+  @@index([userId])
+}
+
 // ── v4.25: Site-wide announcement banner ──
 model Announcement {
   id        String    @id @default(cuid())
@@ -1206,4 +1238,16 @@ model ArticleLock {
   @@index([articleId])
   @@index([userId])
   @@index([expiresAt])
+}
+
+// ── v4.25: Daily article page-view counts for sparklines ──
+model ArticleView {
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  date      String   // "YYYY-MM-DD"
+  count     Int      @default(1)
+
+  @@id([articleId, date])
+  @@index([articleId])
+  @@index([date])
 }

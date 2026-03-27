@@ -46,6 +46,8 @@ import ArticleFlags from "@/components/ArticleFlags";
 import ReadingModeToggle from "@/components/ReadingModeToggle";
 import DuplicateArticleButton from "@/components/DuplicateArticleButton";
 import ArticlePasswordWrapper from "@/components/ArticlePasswordWrapper";
+import FreshnessBadge from "@/components/FreshnessBadge";
+import StreakTracker from "@/components/StreakTracker";
 import { computeQualityScore } from "@/app/api/articles/[id]/quality-score/route";
 
 // ISR: revalidate published articles every 5 minutes
@@ -240,6 +242,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="flex items-center justify-between mb-3">
           <div className="text-[11px] text-muted">
             <span>From {config.name} &mdash; Last edited {formatDate(article.updatedAt)}</span>
+            <span className="ml-2"><FreshnessBadge updatedAt={article.updatedAt} /></span>
             {lastRevision?.user && (
               <span> by <a href={`/users/${lastRevision.user.username}`} className="text-wiki-link">{lastRevision.user.displayName || lastRevision.user.username}</a></span>
             )}
@@ -500,6 +503,7 @@ export default async function ArticlePage({ params }: Props) {
         <SessionReadingTrail slug={article.slug} title={article.title} />
         <ScrollDepthTracker articleId={article.id} />
         <ReaderPathTracker currentSlug={article.slug} />
+        <StreakTracker />
         <AnnotationLayer articleId={article.id} isLoggedIn={!!session} />
         <BackToTop />
         <ReadingProgress />

@@ -28,6 +28,7 @@ export default function FeaturesPage() {
             <li><strong>Rich text editor</strong> — Tiptap-based WYSIWYG editor with toolbar, slash commands, and drag-and-drop block reordering</li>
             <li><strong>Markdown mode</strong> — toggle between rich text and raw Markdown at any time</li>
             <li><strong>Slash commands</strong> — type <code className="bg-surface-hover px-1 text-[12px]">/</code> for Mermaid diagrams, math blocks, Excalidraw drawings, data tables, decision trees, headings, and more; includes user snippets via <code className="bg-surface-hover px-1 text-[12px]">/snippet</code></li>
+            <li><strong>Inline AI rewrite</strong> — select text and click &ldquo;AI Rewrite&rdquo; in the toolbar; optionally provide an instruction; requires <code className="bg-surface-hover px-1 text-[12px]">OPENAI_API_KEY</code></li>
             <li><strong>Editor snippets</strong> — define reusable HTML blocks at <Link href="/settings/snippets">/settings/snippets</Link>; insert via the slash-command menu</li>
             <li><strong>TOC generator</strong> — toolbar button extracts all headings and inserts a linked table of contents at the cursor</li>
             <li><strong>Mermaid diagrams</strong> — flowcharts, sequence diagrams, Gantt charts, and more rendered inline</li>
@@ -53,7 +54,7 @@ export default function FeaturesPage() {
             <li><strong>Wiki links</strong> — <code className="bg-surface-hover px-1 text-[12px]">[[Article Name]]</code> syntax with autocomplete; broken links shown in red</li>
             <li><strong>Backlinks</strong> — every article shows which other articles link to it</li>
             <li><strong>Semantic relations</strong> — link articles with typed relations (is-part-of, related-to, etc.)</li>
-            <li><strong>Hierarchical categories</strong> — tree-structured categories in the sidebar; each article belongs to one; optional banner image per category</li>
+            <li><strong>Hierarchical categories</strong> — tree-structured categories in the sidebar; each article belongs to one; optional banner image per category; follow a category with the &ldquo;Watch&rdquo; button to track new articles</li>
             <li><strong>Hierarchical tags</strong> — many-to-many; browse all at <Link href="/tags">/tags</Link> with a size-scaled tag cloud</li>
             <li><strong>Redirects</strong> — set a &ldquo;Redirect to&rdquo; slug to forward old URLs automatically</li>
             <li><strong>Disambiguation</strong> — notice on articles with ambiguous titles</li>
@@ -76,6 +77,8 @@ export default function FeaturesPage() {
             <li><strong>Full-text search</strong> — AND-logic multi-word search with relevance ranking; instant results as you type</li>
             <li><strong>Search analytics</strong> — every query is logged; admin page at <Link href="/admin/search-analytics">/admin/search-analytics</Link> shows daily volume, top queries, and zero-result queries to find content gaps</li>
             <li><strong>30-day view sparkline</strong> — article stats panel shows a mini bar chart of daily page views for the past 30 days</li>
+            <li><strong>Article freshness badge</strong> — colour-coded badge (Fresh/Recent/Aging/Stale) next to the &ldquo;Last edited&rdquo; date on every article</li>
+            <li><strong>Reading streak</strong> — consecutive days a user has read articles; shown as a dashboard widget</li>
             <li><strong>Federated search</strong> — fans out to peer wiki instances and merges results under &ldquo;Results from other wikis&rdquo;</li>
             <li><strong>Explore mode</strong> — guided walk through articles using semantic similarity at <Link href="/explore">/explore</Link></li>
             <li><strong>Random article</strong> — <Link href="/random">/random</Link> jumps to a random published article</li>

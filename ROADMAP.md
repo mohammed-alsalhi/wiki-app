@@ -32,10 +32,10 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/wiki-app
 
 ## v4.26
 
-- [ ] Category watchlist — follow a category to be notified when new articles are added
-- [ ] Inline AI text rewrite — select text in the editor, get AI rewrite suggestions
-- [ ] Article freshness badge — colour-coded indicator showing how recently an article was edited
-- [ ] Reading streak tracker — consecutive reading days tracked and shown on the dashboard
+- [x] Category watchlist — follow a category to be notified when new articles are added
+- [x] Inline AI text rewrite — select text in the editor, get AI rewrite suggestions
+- [x] Article freshness badge — colour-coded indicator showing how recently an article was edited
+- [x] Reading streak tracker — consecutive reading days tracked and shown on the dashboard
 
 ## v4.27
 

@@ -9,6 +9,7 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Rich text editor** — Tiptap-based WYSIWYG editor with toolbar, slash commands, and drag-and-drop block reordering
 - **Markdown mode** — toggle between rich text and raw Markdown at any time
 - **Slash commands** — type `/` for Mermaid diagrams, math blocks, Excalidraw drawings, data tables, decision trees, headings, and more; includes user snippets via `/snippet`
+- **Inline AI rewrite** — select text and click "AI Rewrite" in the toolbar; optionally provide an instruction; requires `OPENAI_API_KEY`
 - **Editor snippets** — define reusable HTML blocks at `/settings/snippets`; insert via slash-command menu
 - **TOC generator** — toolbar button extracts all headings and inserts a linked table of contents at the cursor
 - **Mermaid diagrams** — flowcharts, sequence diagrams, Gantt charts, and more rendered inline
@@ -48,6 +49,8 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Full-text search** — AND-logic multi-word search with relevance ranking; instant results as you type
 - **Search analytics** — every query is logged; admin page at `/admin/search-analytics` shows daily volume, top queries, and zero-result queries to find content gaps
 - **30-day view sparkline** — article stats panel shows a mini bar chart of daily page views for the past 30 days
+- **Article freshness badge** — colour-coded badge (Fresh/Recent/Aging/Stale) next to the "Last edited" date on every article
+- **Reading streak** — consecutive days a user has read articles; shown as a dashboard widget
 - **Federated search** — fans out to peer wiki instances and merges results under "Results from other wikis"
 - **Explore mode** — guided walk through articles using semantic similarity at `/explore`
 - **Random article** — `/random` jumps to a random published article

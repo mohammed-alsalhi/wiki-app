@@ -4,6 +4,20 @@
 
 All notable changes to this project are documented here.
 
+## [4.26.0] - 2026-03-26
+
+### New Features
+
+- **Article freshness badge** — each article shows a colour-coded badge (Fresh/Recent/Aging/Stale) next to the "Last edited" metadata, based on days since last update (green ≤30d, blue ≤90d, yellow ≤180d, red >180d)
+- **Reading streak tracker** — visiting articles records a daily streak; users see their current streak on the `/dashboard` as a new "Reading streak" widget; `POST /api/reading-streak` records today's read; `GET /api/reading-streak` returns current streak
+- **Category watchlist** — "Watch" button on every category page; toggles via `POST /api/category-watch`; per-user watch state fetched client-side
+- **Inline AI text rewrite** — "AI Rewrite" button in the editor toolbar; select text, optionally give an instruction, and the selection is replaced by the AI-rewritten version via `POST /api/ai/rewrite` (requires `OPENAI_API_KEY`)
+
+### Schema Changes
+
+- Added `CategoryWatch` model (`userId`, `categoryId`, composite PK)
+- Added `ReadingStreakLog` model (`userId`, `date` string, composite unique)
+
 ## [4.25.0] - 2026-03-26
 
 ### New Features

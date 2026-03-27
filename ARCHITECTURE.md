@@ -117,7 +117,7 @@ src/
       types.ts                # Plugin interface definition
       registry.ts             # Plugin registry
 prisma/
-  schema.prisma               # Database schema (74 models)
+  schema.prisma               # Database schema (76 models)
   seed.mjs                    # Category and subcategory seeder
   migrations/                 # Versioned migration history
 scripts/
@@ -274,6 +274,9 @@ Lightweight plugin system. Interface in `src/lib/plugins/types.ts`, registry in 
 | `/api/snippets` | GET, POST | User editor snippets |
 | `/api/snippets/[id]` | PUT, DELETE | Update/delete snippets |
 | `/api/articles/[id]/views/sparkline` | GET | 30-day daily view series |
+| `/api/reading-streak` | GET, POST | Reading streak tracker |
+| `/api/category-watch` | GET, POST | Category watch toggle |
+| `/api/ai/rewrite` | POST | AI text rewrite via OpenAI |
 | `/api/stats` | GET | Wiki statistics |
 | `/api/metrics` | GET, POST | Performance metrics |
 | `/api/health` | GET | Health check |

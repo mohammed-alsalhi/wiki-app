@@ -9,6 +9,7 @@ type Props = {
   onDetectLinks: () => void;
   detectedLinkCount: number;
   onInsertToc: () => void;
+  onAiRewrite: () => void;
 };
 
 type ToolbarButton = {
@@ -19,7 +20,7 @@ type ToolbarButton = {
   hidden?: () => boolean;
 };
 
-export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc }: Props) {
+export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite }: Props) {
   if (!editor) return null;
 
   const groups: ToolbarButton[][] = [
@@ -289,6 +290,14 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
       >
         TOC
+      </button>
+      <button
+        type="button"
+        onClick={onAiRewrite}
+        title="AI rewrite: select text first, then click to rewrite it"
+        className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
+      >
+        AI Rewrite
       </button>
       <button
         type="button"
