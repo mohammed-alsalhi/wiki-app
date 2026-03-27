@@ -18,6 +18,9 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Data tables** — paste CSV or JSON to create sortable, filterable tables with CSV download
 - **Decision trees** — define yes/no trees as JSON; renders as an interactive SVG
 - **Pull quotes** — large centred serif blockquote for emphasis; insert via `/pull quote` or `Mod+Shift+Q`
+- **Smart typography** — auto-converts `--` → em dash, `...` → ellipsis, and straight quotes to curly quotes as you type
+- **Outline builder** — AI-assisted panel generates H2/H3 section headings from the article title; three style modes; inserts headings into the editor
+- **AI alt-text suggestions** — image caption prompt pre-filled from filename via `/api/ai/alt-text`
 - **Footnotes & citations** — inline footnote references auto-numbered via CSS counters
 - **Syntax highlighting** — code blocks with language detection and theme-aware colours
 - **Voice dictation** — click the microphone button to insert speech at the cursor
@@ -67,6 +70,7 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Reading history** — browser-local log of the last 50 articles visited, with relative timestamps, at `/history`
 - **Last-visit badge** — articles show "You read this X ago" on return visits
 - **Sticky article header** — slim floating bar with title, Edit and Top links appears after scrolling past the article heading
+- **Article Q&A** — collapsible panel at the bottom of each article; ask questions and get answers grounded in wiki content with cited sources
 - **Table of contents** — auto-generated for articles with multiple headings
 - **Popularity leaderboard** — `/popular` ranks published articles by reads × 2 + reactions
 - **Article comparison** — side-by-side view of two live articles at `/compare?a=slug1&b=slug2`

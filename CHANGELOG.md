@@ -4,6 +4,22 @@
 
 All notable changes to this project are documented here.
 
+## [4.32.0] - 2026-03-27
+
+### New Features
+
+- **Outline builder** — collapsible panel in the editor generates a structured section outline (H2/H3 headings) from the article title; three style modes: Encyclopedic, Tutorial, Reference; AI-powered when `AI_API_KEY` is set, otherwise uses a smart template
+- **AI alt-text suggestions** — when uploading an image in the editor the alt-text input is pre-filled by `POST /api/ai/alt-text` (AI-powered from filename, or heuristic if AI not configured)
+- **Article Q&A widget** — collapsible "Ask a question" panel at the bottom of every article; uses `POST /api/ai/qa` to answer questions grounded in wiki content with cited sources; works across the entire wiki, not just the current article
+
+### Technical
+
+- `POST /api/ai/outline` — takes `{title, summary?, style?}`, returns `{outline: string[], source: "ai"|"template"}`; template fallback covers all three style modes without AI
+- `POST /api/ai/alt-text` — takes `{filename, caption?}`, derives readable description from filename heuristic, calls Claude Haiku when AI configured
+- `OutlineBuilderPanel` component rendered below `WritingCoachPanel` in editor; chevron-toggle, live preview of generated headings, "Insert into article" injects heading HTML into editor
+- `ArticleQA` client component: collapsible, keyboard-submittable, shows answer + source links; shows no-answer state gracefully
+- `articleTitle` prop added to `TiptapEditor` and forwarded to `OutlineBuilderPanel`
+
 ## [4.31.0] - 2026-03-27
 
 ### New Features

@@ -38,6 +38,8 @@ export default function FeaturesPage() {
             <li><strong>Decision trees</strong> — define yes/no trees as JSON; renders as an interactive SVG</li>
             <li><strong>Pull quotes</strong> — large centred serif blockquote for emphasis; insert via <code className="bg-surface-hover px-1 text-[12px]">/pull quote</code> or <kbd>Mod+Shift+Q</kbd></li>
             <li><strong>Smart typography</strong> — auto-converts <code className="bg-surface-hover px-1 text-[12px]">--</code> → em dash, <code className="bg-surface-hover px-1 text-[12px]">...</code> → ellipsis, and straight quotes to curly quotes as you type</li>
+            <li><strong>Outline builder</strong> — AI-assisted panel generates H2/H3 section headings from the article title; supports Encyclopedic, Tutorial, and Reference styles; inserts headings directly into the editor</li>
+            <li><strong>AI alt-text suggestions</strong> — image caption prompt is pre-filled with an AI-suggested description derived from the filename (or heuristic if AI not configured)</li>
             <li><strong>Footnotes &amp; citations</strong> — inline footnote references auto-numbered via CSS counters</li>
             <li><strong>Syntax highlighting</strong> — code blocks with language detection and theme-aware colours</li>
             <li><strong>Voice dictation</strong> — click the microphone button to insert speech at the cursor</li>
@@ -105,6 +107,7 @@ export default function FeaturesPage() {
             <li><strong>Activity heat map</strong> — GitHub-style contribution calendar on <Link href="/activity">/activity</Link> showing daily edit count over the past 52 weeks</li>
             <li><strong>Wiki stats page</strong> — public <Link href="/stats">/stats</Link> shows total articles, words, categories, tags, contributors, revisions, and a top-contributors leaderboard</li>
             <li><strong>Mentions feed</strong> — <Link href="/mentions">/mentions</Link> lists all discussions that mention <code className="bg-surface-hover px-1 text-[12px]">@username</code> for the logged-in user</li>
+            <li><strong>Article Q&amp;A</strong> — collapsible panel at the bottom of each article; ask any question and get an answer grounded in wiki content with cited sources</li>
           </ul>
         </div>
       </div>

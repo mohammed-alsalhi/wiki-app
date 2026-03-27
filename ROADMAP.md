@@ -74,7 +74,12 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/wiki-app
 
 ## v4.32
 
-- [ ] AI alt-text generation — automatically suggest alt text for uploaded images
-- [ ] Grammar/style check panel — writing quality suggestions in the editor sidebar
-- [ ] Outline builder — AI-generated article outline from a title/summary
-- [ ] Q&A assistant — ask questions about a specific article and get cited answers
+- [x] Outline builder — AI-assisted panel in editor generates H2/H3 sections from title; three styles; inserts headings into document
+- [x] AI alt-text suggestions — image caption prompt pre-filled from filename via `/api/ai/alt-text`
+- [x] Article Q&A widget — collapsible ask-a-question panel on article pages backed by `/api/ai/qa`
+
+## v4.33
+
+- [ ] Collaboration batch — inline suggestions, blame view, threaded discussion replies
+- [ ] Analytics batch — article heatmap, reader retention funnel, referrer tracking
+- [ ] AI grammar/style batch — dedicated grammar panel with inline issue highlighting

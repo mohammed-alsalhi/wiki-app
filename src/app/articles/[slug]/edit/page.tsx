@@ -335,7 +335,7 @@ export default function EditArticlePage() {
 
           <div>
             <label className="block text-[13px] font-bold text-heading mb-1">Content:</label>
-            <TiptapEditor ref={editorRef} content={article.content} />
+            <TiptapEditor ref={editorRef} content={article.content} articleTitle={title} />
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">

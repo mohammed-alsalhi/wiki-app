@@ -25,6 +25,7 @@ import { FindReplace } from "./FindReplaceExtension";
 import FindReplacePanel from "./FindReplacePanel";
 import { PullQuote } from "./PullQuoteExtension";
 import { SmartTypography } from "./SmartTypographyExtension";
+import OutlineBuilderPanel from "./OutlineBuilderPanel";
 import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
 import LinkBubble from "./LinkBubble";
@@ -42,6 +43,7 @@ export type TiptapEditorHandle = {
 type Props = {
   content?: string;
   placeholder?: string;
+  articleTitle?: string;
 };
 
 /**
@@ -72,7 +74,7 @@ function looksLikeMarkdown(text: string): boolean {
 }
 
 const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
-  function TiptapEditor({ content = "", placeholder = "Start writing..." }, ref) {
+  function TiptapEditor({ content = "", placeholder = "Start writing...", articleTitle = "" }, ref) {
     const [markdownMode, setMarkdownMode] = useState(false);
     const [markdownText, setMarkdownText] = useState("");
     const [detectedCount, setDetectedCount] = useState(0);
@@ -476,7 +478,20 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       if (res.ok) {
         const { url } = await res.json();
-        const caption = window.prompt("Image caption (optional — leave blank for none):", "") ?? "";
+        // Suggest alt text from filename
+        let suggestedAlt = "";
+        try {
+          const altRes = await fetch("/api/ai/alt-text", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ filename: file.name }),
+          });
+          if (altRes.ok) {
+            const altData = await altRes.json();
+            suggestedAlt = altData.altText ?? "";
+          }
+        } catch { /* ignore */ }
+        const caption = window.prompt("Image caption (optional):", suggestedAlt) ?? "";
         editor.chain().focus().setImage({ src: url, title: caption.trim() || undefined }).run();
       }
 
@@ -579,6 +594,11 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             getHtml={() => editor.getHTML()}
             hasExcerpt={false}
           />
+        )}
+
+        {/* Outline Builder — AI-assisted section outline generation */}
+        {!markdownMode && editor && (
+          <OutlineBuilderPanel editor={editor} articleTitle={articleTitle} />
         )}
       </div>
     );

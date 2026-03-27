@@ -67,8 +67,14 @@ export default function HelpPage() {
           <p className="mb-2">
             <strong>Markdown mode:</strong> Click the <code className="bg-surface-hover px-1 text-[12px]">Markdown</code> button to switch to raw markdown editing. Click <code className="bg-surface-hover px-1 text-[12px]">Rich Text</code> to switch back.
           </p>
-          <p>
+          <p className="mb-2">
             <strong>Templates:</strong> When creating a new article, choose from predefined templates (Person, Place, Event, Thing, Group) that provide a starting structure with an infobox and sections.
+          </p>
+          <p className="mb-2">
+            <strong>Outline builder:</strong> A collapsible panel below the editor generates a structured list of section headings from the article title. Choose Encyclopedic, Tutorial, or Reference style. Click <strong>Insert into article</strong> to add the headings as editable H2/H3 nodes.
+          </p>
+          <p>
+            <strong>AI alt-text:</strong> When you upload an image, the caption prompt is pre-filled with a suggested description based on the filename (AI-enhanced when <code className="bg-surface-hover px-1 text-[12px]">AI_API_KEY</code> is configured).
           </p>
         </div>
       </div>
@@ -200,6 +206,7 @@ export default function HelpPage() {
             <li><strong>Reading history</strong> &mdash; browser-local list of the last 50 articles you visited, with relative timestamps, at <Link href="/history">/history</Link>. No server data stored.</li>
             <li><strong>Last-visit badge</strong> &mdash; on return visits, articles show &ldquo;You read this X ago&rdquo; in the article header.</li>
             <li><strong>Sticky article header</strong> &mdash; a slim floating bar with the article title, Edit and Top links appears after scrolling past the article&apos;s heading.</li>
+            <li><strong>Article Q&amp;A</strong> &mdash; &ldquo;Ask a question&rdquo; panel at the bottom of every article; answers are grounded in wiki content and cite source articles.</li>
             <li><strong>Popularity leaderboard</strong> &mdash; <Link href="/popular">/popular</Link> ranks published articles by read and reaction activity.</li>
             <li><strong>Article comparison</strong> &mdash; open two articles side by side at <code className="bg-surface-hover px-1 text-[12px]">/compare?a=slug1&amp;b=slug2</code>.</li>
             <li><strong>Contributor leaderboard</strong> &mdash; <Link href="/leaderboard">/leaderboard</Link> shows top editors ranked by revision count.</li>

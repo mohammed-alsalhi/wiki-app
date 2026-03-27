@@ -214,6 +214,7 @@ export default function NewArticlePage() {
             <TiptapEditor
               ref={editorRef}
               placeholder="Begin writing your article... Use [[Article Name]] to create wiki links."
+              articleTitle={title}
             />
           </div>
 
