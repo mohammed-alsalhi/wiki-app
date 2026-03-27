@@ -4,6 +4,21 @@
 
 All notable changes to this project are documented here.
 
+## [4.28.0] - 2026-03-27
+
+### New Features
+
+- **Command palette** — wired `CommandPalette` component into root layout; press `Cmd+K` / `Ctrl+K` from anywhere to fuzzy-search articles and trigger actions
+- **Find & replace in editor** — `FindReplace` ProseMirror plugin highlights all matches inline as you type; `FindReplacePanel` shows match count, Replace, and Replace All; opened via new toolbar "Find" button or `Ctrl+H`; highlights cleared on panel close
+- **Copy as Markdown** — "Copy MD" button in article toolbar copies the article title + raw Markdown to clipboard; only shown when `contentRaw` is present
+- **500-feature backlog** — `FEATURES_BACKLOG.md` at project root documents 500 planned features organised by theme (Editor, Organisation, Discovery, Collaboration, Analytics, Admin, UX, API, Performance, Content Types, Multilingual, Gamification, Security, AI, Platform)
+
+### Technical
+
+- Added `find-highlight` CSS class (yellow in light, dark amber in dark mode) to `globals.css`
+- `FindReplace` Tiptap extension decorates matching text ranges via ProseMirror plugin
+- `EditorToolbar` now accepts `onFindReplace` prop
+
 ## [4.27.0] - 2026-03-27
 
 ### New Features

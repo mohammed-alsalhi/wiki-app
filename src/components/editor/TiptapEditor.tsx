@@ -21,6 +21,8 @@ import { MermaidBlock } from "./MermaidExtension";
 import { InlineMath, BlockMath } from "./KaTeXExtension";
 import { DataTable } from "./DataTableExtension";
 import { DecisionTree } from "./DecisionTreeExtension";
+import { FindReplace } from "./FindReplaceExtension";
+import FindReplacePanel from "./FindReplacePanel";
 import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
 import LinkBubble from "./LinkBubble";
@@ -73,6 +75,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
     const [markdownText, setMarkdownText] = useState("");
     const [detectedCount, setDetectedCount] = useState(0);
     const [hasChanges, setHasChanges] = useState(false);
+    const [findReplaceOpen, setFindReplaceOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const snippetsRef = useRef<SnippetItem[]>([]);
 
@@ -148,6 +151,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
         BlockMath,
         DataTable,
         DecisionTree,
+        FindReplace,
       ],
       content,
       editorProps: {
@@ -275,6 +279,19 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
       editor.on("update", handler);
       return () => { editor.off("update", handler); };
     }, [editor]);
+
+    // Ctrl+H / Cmd+H → open find & replace
+    useEffect(() => {
+      function onKeyDown(e: KeyboardEvent) {
+        if ((e.ctrlKey || e.metaKey) && e.key === "h") {
+          e.preventDefault();
+          setFindReplaceOpen((o) => !o);
+        }
+        if (e.key === "Escape") setFindReplaceOpen(false);
+      }
+      document.addEventListener("keydown", onKeyDown);
+      return () => document.removeEventListener("keydown", onKeyDown);
+    }, []);
 
     const suggester = useWikiLinkSuggester(editor);
 
@@ -485,6 +502,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             detectedLinkCount={detectedCount}
             onInsertToc={handleInsertToc}
             onAiRewrite={handleAiRewrite}
+            onFindReplace={() => setFindReplaceOpen((o) => !o)}
           />
           <button
             type="button"
@@ -498,6 +516,12 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             {markdownMode ? "Rich Text" : "Markdown"}
           </button>
         </div>
+
+        <FindReplacePanel
+          editor={editor}
+          open={findReplaceOpen}
+          onClose={() => setFindReplaceOpen(false)}
+        />
 
         {markdownMode ? (
           <textarea

@@ -45,6 +45,7 @@ import ArticleStatsPanel from "@/components/ArticleStatsPanel";
 import ArticleFlags from "@/components/ArticleFlags";
 import ReadingModeToggle from "@/components/ReadingModeToggle";
 import DuplicateArticleButton from "@/components/DuplicateArticleButton";
+import CopyMarkdownButton from "@/components/CopyMarkdownButton";
 import ArticlePasswordWrapper from "@/components/ArticlePasswordWrapper";
 import FreshnessBadge from "@/components/FreshnessBadge";
 import StreakTracker from "@/components/StreakTracker";
@@ -292,6 +293,7 @@ export default async function ArticlePage({ params }: Props) {
             <RTLToggle defaultDir={article.dir ?? "ltr"} />
             <TranslateButton articleId={article.id} />
             <ReadingModeToggle />
+            <CopyMarkdownButton markdown={article.contentRaw} title={article.title} />
 
             <span className="w-px h-4 bg-border mx-0.5" />
 

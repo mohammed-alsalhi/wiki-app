@@ -1242,3 +1242,13 @@ figure.wiki-figure figcaption {
   border-top: 1px solid var(--color-border-light, var(--color-border));
   margin-top: 2px;
 }
+
+/* ── Editor find & replace highlights ── */
+.find-highlight {
+  background-color: #fef08a;
+  border-radius: 2px;
+}
+html[data-theme="dark"] .find-highlight {
+  background-color: #854d0e;
+  color: #fef9c3;
+}

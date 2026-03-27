@@ -8,6 +8,7 @@ import { AdminProvider } from "@/components/AdminContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
+import CommandPalette from "@/components/CommandPalette";
 import BackToTop from "@/components/BackToTop";
 import { ToastProvider } from "@/components/Toast";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
@@ -109,6 +110,7 @@ export default async function RootLayout({
             </div>
           </div>
         <KeyboardShortcuts />
+        <CommandPalette />
         <BackToTop />
         </ToastProvider>
         </AdminProvider>

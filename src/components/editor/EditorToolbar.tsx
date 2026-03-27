@@ -10,6 +10,7 @@ type Props = {
   detectedLinkCount: number;
   onInsertToc: () => void;
   onAiRewrite: () => void;
+  onFindReplace: () => void;
 };
 
 type ToolbarButton = {
@@ -20,7 +21,7 @@ type ToolbarButton = {
   hidden?: () => boolean;
 };
 
-export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite }: Props) {
+export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite, onFindReplace }: Props) {
   if (!editor) return null;
 
   const groups: ToolbarButton[][] = [
@@ -298,6 +299,14 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
       >
         AI Rewrite
+      </button>
+      <button
+        type="button"
+        onClick={onFindReplace}
+        title="Find & replace (Ctrl+H)"
+        className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
+      >
+        Find
       </button>
       <button
         type="button"
