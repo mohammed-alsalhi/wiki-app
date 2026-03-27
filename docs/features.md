@@ -17,6 +17,7 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Excalidraw drawings** — embed interactive whiteboard sketches directly in articles
 - **Data tables** — paste CSV or JSON to create sortable, filterable tables with CSV download
 - **Decision trees** — define yes/no trees as JSON; renders as an interactive SVG
+- **Pull quotes** — large centred serif blockquote for emphasis; insert via `/pull quote` or `Mod+Shift+Q`
 - **Footnotes & citations** — inline footnote references auto-numbered via CSS counters
 - **Syntax highlighting** — code blocks with language detection and theme-aware colours
 - **Voice dictation** — click the microphone button to insert speech at the cursor
@@ -112,6 +113,8 @@ A personalizable homepage at `/dashboard` with a draggable widget grid.
 - **Article co-authors** — link additional contributors; co-author names appear in the byline
 - **Named snapshots** — manually save a labeled snapshot beyond automatic revisions
 - **Reading mode** — distraction-free reading toggle (button or `R` key) that hides header and sidebar
+- **Reading level badge** — Flesch Reading Ease score shown as a colour-coded badge in the article header
+- **Glossary hover cards** — defined terms in article text are underlined; hovering shows a floating definition card
 - **Cover image focal point** — click/drag picker in the edit form sets `coverFocalX`/`coverFocalY`; applied as CSS `object-position` on cover images
 
 ---

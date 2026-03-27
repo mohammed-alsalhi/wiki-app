@@ -128,6 +128,9 @@ export default function Sidebar({
           <SidebarLink href="/graph" active={pathname === "/graph"} onClick={close}>
             Article graph
           </SidebarLink>
+          <SidebarLink href="/glossary" active={pathname === "/glossary"} onClick={close}>
+            Glossary
+          </SidebarLink>
           {config.mapEnabled && (
             <SidebarLink href="/map" active={pathname === "/map" || pathname.startsWith("/map/")} onClick={close}>
               {config.mapLabel}
@@ -354,6 +357,9 @@ export default function Sidebar({
             </SidebarLink>
             <SidebarLink href="/admin/import" active={pathname === "/admin/import"} onClick={close}>
               Import
+            </SidebarLink>
+            <SidebarLink href="/admin/glossary" active={pathname === "/admin/glossary"} onClick={close}>
+              Glossary
             </SidebarLink>
           </SidebarSection>
         )}

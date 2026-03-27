@@ -36,6 +36,7 @@ export default function FeaturesPage() {
             <li><strong>Excalidraw drawings</strong> — embed interactive whiteboard sketches directly in articles</li>
             <li><strong>Data tables</strong> — paste CSV or JSON to create sortable, filterable tables with CSV download</li>
             <li><strong>Decision trees</strong> — define yes/no trees as JSON; renders as an interactive SVG</li>
+            <li><strong>Pull quotes</strong> — large centred serif blockquote for emphasis; insert via <code className="bg-surface-hover px-1 text-[12px]">/pull quote</code> or <kbd>Mod+Shift+Q</kbd></li>
             <li><strong>Footnotes &amp; citations</strong> — inline footnote references auto-numbered via CSS counters</li>
             <li><strong>Syntax highlighting</strong> — code blocks with language detection and theme-aware colours</li>
             <li><strong>Voice dictation</strong> — click the microphone button to insert speech at the cursor</li>
@@ -126,6 +127,8 @@ export default function FeaturesPage() {
             <li><strong>Cover image focal point</strong> — click to set a focal point on the cover image so cropped displays always center on the subject</li>
             <li><strong>Duplicate article</strong> — admin toolbar button clones any article as a new draft, preserving all content, tags, and category</li>
             <li><strong>Print stylesheet</strong> — press <kbd>Ctrl+P</kbd> / <kbd>Cmd+P</kbd> for a clean print view: all chrome hidden, full-width content, external link URLs appended</li>
+            <li><strong>Reading level badge</strong> — Flesch Reading Ease score computed from article text and shown as a colour-coded badge (Very Easy → Very Complex)</li>
+            <li><strong>Glossary hover cards</strong> — defined terms in article text are underlined with a dotted accent; hovering shows a floating definition card</li>
           </ul>
         </div>
       </div>

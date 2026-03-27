@@ -48,8 +48,11 @@ import DuplicateArticleButton from "@/components/DuplicateArticleButton";
 import CopyMarkdownButton from "@/components/CopyMarkdownButton";
 import ArticlePasswordWrapper from "@/components/ArticlePasswordWrapper";
 import FreshnessBadge from "@/components/FreshnessBadge";
+import ReadingLevelBadge from "@/components/ReadingLevelBadge";
 import StreakTracker from "@/components/StreakTracker";
 import { computeQualityScore } from "@/app/api/articles/[id]/quality-score/route";
+import { resolveGlossaryTerms } from "@/lib/glossary";
+import GlossaryTooltipLayer from "@/components/GlossaryTooltipLayer";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -128,6 +131,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const macroExpanded = await expandMacros(article.content);
   const expandedContent = await resolveTransclusions(macroExpanded);
+  const glossaryTerms = await prisma.glossaryTerm.findMany({ select: { term: true, definition: true, aliases: true } });
   const [resolvedContent, backlinks, allCategories] = await Promise.all([
     resolveWikiLinks(expandedContent),
     getBacklinks(slug),
@@ -249,6 +253,7 @@ export default async function ArticlePage({ params }: Props) {
             )}
             <span className="ml-2"><WordCount html={article.content} /></span>
             <span className="ml-2">· ~{readingTimeMin} min read</span>
+            <span className="ml-2"><ReadingLevelBadge text={article.content.replace(/<[^>]+>/g, " ")} /></span>
             {article.lastVerifiedAt && (
               <span className="ml-2 inline-flex items-center gap-1 text-green-600 dark:text-green-400">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -385,8 +390,9 @@ export default async function ArticlePage({ params }: Props) {
         <TableOfContents html={resolvedContent} />
 
         {/* Article content */}
-        <div id="article-content" dir={article.dir ?? "ltr"}>
-          <SpecialBlocksRenderer html={addHeadingIds(appendFootnoteSection(resolvedContent))} />
+        <div id="article-content" dir={article.dir ?? "ltr"} className="relative">
+          <SpecialBlocksRenderer html={addHeadingIds(appendFootnoteSection(resolveGlossaryTerms(resolvedContent, glossaryTerms)))} />
+          <GlossaryTooltipLayer />
         </div>
 
         {/* Clear float from infobox */}

@@ -117,7 +117,7 @@ src/
       types.ts                # Plugin interface definition
       registry.ts             # Plugin registry
 prisma/
-  schema.prisma               # Database schema (76 models)
+  schema.prisma               # Database schema (77 models)
   seed.mjs                    # Category and subcategory seeder
   migrations/                 # Versioned migration history
 scripts/
@@ -185,6 +185,9 @@ Every PUT to an article endpoint first snapshots the current state into `Article
 
 ### Footnotes
 Custom Tiptap `FootnoteRef` node extension. Stored as `<sup data-footnote="text">` in HTML. Auto-numbered via CSS counters. Footnote section appended at display time by `appendFootnoteSection()`.
+
+### Glossary
+`GlossaryTerm` model stores terms, definitions, and aliases. `resolveGlossaryTerms()` in `src/lib/glossary.ts` injects `data-glossary-term` / `data-glossary-def` attributes into article HTML server-side. `GlossaryTooltipLayer` client component uses document-level event delegation to show hover cards. Admin CRUD at `/admin/glossary`, public browse at `/glossary`.
 
 ### Category-Specific Infoboxes
 Each root category defines a field schema in `src/lib/infobox-schema.ts`. Subcategories inherit their parent's schema via a parent chain walk. Fields support types: text, textarea, number, wikilink, and list. Infobox data is stored as JSON on the Article model.

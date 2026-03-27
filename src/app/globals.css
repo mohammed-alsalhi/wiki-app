@@ -1243,6 +1243,28 @@ figure.wiki-figure figcaption {
   margin-top: 2px;
 }
 
+/* ── Glossary term underline ── */
+.glossary-term {
+  border-bottom: 1px dotted var(--color-accent);
+  cursor: help;
+}
+
+/* ── Pull Quote block ── */
+blockquote[data-pull-quote],
+.wiki-content blockquote[data-pull-quote] {
+  border-left: none;
+  border-top: 3px solid var(--color-accent);
+  border-bottom: 3px solid var(--color-accent);
+  text-align: center;
+  font-size: 1.35rem;
+  font-style: italic;
+  font-family: var(--font-serif);
+  color: var(--color-heading);
+  padding: 1rem 2rem;
+  margin: 1.5rem auto;
+  max-width: 80%;
+}
+
 /* ── Editor find & replace highlights ── */
 .find-highlight {
   background-color: #fef08a;

@@ -1251,3 +1251,15 @@ model ArticleView {
   @@index([articleId])
   @@index([date])
 }
+
+// ── v4.29: Glossary ──
+model GlossaryTerm {
+  id         String   @id @default(cuid())
+  term       String   @unique
+  definition String   @db.Text
+  aliases    String[] @default([])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([term])
+}

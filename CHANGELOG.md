@@ -4,6 +4,23 @@
 
 All notable changes to this project are documented here.
 
+## [4.29.0] - 2026-03-27
+
+### New Features
+
+- **Glossary system** — `GlossaryTerm` model with term, definition, aliases; admin CRUD at `/admin/glossary`; public A-Z browse at `/glossary` (grouped by first letter with letter-index navigation); `GET /api/glossary`, `POST /api/glossary`, `PATCH /api/glossary/[id]`, `DELETE /api/glossary/[id]`
+- **Glossary hover cards** — terms are matched in article HTML server-side via `resolveGlossaryTerms()` in `src/lib/glossary.ts`; `GlossaryTooltipLayer` client component uses event delegation to show floating hover cards on mouseover of any `[data-glossary-term]` span
+- **Reading level badge** — `ReadingLevelBadge` component computes Flesch Reading Ease score from article plain text and shows a colour-coded badge (Very Easy → Very Complex) in the article header
+- **Pull quote blocks** — `PullQuoteExtension` Tiptap node renders `<blockquote data-pull-quote>` with large centred serif styling; accessible via `/pull quote` slash command or `Mod+Shift+Q` keyboard shortcut
+- **Glossary sidebar links** — Glossary added to Browse section and Admin section of sidebar
+
+### Technical
+
+- `resolveGlossaryTerms()` splits HTML on tag boundaries, skips tags, and injects `data-glossary-term`/`data-glossary-def` attributes on matched text
+- `GlossaryTooltipLayer` uses document-level `mouseover`/`mouseout` event delegation with 150ms hide delay
+- `PullQuote` Tiptap Node includes `declare module "@tiptap/core"` augmentation for `setPullQuote` / `togglePullQuote` commands
+- Pull quote CSS: borderless blockquote with top/bottom accent borders, centred serif font at 1.35rem
+
 ## [4.28.0] - 2026-03-27
 
 ### New Features

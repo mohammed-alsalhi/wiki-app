@@ -43,3 +43,24 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/wiki-app
 - [x] Word-count distribution chart — admin histogram of article lengths across the wiki
 - [x] Keyboard shortcut customization — per-user reassignment of shortcuts in settings
 - [x] Wiki creation timeline — visual page showing when each article was first created
+
+## v4.28
+
+- [x] Command palette — `Cmd+K` / `Ctrl+K` fuzzy-search articles and actions from anywhere
+- [x] Find & replace in editor — inline match highlighting with Replace / Replace All
+- [x] Copy as Markdown — one-click copy of article title + raw Markdown to clipboard
+- [x] 500-feature backlog — `FEATURES_BACKLOG.md` documents planned features by theme
+
+## v4.29
+
+- [x] Glossary system — admin CRUD for terms + aliases; public A-Z browse at `/glossary`
+- [x] Glossary hover cards — term occurrences in articles get dotted underlines with hover definitions
+- [x] Reading level badge — Flesch Reading Ease score shown as colour-coded badge in article header
+- [x] Pull quote blocks — styled centred blockquote node in editor, via slash command or `Mod+Shift+Q`
+
+## v4.30
+
+- [ ] AI alt-text generation — automatically suggest alt text for uploaded images
+- [ ] Grammar/style check panel — writing quality suggestions in the editor sidebar
+- [ ] Outline builder — AI-generated article outline from a title/summary
+- [ ] Q&A assistant — ask questions about a specific article and get cited answers

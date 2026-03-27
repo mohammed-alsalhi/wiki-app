@@ -148,6 +148,13 @@ export function getSuggestionItems(
         editor.chain().focus().deleteRange(range).insertDecisionTree().run();
       },
     },
+    {
+      title: "Pull Quote",
+      description: "Large styled pull quote for emphasis",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).togglePullQuote().run();
+      },
+    },
   ];
 
   // Append user snippets as slash-command items

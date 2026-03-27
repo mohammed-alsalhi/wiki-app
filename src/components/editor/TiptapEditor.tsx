@@ -23,6 +23,7 @@ import { DataTable } from "./DataTableExtension";
 import { DecisionTree } from "./DecisionTreeExtension";
 import { FindReplace } from "./FindReplaceExtension";
 import FindReplacePanel from "./FindReplacePanel";
+import { PullQuote } from "./PullQuoteExtension";
 import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
 import LinkBubble from "./LinkBubble";
@@ -152,6 +153,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
         DataTable,
         DecisionTree,
         FindReplace,
+        PullQuote,
       ],
       content,
       editorProps: {
