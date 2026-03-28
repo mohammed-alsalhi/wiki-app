@@ -315,6 +315,8 @@ Create standalone Excalidraw canvases at `/whiteboards` — separate from the Ex
 - **Revision pruning** — `/admin/prune-revisions`; configure keep threshold, preview, then delete old revisions
 - **User activity log** — `/admin/user-activity`; view any user's full edit history
 - **Scheduled announcements** — set a go-live datetime on announcements; hidden until that time
+- **Writing velocity** — `/admin/writing-velocity`; weekly bar chart of words added (last 12 weeks)
+- **Session management** — `/settings/sessions`; view and revoke active sessions
 
 ---
 

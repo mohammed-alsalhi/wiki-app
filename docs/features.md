@@ -105,6 +105,10 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Read-only mode** — admin toggle; blue banner; blocks non-admin article edits when active
 - **Revision pruning** — admin tool at `/admin/prune-revisions`; dry-run preview then delete oldest revisions beyond threshold
 - **User activity log** — admin page at `/admin/user-activity`; select user to see full revision history
+- **Session management** — `/settings/sessions` shows all active sessions with device/IP info; revoke individual or all other sessions
+- **AI tag suggestions** — "AI suggest" button in article edit form; suggests existing tags based on content; falls back to keyword match
+- **AI category suggestions** — "AI suggest" button on category picker; auto-selects best-fit category from article content
+- **Writing velocity** — `/admin/writing-velocity`; weekly bar chart of words added over last 12 weeks
 - **Speed reader (RSVP)** — modal speed-reading mode; 150/250/400/600 WPM; ORP pivot highlighting; progress bar; accessible from article toolbar
 - **Article blame view** — `/articles/[slug]/blame` shows each paragraph colour-coded by the revision that introduced it; editor, date, and edit summary in sidebar
 - **Article polls** — admins create polls on any article; session-based one-vote-per-user; vote counts revealed post-vote; admin close/reopen/delete controls

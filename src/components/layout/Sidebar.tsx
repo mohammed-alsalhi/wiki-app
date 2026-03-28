@@ -217,6 +217,9 @@ export default function Sidebar({
           <SidebarLink href="/settings/saved-searches" active={pathname === "/settings/saved-searches"} onClick={close}>
             Saved searches
           </SidebarLink>
+          <SidebarLink href="/settings/sessions" active={pathname === "/settings/sessions"} onClick={close}>
+            Active sessions
+          </SidebarLink>
         </SidebarSection>
 
         {/* Tools — utilities and integrations */}
@@ -396,6 +399,9 @@ export default function Sidebar({
             </SidebarLink>
             <SidebarLink href="/admin/user-activity" active={pathname === "/admin/user-activity"} onClick={close}>
               User activity log
+            </SidebarLink>
+            <SidebarLink href="/admin/writing-velocity" active={pathname === "/admin/writing-velocity"} onClick={close}>
+              Writing velocity
             </SidebarLink>
           </SidebarSection>
         )}

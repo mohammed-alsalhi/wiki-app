@@ -15,6 +15,26 @@ All notable changes to this project are documented here.
 - Updated all docs (README, ARCHITECTURE, CONTRIBUTING, DESIGN, ROADMAP) to reflect new name
 - Updated Vercel deploy button, Docker image names, and clone URLs in README
 
+## [4.45.0] - 2026-03-28
+
+### New Features
+
+- **Session management** — logged-in users can view all active sessions at `/settings/sessions` with device/IP info; revoke individual sessions or all other sessions at once
+- **AI tag suggestions** — "AI suggest" button on article edit form calls `/api/ai/suggest-tags` and auto-adds suggested tags (falls back to keyword-match without AI key)
+- **AI category suggestions** — "AI suggest" button on category picker calls `/api/ai/suggest-category` to pick the best-fit category
+- **Writing velocity** — admin chart at `/admin/writing-velocity` shows words added per week over the last 12 weeks (from revision history)
+
+### Technical
+
+- `userAgent` and `ipAddress` fields added to Session model; login route captures them; `prisma db push` applied
+- `/api/sessions` GET: list current user's unexpired sessions
+- `/api/sessions/[id]` DELETE: revoke session (must belong to caller or admin)
+- `/api/ai/suggest-tags` POST: keyword fallback or OpenAI completion against existing tag names; excludes already-applied tags
+- `/api/ai/suggest-category` POST: OpenAI picks best-fit category from list; no-op if API key absent
+- `/api/admin/writing-velocity` GET: groups revision word counts by ISO week into 12-week array
+- `/admin/writing-velocity` page: bar chart with weekly totals and 12-week/average summary cards
+- Sidebar link added for "Active sessions" and "Writing velocity"
+
 ## [4.44.0] - 2026-03-28
 
 ### New Features

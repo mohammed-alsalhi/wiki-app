@@ -47,6 +47,8 @@ export default function EditArticlePage() {
   const [contentWarnings, setContentWarnings] = useState<string[]>([]);
   const [cleanupTags, setCleanupTags] = useState<string[]>([]);
   const [isAbandoned, setIsAbandoned] = useState(false);
+  const [suggestingTags, setSuggestingTags] = useState(false);
+  const [suggestingCategory, setSuggestingCategory] = useState(false);
   const [coverFocalX, setCoverFocalX] = useState(50);
   const [coverFocalY, setCoverFocalY] = useState(50);
   const [expiresAt, setExpiresAt] = useState("");
@@ -180,6 +182,46 @@ export default function EditArticlePage() {
     }
   }
 
+  async function handleSuggestTags() {
+    if (!editorRef.current) return;
+    setSuggestingTags(true);
+    const res = await fetch("/api/ai/suggest-tags", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content: editorRef.current.getHTML(), articleId: article?.id }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.tags) && data.tags.length > 0) {
+        const newIds = data.tags.map((t: { id: string }) => t.id).filter((id: string) => !tagIds.includes(id));
+        if (newIds.length > 0) setTagIds([...tagIds, ...newIds]);
+        else alert("No new tag suggestions found (all suggested tags are already applied).");
+      } else {
+        alert("No tag suggestions available for this content.");
+      }
+    }
+    setSuggestingTags(false);
+  }
+
+  async function handleSuggestCategory() {
+    if (!editorRef.current) return;
+    setSuggestingCategory(true);
+    const res = await fetch("/api/ai/suggest-category", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content: editorRef.current.getHTML() }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.suggestion) {
+        setCategoryId(data.suggestion.id);
+      } else {
+        alert("Could not determine a suitable category for this article.");
+      }
+    }
+    setSuggestingCategory(false);
+  }
+
   async function handleDelete() {
     if (!article) return;
     if (!confirm(`Are you sure you want to delete "${article.title}"? This cannot be undone.`)) return;
@@ -283,11 +325,21 @@ export default function EditArticlePage() {
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-[13px] font-bold text-heading mb-1">Category:</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[13px] font-bold text-heading">Category:</label>
+                <button type="button" onClick={handleSuggestCategory} disabled={suggestingCategory} className="h-5 px-1.5 text-[10px] border border-border rounded text-muted hover:text-accent transition-colors">
+                  {suggestingCategory ? "…" : "AI suggest"}
+                </button>
+              </div>
               <CategorySelect value={categoryId} onChange={setCategoryId} categories={categories} />
             </div>
             <div>
-              <label className="block text-[13px] font-bold text-heading mb-1">Tags:</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[13px] font-bold text-heading">Tags:</label>
+                <button type="button" onClick={handleSuggestTags} disabled={suggestingTags} className="h-5 px-1.5 text-[10px] border border-border rounded text-muted hover:text-accent transition-colors">
+                  {suggestingTags ? "…" : "AI suggest"}
+                </button>
+              </div>
               <TagPicker selectedTagIds={tagIds} onChange={setTagIds} />
             </div>
           </div>

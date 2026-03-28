@@ -30,6 +30,8 @@ export async function POST(request: NextRequest) {
         userId: user.id,
         token,
         expiresAt,
+        userAgent: request.headers.get("user-agent") ?? null,
+        ipAddress: request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? null,
       },
     });
 

@@ -293,6 +293,11 @@ Lightweight plugin system. Interface in `src/lib/plugins/types.ts`, registry in 
 | `/api/admin/read-only` | GET, POST | Get/set read-only mode flag (stored in PluginState) |
 | `/api/admin/prune-revisions` | GET, POST | Preview/execute revision pruning (keep latest N per article) |
 | `/api/admin/user-activity` | GET | User list with edit counts; `?userId=X` returns revision history |
+| `/api/admin/writing-velocity` | GET | Weekly word counts added (from revisions) for last 12 weeks |
+| `/api/sessions` | GET | Current user's active sessions |
+| `/api/sessions/[id]` | DELETE | Revoke a session (own or admin) |
+| `/api/ai/suggest-tags` | POST | Suggest existing tags for an article (AI or keyword fallback) |
+| `/api/ai/suggest-category` | POST | Suggest best-fit category for an article (AI) |
 | `/api/stats` | GET | Wiki statistics |
 | `/api/metrics` | GET, POST | Performance metrics |
 | `/api/health` | GET | Health check |

@@ -121,6 +121,13 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/arkivel/
 - [x] Saved search alerts — `alertEnabled` toggle on saved searches; daily cron at `/api/cron/search-alerts` sends in-app notifications for new matches
 - [x] Saved searches settings page — manage saved searches with alert toggle at `/settings/saved-searches`
 
+## v4.45
+
+- [x] Session management — view/revoke active sessions at `/settings/sessions`; device and IP info
+- [x] AI tag suggestions — "AI suggest" button in article edit form auto-adds relevant tags
+- [x] AI category suggestions — "AI suggest" button picks best-fit category from content
+- [x] Writing velocity — admin weekly bar chart of words added over last 12 weeks
+
 ## v4.44
 
 - [x] Scheduled announcements — set future go-live datetime; hidden until that time
