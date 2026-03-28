@@ -487,13 +487,15 @@ model CollaborationSession {
 
 // ── v3.0: Search ──
 model SavedSearch {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String
-  query     String
-  filters   Json?
-  createdAt DateTime @default(now())
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  query        String
+  filters      Json?
+  alertEnabled Boolean   @default(false)
+  lastAlertAt  DateTime?
+  createdAt    DateTime  @default(now())
 
   @@index([userId])
 }

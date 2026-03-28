@@ -354,6 +354,9 @@ export default function FeaturesPage() {
             <li><strong>PWA / installable app</strong> — web app manifest enables the wiki to be installed on mobile and desktop home screens with a standalone display mode</li>
             <li><strong>External link click tracking</strong> — outbound link clicks logged per article; admin view at <Link href="/admin/external-links">/admin/external-links</Link></li>
             <li><strong>Prefetch on hover</strong> — internal article links are prefetched on mouse-over for near-instant navigation</li>
+            <li><strong>Font size preference</strong> — S/M/L/XL reading size selector in the article toolbar; persisted to browser storage</li>
+            <li><strong>Focus paragraph mode</strong> — dims all non-hovered paragraphs for distraction-free reading; toggle in article toolbar, persisted</li>
+            <li><strong>Saved search alerts</strong> — per-saved-search notification alerts; when new articles match a saved query the user gets an in-app notification; manageable at <Link href="/settings/saved-searches">/settings/saved-searches</Link></li>
             <li><strong>Custom branding</strong> — name, tagline, welcome text, footer via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
           </ul>
         </div>

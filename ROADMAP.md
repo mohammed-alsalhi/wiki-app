@@ -113,3 +113,10 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/wiki-app
 - [x] PWA manifest — `manifest.ts` makes the wiki installable as a home-screen app
 - [x] External link click tracking — outbound links logged via `sendBeacon`; admin page at `/admin/external-links`
 - [x] Prefetch on hover — `PrefetchArticleLinks` prefetches `/articles/*` pages on hover for instant navigation
+
+## v4.38
+
+- [x] Font size preference — S/M/L/XL reading size control on article pages; persisted to localStorage
+- [x] Focus paragraph mode — dims non-hovered paragraphs in article content; toggle with persistence
+- [x] Saved search alerts — `alertEnabled` toggle on saved searches; daily cron at `/api/cron/search-alerts` sends in-app notifications for new matches
+- [x] Saved searches settings page — manage saved searches with alert toggle at `/settings/saved-searches`

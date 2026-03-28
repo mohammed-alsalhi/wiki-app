@@ -214,6 +214,9 @@ export default function Sidebar({
           <SidebarLink href="/history" active={pathname === "/history"} onClick={close}>
             Reading history
           </SidebarLink>
+          <SidebarLink href="/settings/saved-searches" active={pathname === "/settings/saved-searches"} onClick={close}>
+            Saved searches
+          </SidebarLink>
         </SidebarSection>
 
         {/* Tools — utilities and integrations */}

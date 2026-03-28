@@ -64,6 +64,8 @@ import ArticleTodoList from "@/components/ArticleTodoList";
 import ScrollPositionRestorer from "@/components/ScrollPositionRestorer";
 import ExternalLinkTracker from "@/components/ExternalLinkTracker";
 import PrefetchArticleLinks from "@/components/PrefetchArticleLinks";
+import FontSizeControl from "@/components/FontSizeControl";
+import FocusModeToggle from "@/components/FocusModeToggle";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -309,6 +311,8 @@ export default async function ArticlePage({ params }: Props) {
             <span className="w-px h-4 bg-border mx-0.5" />
 
             {/* — Reading tools — */}
+            <FontSizeControl />
+            <FocusModeToggle />
             <DyslexiaToggle />
             <RTLToggle defaultDir={article.dir ?? "ltr"} />
             <TranslateButton articleId={article.id} />

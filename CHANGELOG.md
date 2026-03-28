@@ -4,6 +4,23 @@
 
 All notable changes to this project are documented here.
 
+## [4.38.0] - 2026-03-28
+
+### New Features
+
+- **Font size preference** — S/M/L/XL font size selector in the article reading toolbar; applies a Tailwind text-size class to `#article-content`; persisted to `localStorage`
+- **Focus paragraph mode** — "Focus" toggle button in the reading toolbar; when active, non-hovered paragraphs in the article are dimmed to 30% opacity for distraction-free reading; persisted to `localStorage`
+- **Saved search alerts** — `alertEnabled` boolean added to `SavedSearch` model; daily cron at `GET /api/cron/search-alerts` checks for new published articles matching the saved query since last check; creates an in-app notification per user per alert
+- **Saved searches settings page** — list and manage saved searches at `/settings/saved-searches`; toggle alerts per search with a pill switch; delete searches; linked from sidebar Personal section
+
+### Technical
+
+- `SavedSearch` Prisma model: added `alertEnabled Boolean @default(false)` and `lastAlertAt DateTime?` fields; `prisma db push` applied
+- `PATCH /api/saved-searches?id=...`: toggles or sets `alertEnabled` for the authenticated user's saved search
+- `GET /api/cron/search-alerts`: requires `Authorization: Bearer CRON_SECRET`; creates `Notification` records with `type="search_alert"`
+- `FontSizeControl`: four buttons S/M/L/XL; removes/adds Tailwind size class on `#article-content`
+- `FocusModeToggle`: injects/removes a `<style>` tag with CSS hover dimming; sun icon button
+
 ## [4.37.0] - 2026-03-28
 
 ### New Features

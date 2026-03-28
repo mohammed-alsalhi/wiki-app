@@ -19,6 +19,7 @@ export async function GET() {
       name: true,
       query: true,
       filters: true,
+      alertEnabled: true,
       createdAt: true,
     },
   });
@@ -78,6 +79,26 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json(savedSearch, { status: 201 });
+}
+
+export async function PATCH(request: NextRequest) {
+  const user = await getSession();
+  if (!user) return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+
+  const id = request.nextUrl.searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+
+  const saved = await prisma.savedSearch.findUnique({ where: { id }, select: { userId: true, alertEnabled: true } });
+  if (!saved) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (saved.userId !== user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  const { alertEnabled } = await request.json();
+  const updated = await prisma.savedSearch.update({
+    where: { id },
+    data: { alertEnabled: typeof alertEnabled === "boolean" ? alertEnabled : !saved.alertEnabled },
+    select: { id: true, alertEnabled: true },
+  });
+  return NextResponse.json(updated);
 }
 
 export async function DELETE(request: NextRequest) {
