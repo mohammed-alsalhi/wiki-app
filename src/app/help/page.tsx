@@ -415,6 +415,8 @@ export default function HelpPage() {
             <li><strong>Character count</strong> &mdash; displayed alongside word count in article byline</li>
             <li><strong>Did-you-mean suggestions</strong> &mdash; zero-result search shows the closest matching article title as a clickable suggestion</li>
             <li><strong>Tag cloud</strong> &mdash; <Link href="/tags/cloud">/tags/cloud</Link> shows all tags sized proportionally by article count</li>
+            <li><strong>Article width preference</strong> &mdash; narrow/default/full reading width toggle in article toolbar; persisted to localStorage</li>
+            <li><strong>Category growth chart</strong> &mdash; <Link href="/admin/category-growth">/admin/category-growth</Link>; stacked bar chart of new articles per category per month (last 12 months)</li>
           </ul>
         </div>
       </div>

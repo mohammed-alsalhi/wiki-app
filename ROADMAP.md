@@ -121,6 +121,12 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/arkivel/
 - [x] Saved search alerts — `alertEnabled` toggle on saved searches; daily cron at `/api/cron/search-alerts` sends in-app notifications for new matches
 - [x] Saved searches settings page — manage saved searches with alert toggle at `/settings/saved-searches`
 
+## v4.48
+
+- [x] Article width preference — narrow/default/full toggle in article toolbar; persisted to localStorage
+- [x] Local timezone timestamps — `LocalDate` client component renders dates in the user's browser timezone
+- [x] Category growth chart — `/admin/category-growth`; stacked bar chart of new articles per category per month (last 12 months)
+
 ## v4.47
 
 - [x] Auto-save indicator — edit form auto-saves draft to localStorage after 2 s of inactivity; shows "Unsaved changes" / "Draft saved" status

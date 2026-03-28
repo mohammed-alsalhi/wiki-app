@@ -4,6 +4,18 @@
 
 All notable changes to this project are documented here.
 
+## [4.48.0] - 2026-03-28
+
+### New Features
+
+- **Article width preference** — narrow/default/full reading width toggle in article toolbar; persisted to localStorage; applies via injected CSS on `#article-content`
+- **Local timezone timestamps** — `LocalDate` component renders dates in the user's browser timezone (client-side, suppresses hydration mismatch)
+- **Category growth chart** — admin page at `/admin/category-growth` shows new articles per category per month (last 12 months, stacked bar chart, top 8 categories)
+
+### Technical
+
+- `/api/admin/category-growth` GET: returns articles grouped by category × month for the last 12 months
+
 ## [4.47.0] - 2026-03-28
 
 ### New Features

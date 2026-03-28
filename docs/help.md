@@ -323,6 +323,8 @@ Create standalone Excalidraw canvases at `/whiteboards` — separate from the Ex
 - **Character count** — shown alongside word count in article byline
 - **Did-you-mean suggestions** — zero-result search shows closest matching article title as suggestion
 - **Tag cloud** — `/tags/cloud`; tags sized by article count; linked from All Tags
+- **Article width preference** — narrow/default/full reading width toggle in article toolbar; persisted to localStorage
+- **Category growth chart** — `/admin/category-growth`; stacked bar chart of articles per category per month
 
 ---
 

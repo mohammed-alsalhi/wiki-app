@@ -81,6 +81,7 @@ import ArticleAdoptionBanner from "@/components/ArticleAdoptionBanner";
 import CopyPlainTextButton from "@/components/CopyPlainTextButton";
 import FeaturedArticleBadge from "@/components/FeaturedArticleBadge";
 import CharacterCount from "@/components/CharacterCount";
+import ArticleWidthPreference from "@/components/ArticleWidthPreference";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -351,6 +352,7 @@ export default async function ArticlePage({ params }: Props) {
 
             {/* — Admin tools — */}
             <DuplicateArticleButton articleId={article.id} />
+            <ArticleWidthPreference />
           </div>
         </div>
 

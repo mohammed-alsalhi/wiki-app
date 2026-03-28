@@ -403,6 +403,9 @@ export default function Sidebar({
             <SidebarLink href="/admin/writing-velocity" active={pathname === "/admin/writing-velocity"} onClick={close}>
               Writing velocity
             </SidebarLink>
+            <SidebarLink href="/admin/category-growth" active={pathname === "/admin/category-growth"} onClick={close}>
+              Category growth
+            </SidebarLink>
           </SidebarSection>
         )}
 

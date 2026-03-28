@@ -1,0 +1,75 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+type Width = "narrow" | "default" | "wide";
+const KEY = "wiki_article_width";
+
+const WIDTHS: { value: Width; label: string; style: string }[] = [
+  { value: "narrow", label: "Narrow", style: "max-width:65ch;margin:0 auto;" },
+  { value: "default", label: "Default", style: "" },
+  { value: "wide", label: "Wide", style: "max-width:100%;margin:0;" },
+];
+
+export default function ArticleWidthPreference() {
+  const [current, setCurrent] = useState<Width>("default");
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(KEY) as Width | null;
+      if (saved) setCurrent(saved);
+    } catch { /* noop */ }
+  }, []);
+
+  useEffect(() => {
+    const style = WIDTHS.find((w) => w.value === current)?.style ?? "";
+    let el = document.getElementById("wiki-width-pref-style") as HTMLStyleElement | null;
+    if (!style) {
+      el?.remove();
+      return;
+    }
+    if (!el) {
+      el = document.createElement("style");
+      el.id = "wiki-width-pref-style";
+      document.head.appendChild(el);
+    }
+    el.textContent = `#article-content { ${style} }`;
+  }, [current]);
+
+  function choose(w: Width) {
+    setCurrent(w);
+    setOpen(false);
+    try { localStorage.setItem(KEY, w); } catch { /* noop */ }
+  }
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        title="Article width"
+        className="flex items-center h-6 px-2 text-[11px] border border-border rounded text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
+      >
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <polyline points="15 3 21 3 21 9" />
+          <polyline points="9 21 3 21 3 15" />
+          <line x1="21" y1="3" x2="14" y2="10" />
+          <line x1="3" y1="21" x2="10" y2="14" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full mt-1 z-50 border border-border bg-surface shadow-sm min-w-[100px]">
+          {WIDTHS.map((w) => (
+            <button
+              key={w.value}
+              onClick={() => choose(w.value)}
+              className={`block w-full text-left px-3 py-1.5 text-[12px] hover:bg-surface-hover ${current === w.value ? "text-accent font-bold" : "text-foreground"}`}
+            >
+              {w.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

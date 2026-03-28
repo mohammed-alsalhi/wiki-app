@@ -114,6 +114,9 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Character count** — shown alongside word count in article byline; abbreviated for large articles
 - **Did-you-mean suggestions** — zero-result search suggests the closest matching article title as a clickable link
 - **Tag cloud** — `/tags/cloud`; tags sized proportionally by article count; linked from All Tags page
+- **Article width preference** — narrow/default/full toggle in article toolbar; persisted to localStorage
+- **Local timezone timestamps** — `LocalDate` client component renders dates in the user's browser timezone
+- **Category growth chart** — `/admin/category-growth`; stacked bar chart of new articles per category per month (last 12 months)
 - **Writing velocity** — `/admin/writing-velocity`; weekly bar chart of words added over last 12 weeks
 - **Speed reader (RSVP)** — modal speed-reading mode; 150/250/400/600 WPM; ORP pivot highlighting; progress bar; accessible from article toolbar
 - **Article blame view** — `/articles/[slug]/blame` shows each paragraph colour-coded by the revision that introduced it; editor, date, and edit summary in sidebar

@@ -387,6 +387,9 @@ export default function FeaturesPage() {
             <li><strong>Character count</strong> — displayed alongside word count in the article byline; abbreviated for large articles</li>
             <li><strong>Did-you-mean suggestions</strong> — zero-result searches suggest the closest matching article title as a clickable link</li>
             <li><strong>Tag cloud</strong> — <Link href="/tags/cloud">/tags/cloud</Link> shows all tags sized proportionally by article count</li>
+            <li><strong>Article width preference</strong> — narrow/default/full reading width toggle in article toolbar; persisted to localStorage</li>
+            <li><strong>Local timezone timestamps</strong> — <code className="bg-surface-hover px-1 text-[12px]">LocalDate</code> component renders dates in the user&apos;s browser timezone</li>
+            <li><strong>Category growth chart</strong> — <Link href="/admin/category-growth">/admin/category-growth</Link>; stacked bar chart of new articles per category per month</li>
             <li><strong>Writing velocity</strong> — admin chart at <Link href="/admin/writing-velocity">/admin/writing-velocity</Link> shows words added per week over the last 12 weeks</li>
             <li><strong>Custom branding</strong> — name, tagline, welcome text, footer via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
           </ul>
