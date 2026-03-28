@@ -155,6 +155,60 @@ export function getSuggestionItems(
         editor.chain().focus().deleteRange(range).togglePullQuote().run();
       },
     },
+    {
+      title: "Accordion / FAQ",
+      description: "Collapsible question-and-answer block",
+      command: ({ editor, range }) => {
+        const question = typeof window !== "undefined"
+          ? (window.prompt("Question / heading:", "") ?? "")
+          : "";
+        editor.chain().focus().deleteRange(range).insertContent(
+          `<details class="wiki-accordion"><summary>${question || "Click to expand"}</summary><p>Answer here…</p></details><p></p>`
+        ).run();
+      },
+    },
+    {
+      title: "Two-Column Layout",
+      description: "Side-by-side two-column block",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).insertContent(
+          `<div class="wiki-2col"><div class="wiki-2col-left"><p>Left column…</p></div><div class="wiki-2col-right"><p>Right column…</p></div></div><p></p>`
+        ).run();
+      },
+    },
+    {
+      title: "YouTube / Video Embed",
+      description: "Embed a YouTube or Vimeo video",
+      command: ({ editor, range }) => {
+        const url = typeof window !== "undefined"
+          ? (window.prompt("YouTube or Vimeo URL:", "") ?? "")
+          : "";
+        if (!url.trim()) return;
+        // Convert watch URL to embed URL
+        let embedUrl = url.trim();
+        const ytMatch = embedUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+        if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
+        const vimeoMatch = embedUrl.match(/vimeo\.com\/(\d+)/);
+        if (vimeoMatch) embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+        editor.chain().focus().deleteRange(range).insertContent(
+          `<div class="wiki-embed-video"><iframe src="${embedUrl}" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p></p>`
+        ).run();
+      },
+    },
+    {
+      title: "GitHub Gist Embed",
+      description: "Embed a GitHub Gist",
+      command: ({ editor, range }) => {
+        const gistUrl = typeof window !== "undefined"
+          ? (window.prompt("GitHub Gist URL (e.g. https://gist.github.com/user/abc123):", "") ?? "")
+          : "";
+        if (!gistUrl.trim()) return;
+        const gistId = gistUrl.replace(/.*\//, "").split("#")[0];
+        editor.chain().focus().deleteRange(range).insertContent(
+          `<div class="wiki-gist" data-gist-id="${gistId}" data-gist-url="${gistUrl.trim()}"><a href="${gistUrl.trim()}" target="_blank" rel="noopener">View Gist: ${gistId}</a></div><p></p>`
+        ).run();
+      },
+    },
   ];
 
   // Append user snippets as slash-command items

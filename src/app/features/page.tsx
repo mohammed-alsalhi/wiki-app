@@ -40,6 +40,12 @@ export default function FeaturesPage() {
             <li><strong>Smart typography</strong> — auto-converts <code className="bg-surface-hover px-1 text-[12px]">--</code> → em dash, <code className="bg-surface-hover px-1 text-[12px]">...</code> → ellipsis, and straight quotes to curly quotes as you type</li>
             <li><strong>Outline builder</strong> — AI-assisted panel generates H2/H3 section headings from the article title; supports Encyclopedic, Tutorial, and Reference styles; inserts headings directly into the editor</li>
             <li><strong>AI alt-text suggestions</strong> — image caption prompt is pre-filled with an AI-suggested description derived from the filename (or heuristic if AI not configured)</li>
+            <li><strong>Superscript / subscript</strong> — x² / x₂ toolbar buttons for inline superscript and subscript text</li>
+            <li><strong>Text highlighting</strong> — 6-colour highlight picker in toolbar (yellow, green, blue, pink, orange, purple) with one-click clear</li>
+            <li><strong>Accordion / FAQ blocks</strong> — insert native collapsible <code className="bg-surface-hover px-1 text-[12px]">&lt;details&gt;</code> blocks via <code className="bg-surface-hover px-1 text-[12px]">/accordion</code></li>
+            <li><strong>Two-column layout</strong> — responsive side-by-side grid block via <code className="bg-surface-hover px-1 text-[12px]">/two-column layout</code></li>
+            <li><strong>YouTube / Vimeo embeds</strong> — paste a video URL via <code className="bg-surface-hover px-1 text-[12px]">/youtube</code>; auto-converts to a responsive 16:9 iframe</li>
+            <li><strong>GitHub Gist embeds</strong> — embed a Gist link via <code className="bg-surface-hover px-1 text-[12px]">/github gist</code></li>
             <li><strong>Footnotes &amp; citations</strong> — inline footnote references auto-numbered via CSS counters</li>
             <li><strong>Syntax highlighting</strong> — code blocks with language detection and theme-aware colours</li>
             <li><strong>Voice dictation</strong> — click the microphone button to insert speech at the cursor</li>

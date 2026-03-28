@@ -25,6 +25,9 @@ import { FindReplace } from "./FindReplaceExtension";
 import FindReplacePanel from "./FindReplacePanel";
 import { PullQuote } from "./PullQuoteExtension";
 import { SmartTypography } from "./SmartTypographyExtension";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
+import Highlight from "@tiptap/extension-highlight";
 import OutlineBuilderPanel from "./OutlineBuilderPanel";
 import EditorToolbar from "./EditorToolbar";
 import WikiLinkSuggester from "./WikiLinkSuggester";
@@ -158,6 +161,9 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
         FindReplace,
         PullQuote,
         SmartTypography,
+        Superscript,
+        Subscript,
+        Highlight.configure({ multicolor: true }),
       ],
       content,
       editorProps: {

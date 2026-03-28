@@ -4,6 +4,23 @@
 
 All notable changes to this project are documented here.
 
+## [4.34.0] - 2026-03-27
+
+### New Features
+
+- **Superscript / subscript** — new toolbar buttons (x² / x₂) and keyboard support via `@tiptap/extension-superscript` and `@tiptap/extension-subscript`
+- **Text highlighting** — colour picker in toolbar with 6 preset highlight colours (yellow, green, blue, pink, orange, purple) and clear option; powered by `@tiptap/extension-highlight` with multicolor mode
+- **Accordion / FAQ blocks** — `/accordion` slash command inserts a native `<details><summary>` collapsible block with styled CSS
+- **Two-column layout** — `/two-column layout` slash command inserts a responsive CSS grid two-column block (`wiki-2col`)
+- **YouTube / Vimeo embeds** — `/youtube` slash command prompts for a video URL, auto-converts watch URLs to embed URLs, inserts a responsive 16:9 iframe wrapper
+- **GitHub Gist embeds** — `/github gist` slash command inserts a linked Gist block with the Gist ID
+
+### Technical
+
+- Installed `@tiptap/extension-superscript`, `@tiptap/extension-subscript`, `@tiptap/extension-highlight`
+- `HighlightColorPicker` component: popover with 6 color swatches + unset button; closes on outside click
+- CSS classes: `.wiki-accordion`, `.wiki-2col`, `.wiki-embed-video`, `.wiki-gist` added to `globals.css`
+
 ## [4.33.0] - 2026-03-27
 
 ### New Features

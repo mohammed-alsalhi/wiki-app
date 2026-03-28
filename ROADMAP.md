@@ -86,6 +86,15 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/wiki-app
 
 ## v4.34
 
-- [ ] Analytics batch — article heatmap overlay, satisfaction rating widget
-- [ ] AI grammar panel — inline grammar/style issue highlighting in editor
-- [ ] Collaboration — shared editing lock indicators, co-author invite flow
+- [x] Superscript / subscript toolbar buttons
+- [x] Text highlighting with 6-color picker
+- [x] Accordion / FAQ collapsible blocks via `/accordion` slash command
+- [x] Two-column layout block via `/two-column layout` slash command
+- [x] YouTube / Vimeo responsive video embeds via `/youtube` slash command
+- [x] GitHub Gist embed via `/github gist` slash command
+
+## v4.35
+
+- [ ] Analytics batch — satisfaction rating widget, article heatmap
+- [ ] AI grammar panel — inline highlighting in editor
+- [ ] Content org — article todo list, bulk tag ops, tag rename

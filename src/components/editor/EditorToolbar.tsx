@@ -2,6 +2,7 @@
 
 import type { Editor } from "@tiptap/react";
 import VoiceDictationButton from "./VoiceDictationButton";
+import HighlightColorPicker from "./HighlightColorPicker";
 
 type Props = {
   editor: Editor | null;
@@ -55,6 +56,20 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         icon: "S",
         action: () => editor.chain().focus().toggleStrike().run(),
         isActive: () => editor.isActive("strike"),
+      },
+      {
+        label: "Superscript",
+        icon: "x²",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        action: () => (editor.chain().focus() as any).toggleSuperscript?.().run(),
+        isActive: () => editor.isActive("superscript"),
+      },
+      {
+        label: "Subscript",
+        icon: "x₂",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        action: () => (editor.chain().focus() as any).toggleSubscript?.().run(),
+        isActive: () => editor.isActive("subscript"),
       },
     ],
     [
@@ -316,6 +331,8 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
       >
         ?
       </button>
+      <div className="mx-1 w-px bg-border" />
+      <HighlightColorPicker editor={editor} />
       <VoiceDictationButton editor={editor} />
     </div>
   );
