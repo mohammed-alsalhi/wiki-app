@@ -4,6 +4,18 @@
 
 All notable changes to this project are documented here.
 
+## [4.49.0] - 2026-03-28
+
+### New Features
+
+- **Image lightbox** — clicking any image inside article content opens it full-size in an overlay; close with Esc or click outside; caption shown if alt text is present
+- **AI expand section** — "AI Expand" button in the editor toolbar; select a paragraph and click to expand it into more detail via AI; replaces the selection with the expanded text
+- `/api/ai/expand` — new POST endpoint; takes `text` and optional `context`; returns expanded prose via `gpt-4o-mini`
+
+### Technical
+
+- `onAiExpand` prop added to EditorToolbar; `handleAiExpand` handler in TiptapEditor
+
 ## [4.48.0] - 2026-03-28
 
 ### New Features

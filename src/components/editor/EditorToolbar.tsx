@@ -11,6 +11,7 @@ type Props = {
   detectedLinkCount: number;
   onInsertToc: () => void;
   onAiRewrite: () => void;
+  onAiExpand: () => void;
   onFindReplace: () => void;
 };
 
@@ -22,7 +23,7 @@ type ToolbarButton = {
   hidden?: () => boolean;
 };
 
-export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite, onFindReplace }: Props) {
+export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite, onAiExpand, onFindReplace }: Props) {
   if (!editor) return null;
 
   const groups: ToolbarButton[][] = [
@@ -314,6 +315,14 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
       >
         AI Rewrite
+      </button>
+      <button
+        type="button"
+        onClick={onAiExpand}
+        title="AI expand: select a paragraph first, then click to expand it"
+        className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
+      >
+        AI Expand
       </button>
       <button
         type="button"

@@ -390,6 +390,8 @@ export default function FeaturesPage() {
             <li><strong>Article width preference</strong> — narrow/default/full reading width toggle in article toolbar; persisted to localStorage</li>
             <li><strong>Local timezone timestamps</strong> — <code className="bg-surface-hover px-1 text-[12px]">LocalDate</code> component renders dates in the user&apos;s browser timezone</li>
             <li><strong>Category growth chart</strong> — <Link href="/admin/category-growth">/admin/category-growth</Link>; stacked bar chart of new articles per category per month</li>
+            <li><strong>Image lightbox</strong> — clicking any image in article content opens it full-size in an overlay; close with Esc or click outside; caption shown when alt text is present</li>
+            <li><strong>AI expand section</strong> — &ldquo;AI Expand&rdquo; button in editor toolbar; select a paragraph and click to expand it into more detail; replaces selection with AI-expanded prose</li>
             <li><strong>Writing velocity</strong> — admin chart at <Link href="/admin/writing-velocity">/admin/writing-velocity</Link> shows words added per week over the last 12 weeks</li>
             <li><strong>Custom branding</strong> — name, tagline, welcome text, footer via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
           </ul>

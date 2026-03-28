@@ -434,6 +434,27 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
       }
     }
 
+    async function handleAiExpand() {
+      if (!editor) return;
+      const { from, to } = editor.state.selection;
+      if (from === to) {
+        window.alert("Select a paragraph first, then click AI Expand.");
+        return;
+      }
+      const selectedText = editor.state.doc.textBetween(from, to, " ");
+      const context = editor.state.doc.textContent.slice(0, 500);
+      const res = await fetch("/api/ai/expand", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: selectedText, context }),
+      });
+      if (!res.ok) return;
+      const { expanded } = await res.json();
+      if (expanded) {
+        editor.chain().focus().deleteRange({ from, to }).insertContent(expanded).run();
+      }
+    }
+
     function handleInsertToc() {
       if (!editor) return;
 
@@ -529,6 +550,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             detectedLinkCount={detectedCount}
             onInsertToc={handleInsertToc}
             onAiRewrite={handleAiRewrite}
+            onAiExpand={handleAiExpand}
             onFindReplace={() => setFindReplaceOpen((o) => !o)}
           />
           <button

@@ -417,6 +417,8 @@ export default function HelpPage() {
             <li><strong>Tag cloud</strong> &mdash; <Link href="/tags/cloud">/tags/cloud</Link> shows all tags sized proportionally by article count</li>
             <li><strong>Article width preference</strong> &mdash; narrow/default/full reading width toggle in article toolbar; persisted to localStorage</li>
             <li><strong>Category growth chart</strong> &mdash; <Link href="/admin/category-growth">/admin/category-growth</Link>; stacked bar chart of new articles per category per month (last 12 months)</li>
+            <li><strong>Image lightbox</strong> &mdash; click any image in article content to view full-size; close with Esc or click outside</li>
+            <li><strong>AI expand section</strong> &mdash; &ldquo;AI Expand&rdquo; in editor toolbar; select a paragraph, click to expand into more detail with AI</li>
           </ul>
         </div>
       </div>

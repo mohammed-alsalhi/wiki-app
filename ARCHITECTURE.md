@@ -301,6 +301,7 @@ Lightweight plugin system. Interface in `src/lib/plugins/types.ts`, registry in 
 | `/api/ai/suggest-title` | POST | Suggest 5 alternative encyclopedic titles for an article (AI) |
 | `/tags/cloud` | GET | Tag cloud — all tags sized by article count |
 | `/api/admin/category-growth` | GET | New articles grouped by category × month (last 12 months) |
+| `/api/ai/expand` | POST | Expand selected text into more detailed prose (AI) |
 | `/api/stats` | GET | Wiki statistics |
 | `/api/metrics` | GET, POST | Performance metrics |
 | `/api/health` | GET | Health check |

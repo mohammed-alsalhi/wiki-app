@@ -82,6 +82,7 @@ import CopyPlainTextButton from "@/components/CopyPlainTextButton";
 import FeaturedArticleBadge from "@/components/FeaturedArticleBadge";
 import CharacterCount from "@/components/CharacterCount";
 import ArticleWidthPreference from "@/components/ArticleWidthPreference";
+import ImageLightbox from "@/components/ImageLightbox";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -601,6 +602,7 @@ export default async function ArticlePage({ params }: Props) {
         <AnnotationLayer articleId={article.id} isLoggedIn={!!session} />
         <BackToTop />
         <ReadingProgress />
+        <ImageLightbox />
       </div>
 
       {/* Floating TOC — rendered outside the padded box so it can be fixed */}

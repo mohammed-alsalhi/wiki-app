@@ -121,6 +121,11 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/arkivel/
 - [x] Saved search alerts — `alertEnabled` toggle on saved searches; daily cron at `/api/cron/search-alerts` sends in-app notifications for new matches
 - [x] Saved searches settings page — manage saved searches with alert toggle at `/settings/saved-searches`
 
+## v4.49
+
+- [x] Image lightbox — click any article image to view full-size; close with Esc or click outside
+- [x] AI expand section — "AI Expand" toolbar button; select text, click to expand into more detail
+
 ## v4.48
 
 - [x] Article width preference — narrow/default/full toggle in article toolbar; persisted to localStorage

@@ -325,6 +325,8 @@ Create standalone Excalidraw canvases at `/whiteboards` — separate from the Ex
 - **Tag cloud** — `/tags/cloud`; tags sized by article count; linked from All Tags
 - **Article width preference** — narrow/default/full reading width toggle in article toolbar; persisted to localStorage
 - **Category growth chart** — `/admin/category-growth`; stacked bar chart of articles per category per month
+- **Image lightbox** — click any image in article content to open full-size; close with Esc or click outside
+- **AI expand section** — "AI Expand" in editor toolbar; select a paragraph, click to expand with AI
 
 ---
 
