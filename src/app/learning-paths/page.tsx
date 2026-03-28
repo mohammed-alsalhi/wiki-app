@@ -14,18 +14,26 @@ export default async function LearningPathsPage() {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-heading">Learning Paths</h1>
+    <div>
+      <div className="flex items-center justify-between border-b border-border pb-1 mb-4">
+        <h1
+          className="text-[1.7rem] font-normal text-heading"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          Learning Paths
+        </h1>
         {session && (
-          <Link href="/learning-paths/new" className="px-3 py-1.5 bg-accent text-white text-sm rounded hover:opacity-90">
+          <Link
+            href="/learning-paths/new"
+            className="flex items-center gap-1 h-6 px-2 text-[11px] border border-border rounded text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
+          >
             Create Path
           </Link>
         )}
       </div>
 
       {paths.length === 0 ? (
-        <p className="text-muted text-sm italic">No learning paths yet. Create one to guide readers through a topic.</p>
+        <p className="text-[13px] text-muted italic">No learning paths yet. Create one to guide readers through a topic.</p>
       ) : (
         <div className="space-y-4">
           {paths.map((path) => (

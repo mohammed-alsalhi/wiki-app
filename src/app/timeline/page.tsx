@@ -61,20 +61,16 @@ export default function TimelinePage() {
   const grouped = useMemo(() => groupByYear(filtered), [filtered]);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1
-            className="text-[1.5rem] font-normal text-heading"
-            style={{ fontFamily: "var(--font-serif)" }}
-          >
-            Timeline
-          </h1>
-          <p className="text-[12px] text-muted mt-0.5">
-            {articles.length} article{articles.length !== 1 ? "s" : ""} in chronological order
-          </p>
-        </div>
-      </div>
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-1"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        Timeline
+      </h1>
+      <p className="text-[12px] text-muted mb-4">
+        {articles.length} article{articles.length !== 1 ? "s" : ""} in chronological order
+      </p>
 
       {/* Filters */}
       <div className="flex items-center gap-2 mb-6">

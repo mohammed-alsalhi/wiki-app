@@ -35,25 +35,26 @@ export default function BookmarksPage() {
 
   return (
     <div>
-      <div className="wiki-tabs">
-        <span className="wiki-tab wiki-tab-active">My Bookmarks</span>
+      <div className="flex items-center justify-between border-b border-border pb-1 mb-4">
+        <h1
+          className="text-[1.7rem] font-normal text-heading"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          Bookmarks
+        </h1>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search bookmarks…"
+          className="border border-border rounded px-3 py-1 text-[12px] w-48 bg-transparent"
+        />
       </div>
-      <div className="border border-t-0 border-border bg-surface px-5 py-4">
-        <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-xl font-normal text-heading">Bookmarks</h1>
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search bookmarks…"
-            className="ml-auto border border-border rounded px-3 py-1 text-sm w-48 bg-transparent"
-          />
-        </div>
 
-        {loading ? (
-          <p className="text-sm text-muted">Loading…</p>
-        ) : filtered.length === 0 ? (
-          <p className="text-sm text-muted">No bookmarks yet.</p>
-        ) : (
+      {loading ? (
+        <p className="text-[13px] text-muted">Loading…</p>
+      ) : filtered.length === 0 ? (
+        <p className="text-[13px] text-muted">No bookmarks yet.</p>
+      ) : (
           <ul className="space-y-2">
             {filtered.map((b) => (
               <li key={b.id} className="border border-border rounded p-3 flex items-start gap-3">
@@ -61,9 +62,9 @@ export default function BookmarksPage() {
                   <Link href={`/articles/${b.article.slug}`} className="text-wiki-link font-medium hover:underline">
                     {b.article.title}
                   </Link>
-                  {b.note && <p className="text-xs text-muted mt-0.5 italic">{b.note}</p>}
+                  {b.note && <p className="text-[11px] text-muted mt-0.5 italic">{b.note}</p>}
                   {b.article.excerpt && !b.note && (
-                    <p className="text-xs text-muted mt-0.5 line-clamp-2">{b.article.excerpt}</p>
+                    <p className="text-[11px] text-muted mt-0.5 line-clamp-2">{b.article.excerpt}</p>
                   )}
                 </div>
                 <button
@@ -76,7 +77,6 @@ export default function BookmarksPage() {
             ))}
           </ul>
         )}
-      </div>
     </div>
   );
 }

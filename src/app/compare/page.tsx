@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { resolveWikiLinks } from "@/lib/wikilinks";
 import { expandMacros } from "@/lib/macros";
-import { config } from "@/lib/config";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -14,12 +13,17 @@ export default async function CompareArticlesPage({ searchParams }: Props) {
 
   if (!a || !b) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-12 text-center">
-        <h1 className="text-xl font-semibold mb-4">Compare Articles</h1>
-        <p className="text-muted-foreground mb-6">
+      <div>
+        <h1
+          className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-4"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          Compare Articles
+        </h1>
+        <p className="text-[13px] text-muted mb-2">
           Provide two article slugs to compare side by side.
         </p>
-        <p className="text-sm text-muted-foreground font-mono">
+        <p className="text-[12px] text-muted font-mono">
           /compare?a=first-article&b=second-article
         </p>
       </div>
@@ -39,13 +43,13 @@ export default async function CompareArticlesPage({ searchParams }: Props) {
   ]);
 
   return (
-    <div className="px-4 py-6">
-      <div className="flex items-center gap-2 mb-6 text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">{config.name}</Link>
-        <span>/</span>
-        <span className="text-foreground font-medium">Compare</span>
-      </div>
-
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-4"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        Compare Articles
+      </h1>
       <div className="grid grid-cols-2 gap-4">
         {/* Header row */}
         {[{ art: artA, html: htmlA }, { art: artB, html: htmlB }].map(({ art }) => (
@@ -53,7 +57,7 @@ export default async function CompareArticlesPage({ searchParams }: Props) {
             <Link href={`/articles/${art.slug}`} className="text-lg font-semibold text-wiki-link hover:underline">
               {art.title}
             </Link>
-            <div className="text-[11px] text-muted-foreground mt-0.5">
+            <div className="text-[11px] text-muted mt-0.5">
               {art.category?.name && <span>{art.category.name} · </span>}
               Last edited {new Date(art.updatedAt).toLocaleDateString()}
             </div>

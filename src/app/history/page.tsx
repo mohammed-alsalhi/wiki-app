@@ -37,9 +37,9 @@ export default function HistoryPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
+    <div>
       <div className="flex items-center justify-between border-b border-border pb-1 mb-4">
-        <h1 className="text-[1.4rem] font-normal text-heading" style={{ fontFamily: "var(--font-serif)" }}>
+        <h1 className="text-[1.7rem] font-normal text-heading" style={{ fontFamily: "var(--font-serif)" }}>
           Reading History
         </h1>
         {entries.length > 0 && (

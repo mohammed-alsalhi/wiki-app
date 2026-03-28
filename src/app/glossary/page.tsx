@@ -20,7 +20,7 @@ export default async function GlossaryPage() {
   return (
     <div>
       <h1
-        className="text-[1.5rem] font-normal text-heading border-b border-border pb-1 mb-4"
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-4"
         style={{ fontFamily: "var(--font-serif)" }}
       >
         Glossary

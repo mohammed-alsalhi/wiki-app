@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { config } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
@@ -33,23 +32,22 @@ export default async function PopularPage() {
     .slice(0, 50);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-2 mb-6 text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">{config.name}</Link>
-        <span>/</span>
-        <span className="text-foreground font-medium">Popular Articles</span>
-      </div>
-
-      <h1 className="text-2xl font-semibold mb-1">Popular Articles</h1>
-      <p className="text-sm text-muted-foreground mb-6">Ranked by reads and reactions.</p>
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-4"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        Popular Articles
+      </h1>
+      <p className="text-[13px] text-muted mb-5">Ranked by reads and reactions.</p>
 
       {scored.length === 0 ? (
-        <p className="text-muted-foreground italic">No activity recorded yet.</p>
+        <p className="text-muted italic">No activity recorded yet.</p>
       ) : (
         <ol className="space-y-3">
           {scored.map((article, i) => (
             <li key={article.id} className="flex items-start gap-4 border border-border rounded-lg px-4 py-3">
-              <span className="text-2xl font-bold text-muted-foreground w-8 shrink-0 text-center leading-tight mt-0.5">
+              <span className="text-2xl font-bold text-muted w-8 shrink-0 text-center leading-tight mt-0.5">
                 {i + 1}
               </span>
               <div className="flex-1 min-w-0">
@@ -57,17 +55,17 @@ export default async function PopularPage() {
                   {article.title}
                 </Link>
                 {article.category && (
-                  <span className="ml-2 text-xs text-muted-foreground">
+                  <span className="ml-2 text-xs text-muted">
                     <Link href={`/categories/${article.category.slug}`} className="hover:underline">
                       {article.category.name}
                     </Link>
                   </span>
                 )}
                 {article.excerpt && (
-                  <p className="text-sm text-muted-foreground mt-0.5 truncate">{article.excerpt}</p>
+                  <p className="text-sm text-muted mt-0.5 truncate">{article.excerpt}</p>
                 )}
               </div>
-              <div className="text-xs text-muted-foreground shrink-0 text-right space-y-0.5">
+              <div className="text-xs text-muted shrink-0 text-right space-y-0.5">
                 <div>{article._count.reads} reads</div>
                 <div>{article._count.reactions} reactions</div>
               </div>

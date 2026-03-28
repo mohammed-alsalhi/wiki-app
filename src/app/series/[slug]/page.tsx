@@ -24,19 +24,21 @@ export default async function SeriesPage({ params }: Props) {
   if (!series) notFound();
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <p className="text-sm text-muted-foreground mb-1">
-        <Link href="/series" className="hover:underline">Series</Link>
-      </p>
-      <h1 className="text-2xl font-semibold mb-2">{series.name}</h1>
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-2"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        {series.name}
+      </h1>
       {series.description && (
-        <p className="text-muted-foreground mb-6">{series.description}</p>
+        <p className="text-[13px] text-muted mb-4">{series.description}</p>
       )}
 
       <ol className="space-y-3 mt-4">
         {series.members.map((m, i) => (
           <li key={m.id} className="flex gap-4 border border-border rounded-lg p-4 hover:bg-muted/30">
-            <span className="text-2xl font-light text-muted-foreground w-8 flex-shrink-0 text-center">
+            <span className="text-2xl font-light text-muted w-8 flex-shrink-0 text-center">
               {i + 1}
             </span>
             <div>
@@ -44,7 +46,7 @@ export default async function SeriesPage({ params }: Props) {
                 {m.article.title}
               </Link>
               {m.article.excerpt && (
-                <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2">
+                <p className="text-sm text-muted mt-0.5 line-clamp-2">
                   {m.article.excerpt}
                 </p>
               )}

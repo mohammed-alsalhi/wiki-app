@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { config } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
@@ -33,22 +32,21 @@ export default async function DiscussionsIndexPage({ searchParams }: Props) {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-2 mb-6 text-sm text-muted-foreground">
-        <Link href="/" className="hover:text-foreground">{config.name}</Link>
-        <span>/</span>
-        <span className="text-foreground font-medium">Discussions</span>
-      </div>
-
-      <h1 className="text-2xl font-semibold mb-1">All Discussions</h1>
-      <p className="text-sm text-muted-foreground mb-5">
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-4"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        All Discussions
+      </h1>
+      <p className="text-[13px] text-muted mb-5">
         Open threads across all articles.{" "}
         {articleFilter && <span>Filtered by article: <strong>{articleFilter}</strong>. </span>}
         {authorFilter && <span>Filtered by author: <strong>{authorFilter}</strong>.</span>}
       </p>
 
       {discussions.length === 0 ? (
-        <p className="text-muted-foreground italic">No discussions found.</p>
+        <p className="text-muted italic">No discussions found.</p>
       ) : (
         <ul className="space-y-3">
           {discussions.map((d) => (
@@ -57,10 +55,10 @@ export default async function DiscussionsIndexPage({ searchParams }: Props) {
                 <Link href={`/articles/${d.article.slug}/discussion`} className="text-sm font-medium text-wiki-link hover:underline">
                   {d.article.title}
                 </Link>
-                <span className="text-[11px] text-muted-foreground">{new Date(d.createdAt).toLocaleDateString()}</span>
+                <span className="text-[11px] text-muted">{new Date(d.createdAt).toLocaleDateString()}</span>
               </div>
               <p className="text-sm text-foreground line-clamp-2">{d.content}</p>
-              <div className="flex items-center gap-3 mt-1.5 text-[11px] text-muted-foreground">
+              <div className="flex items-center gap-3 mt-1.5 text-[11px] text-muted">
                 <span>
                   by{" "}
                   {d.user ? (

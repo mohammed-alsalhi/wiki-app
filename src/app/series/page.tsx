@@ -17,10 +17,15 @@ export default async function SeriesIndexPage() {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-6">Article Series</h1>
+    <div>
+      <h1
+        className="text-[1.7rem] font-normal text-heading border-b border-border pb-1 mb-4"
+        style={{ fontFamily: "var(--font-serif)" }}
+      >
+        Article Series
+      </h1>
       {allSeries.length === 0 ? (
-        <p className="text-muted-foreground text-sm italic">No series yet.</p>
+        <p className="text-[13px] text-muted italic">No series yet.</p>
       ) : (
         <div className="space-y-3">
           {allSeries.map((s) => (
@@ -31,10 +36,10 @@ export default async function SeriesIndexPage() {
                     {s.name}
                   </Link>
                   {s.description && (
-                    <p className="text-sm text-muted-foreground mt-0.5">{s.description}</p>
+                    <p className="text-sm text-muted mt-0.5">{s.description}</p>
                   )}
                 </div>
-                <span className="text-xs text-muted-foreground flex-shrink-0">
+                <span className="text-xs text-muted flex-shrink-0">
                   {s._count.members} article{s._count.members !== 1 ? "s" : ""}
                 </span>
               </div>

@@ -4,6 +4,32 @@
 
 All notable changes to this project are documented here.
 
+## [4.40.0] - 2026-03-28
+
+### New Features
+
+- **Reading ETA** — `~X min left` label in the article byline that dynamically updates as you scroll; disappears when you finish
+- **Night reading mode** — warm sepia-toned dark theme toggled via a moon/sun button in the article reading toolbar; persisted to `localStorage`
+- **Search history** — last 20 successful searches stored in `localStorage`; shown as clickable chips below the search bar when no query is entered; Clear button wipes history
+
+### Technical
+
+- `ArticleReadingETA`: client component tracking `#article-content` scroll offset to compute remaining reading time at 200 WPM
+- `NightModeToggle`: toggles `night-reading` class on `<html>`; CSS variables in `globals.css` define warm sepia palette
+- `SearchHistory` + `recordSearch()`: localStorage-backed; max 20 entries, deduplicated; shown only when query is empty; `recordSearch` called when search returns non-empty results
+
+## [4.39.1] - 2026-03-28
+
+### Design Fixes
+
+- Standardised page headings across 11 inconsistent pages — all now use `text-[1.7rem] font-normal text-heading` with a serif font and `border-b` underline, matching the established wiki aesthetic
+- Removed rogue breadcrumb navbars (`Wiki / Page`) from leaderboard, popular, discussions, and compare pages — breadcrumbs were not part of the design system and broke visual consistency
+- Removed `max-w-*xl mx-auto px-4 py-*` content-width constraints from leaderboard, popular, discussions, series, series detail, history, learning paths, timeline, and compare pages — content now fills the column width like all other wiki pages
+- Replaced all `text-muted-foreground` (Tailwind/shadcn token) with `text-muted` (design system token) across affected pages
+- Replaced `text-sm` / `text-2xl font-semibold` / `text-xl` heading classes with design-system equivalents (`text-[13px]`, `text-[1.7rem] font-normal`)
+- Removed single-item wiki-tabs wrapper from bookmarks and collections pages; both now use the standard heading with inline action button
+- Standardised "Create" / "New" action buttons on collections and learning paths to the shared button token (`h-6 px-2 text-[11px] border border-border rounded`)
+
 ## [4.39.0] - 2026-03-27
 
 ### New Features
