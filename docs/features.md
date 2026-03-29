@@ -130,6 +130,8 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Word frequency cloud** — client-side tag cloud at the bottom of every article showing top-40 most frequent non-stop words sized by frequency
 - **Dead-end article finder** — `/admin/dead-ends`; lists published articles with no outgoing wiki links so editors can add cross-references
 - **Duplicate content detector** — `/admin/duplicate-content`; Jaccard similarity across published articles; shows pairs ≥ 55% similar with edit links
+- **Orphan article finder** — `/admin/orphans`; lists published articles that no other article links to; grouped by category; linked from admin sidebar
+- **Writing session goal** — set a word-count target in the editor status bar; real-time progress bar, elapsed timer, and green completion indicator
 - **Writing velocity** — `/admin/writing-velocity`; weekly bar chart of words added over last 12 weeks
 - **Speed reader (RSVP)** — modal speed-reading mode; 150/250/400/600 WPM; ORP pivot highlighting; progress bar; accessible from article toolbar
 - **Article blame view** — `/articles/[slug]/blame` shows each paragraph colour-coded by the revision that introduced it; editor, date, and edit summary in sidebar

@@ -4,6 +4,18 @@
 
 All notable changes to this project are documented here.
 
+## [4.53.0] - 2026-03-28
+
+### New Features
+
+- **Orphan article finder** — `/admin/orphans`; lists published articles that no other article links to (checks both `/articles/slug` hrefs and `data-wiki-link="title"` attributes); groups results by category; linked from admin sidebar
+- **Writing session goal** — set a word-count target directly in the editor status bar; tracks words written in real time with a progress bar, elapsed timer, and green completion state
+
+### Technical
+
+- `WritingSessionGoal.tsx` client component listens to Tiptap `update` events; snapshots baseline word count on start; displayed inline in the editor status bar between the word/character count and the save state
+- `OrphansPage` server component concatenates all published article content and string-searches for each article's slug and title; `force-dynamic`
+
 ## [4.52.0] - 2026-03-28
 
 ### New Features

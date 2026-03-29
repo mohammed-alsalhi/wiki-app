@@ -307,6 +307,7 @@ Lightweight plugin system. Interface in `src/lib/plugins/types.ts`, registry in 
 | `/api/admin/import` | POST | Bulk import up to 500 articles from a JSON array; auto-creates tags, resolves categories |
 | `/admin/dead-ends` | GET | Lists published articles with no outgoing wiki links |
 | `/admin/duplicate-content` | GET | Jaccard similarity scan for near-duplicate published articles |
+| `/admin/orphans` | GET | Lists published articles with no incoming links from any other article |
 | `/api/stats` | GET | Wiki statistics |
 | `/api/metrics` | GET, POST | Performance metrics |
 | `/api/health` | GET | Health check |

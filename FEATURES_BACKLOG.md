@@ -54,7 +54,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [x] Article "last read position" memory (scroll restoration)
 - [ ] Editor line numbers for code blocks
 - [ ] Custom editor themes (light / dark / sepia / high-contrast)
-- [ ] Distraction-free writing with word-count goal
+- [x] Distraction-free writing with word-count goal
 - [ ] Sentence-level undo/redo (not just character-level)
 
 ---
@@ -90,7 +90,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Redirect chain resolver (detect and flatten long redirect chains)
 - [ ] Broken redirect detector in admin lint
 - [ ] Category tree visualiser (interactive expandable tree)
-- [ ] Orphan article finder (enhanced — also suggests parent categories)
+- [x] Orphan article finder (enhanced — also suggests parent categories)
 - [x] Dead-end article finder (no outgoing wiki-links)
 - [ ] Long-article splitter suggestions (flag articles > 5 000 words)
 - [ ] Short-article merger suggestions (flag stubs < 100 words)

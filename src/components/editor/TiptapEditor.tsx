@@ -35,6 +35,7 @@ import WikiLinkSuggester from "./WikiLinkSuggester";
 import LinkBubble from "./LinkBubble";
 import WritingCoachPanel from "./WritingCoachPanel";
 import VoiceDictationButton from "./VoiceDictationButton";
+import WritingSessionGoal from "./WritingSessionGoal";
 import { useWikiLinkSuggester } from "./useWikiLinkSuggester";
 import { useRef, useState, useEffect, useCallback, useImperativeHandle, forwardRef } from "react";
 
@@ -601,6 +602,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
               {editor.storage.characterCount?.characters?.() ??
                 editor.state.doc.textContent.length} characters
             </span>
+            <WritingSessionGoal editor={editor} />
             <span>{hasChanges ? "Unsaved changes" : "No changes"}</span>
             <span>
               {editor.state.doc.content.childCount} paragraphs

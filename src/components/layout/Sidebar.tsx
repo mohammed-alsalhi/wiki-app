@@ -361,6 +361,9 @@ export default function Sidebar({
             <SidebarLink href="/admin/duplicate-content" active={pathname === "/admin/duplicate-content"} onClick={close}>
               Duplicate content
             </SidebarLink>
+            <SidebarLink href="/admin/orphans" active={pathname === "/admin/orphans"} onClick={close}>
+              Orphan articles
+            </SidebarLink>
             <SidebarLink href="/admin/quality" active={pathname === "/admin/quality"} onClick={close}>
               Content quality
             </SidebarLink>

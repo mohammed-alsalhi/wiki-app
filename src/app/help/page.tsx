@@ -422,6 +422,7 @@ export default function HelpPage() {
             <li><strong>Bulk JSON export</strong> &mdash; <Link href="/api/export/json">/api/export/json</Link> downloads all articles as structured JSON (admin only)</li>
             <li><strong>Per-article analytics</strong> &mdash; <code className="bg-surface-hover px-1 text-[12px]">/articles/[slug]/analytics</code>; 30-day view chart + summary stats</li>
             <li><strong>Series progress tracker</strong> &mdash; series navigation shows &ldquo;X of N read&rdquo; from browser reading history</li>
+            <li><strong>Writing session goal</strong> &mdash; enter a word-count target in the editor status bar and click Start; a progress bar, elapsed timer, and green completion indicator track your session in real time</li>
           </ul>
         </div>
       </div>
@@ -513,6 +514,7 @@ export default function HelpPage() {
             <li><Link href="/admin/analytics">Analytics</Link>, <Link href="/admin/metrics">Metrics</Link>, <Link href="/admin/health">Health</Link></li>
             <li><Link href="/admin/plugins">Plugins</Link>, <Link href="/admin/webhooks">Webhooks</Link>, <Link href="/admin/templates">Templates</Link>, <Link href="/admin/theme">Theme</Link></li>
             <li><Link href="/admin/lint">Content lint</Link>, <Link href="/admin/knowledge-gaps">Knowledge gaps</Link>, <Link href="/admin/search-gaps">Search gaps</Link>, <Link href="/admin/staleness">Staleness</Link>, <Link href="/admin/embeddings">Embeddings</Link></li>
+            <li><Link href="/admin/dead-ends">Dead-end articles</Link>, <Link href="/admin/duplicate-content">Duplicate content</Link>, <Link href="/admin/orphans">Orphan articles</Link> — content health tools for finding articles with no outgoing links, similar content, or no incoming links</li>
             <li><Link href="/admin/macros">Macros</Link>, <Link href="/admin/content-schedule">Content schedule</Link>, <Link href="/admin/kanban">Kanban board</Link>, <Link href="/admin/audit-log">Audit log</Link></li>
             <li><Link href="/admin/metadata-schemas">Metadata schemas</Link> — define typed fields per category; <Link href="/admin/federated-peers">Federated peers</Link> — configure peer wikis for cross-wiki search</li>
             <li><Link href="/admin/import">Import tools</Link> — Confluence, Notion, Obsidian import in one place</li>

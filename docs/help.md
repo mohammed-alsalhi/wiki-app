@@ -332,6 +332,7 @@ Create standalone Excalidraw canvases at `/whiteboards` — separate from the Ex
 - **Bulk JSON export** — `/api/export/json`; all articles as structured JSON (admin only)
 - **Per-article analytics** — `/articles/[slug]/analytics`; 30-day view chart + summary stats (admin only)
 - **Series progress tracker** — series navigation shows "X of N read" from browser reading history
+- **Writing session goal** — enter a word-count target in the editor status bar and click Start; real-time progress bar, elapsed timer, and green completion indicator
 
 ---
 
@@ -429,6 +430,9 @@ The sidebar is divided into collapsible sections — click any section header to
 - **Templates** — `/admin/templates`, reusable article templates
 - **Theme** — `/admin/theme`, site-wide colour and typography settings
 - **Content lint** — `/admin/lint`, automated quality checks across all articles
+- **Dead-end articles** — `/admin/dead-ends`, published articles with no outgoing wiki links
+- **Duplicate content** — `/admin/duplicate-content`, published article pairs with ≥ 55% Jaccard similarity
+- **Orphan articles** — `/admin/orphans`, published articles that no other article links to, grouped by category
 - **Knowledge gaps** — `/admin/knowledge-gaps`, topics referenced but not yet written
 - **Embeddings** — `/admin/embeddings`, semantic search index management
 - **Search gaps** — `/admin/search-gaps`, common searches returning no results
