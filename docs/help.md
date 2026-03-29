@@ -327,6 +327,9 @@ Create standalone Excalidraw canvases at `/whiteboards` — separate from the Ex
 - **Category growth chart** — `/admin/category-growth`; stacked bar chart of articles per category per month
 - **Image lightbox** — click any image in article content to open full-size; close with Esc or click outside
 - **AI expand section** — "AI Expand" in editor toolbar; select a paragraph, click to expand with AI
+- **Bulk JSON export** — `/api/export/json`; all articles as structured JSON (admin only)
+- **Per-article analytics** — `/articles/[slug]/analytics`; 30-day view chart + summary stats (admin only)
+- **Series progress tracker** — series navigation shows "X of N read" from browser reading history
 
 ---
 

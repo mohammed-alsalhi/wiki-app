@@ -302,6 +302,8 @@ Lightweight plugin system. Interface in `src/lib/plugins/types.ts`, registry in 
 | `/tags/cloud` | GET | Tag cloud — all tags sized by article count |
 | `/api/admin/category-growth` | GET | New articles grouped by category × month (last 12 months) |
 | `/api/ai/expand` | POST | Expand selected text into more detailed prose (AI) |
+| `/api/export/json` | GET | Download all articles as JSON (admin only) |
+| `/articles/[slug]/analytics` | GET | Per-article analytics: 30-day views, reads, reactions, revisions (admin only) |
 | `/api/stats` | GET | Wiki statistics |
 | `/api/metrics` | GET, POST | Performance metrics |
 | `/api/health` | GET | Health check |

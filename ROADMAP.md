@@ -121,6 +121,12 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/arkivel/
 - [x] Saved search alerts — `alertEnabled` toggle on saved searches; daily cron at `/api/cron/search-alerts` sends in-app notifications for new matches
 - [x] Saved searches settings page — manage saved searches with alert toggle at `/settings/saved-searches`
 
+## v4.50
+
+- [x] Bulk JSON export — `/api/export/json`; downloads all articles as structured JSON (admin only)
+- [x] Per-article analytics tab — `/articles/[slug]/analytics`; 30-day view chart + summary stats
+- [x] Series progress tracker — ArticleSeriesNav shows "X of N read" from browser reading history
+
 ## v4.49
 
 - [x] Image lightbox — click any article image to view full-size; close with Esc or click outside

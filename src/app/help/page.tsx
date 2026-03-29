@@ -419,6 +419,9 @@ export default function HelpPage() {
             <li><strong>Category growth chart</strong> &mdash; <Link href="/admin/category-growth">/admin/category-growth</Link>; stacked bar chart of new articles per category per month (last 12 months)</li>
             <li><strong>Image lightbox</strong> &mdash; click any image in article content to view full-size; close with Esc or click outside</li>
             <li><strong>AI expand section</strong> &mdash; &ldquo;AI Expand&rdquo; in editor toolbar; select a paragraph, click to expand into more detail with AI</li>
+            <li><strong>Bulk JSON export</strong> &mdash; <Link href="/api/export/json">/api/export/json</Link> downloads all articles as structured JSON (admin only)</li>
+            <li><strong>Per-article analytics</strong> &mdash; <code className="bg-surface-hover px-1 text-[12px]">/articles/[slug]/analytics</code>; 30-day view chart + summary stats</li>
+            <li><strong>Series progress tracker</strong> &mdash; series navigation shows &ldquo;X of N read&rdquo; from browser reading history</li>
           </ul>
         </div>
       </div>

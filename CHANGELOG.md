@@ -4,6 +4,14 @@
 
 All notable changes to this project are documented here.
 
+## [4.50.0] - 2026-03-28
+
+### New Features
+
+- **Bulk JSON export** — `/api/export/json` downloads all articles as a structured JSON file (admin only); includes title, slug, content, contentRaw, category, tags, status, infobox
+- **Per-article analytics tab** — `/articles/[slug]/analytics` (admin only) shows 30-day view chart + summary cards (views, reads, reactions, revisions)
+- **Series progress tracker** — `ArticleSeriesNav` now shows "X of N read" based on browser reading history (localStorage)
+
 ## [4.49.0] - 2026-03-28
 
 ### New Features
