@@ -122,6 +122,10 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Bulk JSON export** — `/api/export/json`; downloads all articles as structured JSON (admin only)
 - **Per-article analytics** — `/articles/[slug]/analytics`; 30-day view chart + reads, reactions, revisions summary (admin only)
 - **Series progress tracker** — series navigation shows "X of N read" from browser reading history
+- **Series table of contents** — collapsible panel on article pages listing all entries in a series with read indicators and current position highlighted
+- **Vertical timeline blocks** — `/timeline` slash command inserts a CSS-driven chronological timeline with date labels and accent-coloured dot connectors
+- **Twitter / X post embeds** — `/twitter` slash command inserts a styled card with a link to the post
+- **Bulk JSON article import** — admin import page (`/admin/import`) accepts a JSON array of articles (up to 500); auto-creates tags, resolves categories, skips existing slugs, creates revision snapshots
 - **Writing velocity** — `/admin/writing-velocity`; weekly bar chart of words added over last 12 weeks
 - **Speed reader (RSVP)** — modal speed-reading mode; 150/250/400/600 WPM; ORP pivot highlighting; progress bar; accessible from article toolbar
 - **Article blame view** — `/articles/[slug]/blame` shows each paragraph colour-coded by the revision that introduced it; editor, date, and edit summary in sidebar

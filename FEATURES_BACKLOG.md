@@ -7,51 +7,51 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 ## Editor
 
-- [ ] Find & replace in editor
+- [x] Find & replace in editor
 - [ ] Editor focus / zen mode (hide all chrome, widen content)
-- [ ] Auto-save indicator ("Saving…" / "Saved" / "Unsaved changes")
-- [ ] Character count alongside word count
+- [x] Auto-save indicator ("Saving…" / "Saved" / "Unsaved changes")
+- [x] Character count alongside word count
 - [ ] Word frequency cloud per article
-- [ ] Paste Markdown → rich text (detect and convert on paste)
+- [x] Paste Markdown → rich text (detect and convert on paste)
 - [ ] Smart URL paste → auto-link
-- [ ] Copy article as Markdown button on article page
-- [ ] Copy article as plain text button
+- [x] Copy article as Markdown button on article page
+- [x] Copy article as plain text button
 - [ ] Typewriter scrolling mode (cursor stays centred vertically)
-- [ ] Editor outline panel (headings tree in left panel)
-- [ ] Pull quote / callout blocks
+- [x] Editor outline panel (AI-assisted headings outline)
+- [x] Pull quote / callout blocks
 - [ ] Tabbed content blocks
-- [ ] Accordion / FAQ blocks
-- [ ] Vertical timeline blocks
+- [x] Accordion / FAQ blocks
+- [x] Vertical timeline blocks
 - [ ] Gallery grid blocks
 - [ ] Button / CTA blocks
 - [ ] Divider with label blocks
-- [ ] Multi-column layout blocks (2-col, 3-col)
-- [ ] Math / LaTeX inline support (KaTeX)
+- [x] Multi-column layout blocks (2-col)
+- [x] Math / LaTeX inline support (KaTeX)
 - [ ] Chemical formula support (mhchem)
 - [ ] Music notation blocks (ABC notation → rendered score)
 - [ ] Chess board diagram blocks (FEN string)
 - [ ] Vega-Lite chart blocks
 - [ ] D3 embed blocks
 - [ ] Sandboxed iframe embed blocks
-- [ ] YouTube / Vimeo embed blocks
-- [ ] Twitter / X embed blocks
+- [x] YouTube / Vimeo embed blocks
+- [x] Twitter / X embed blocks
 - [ ] Spotify embed blocks
-- [ ] GitHub Gist embed blocks
+- [x] GitHub Gist embed blocks
 - [ ] CodePen embed blocks
 - [ ] JSFiddle embed blocks
 - [ ] Replit embed blocks
 - [ ] Custom HTML blocks (admin only)
 - [ ] Article merge (combine two articles at cursor)
 - [ ] Article split (split article into two at selection)
-- [ ] Paragraph-level version history (blame view)
-- [ ] Smart typography (auto em-dash, ellipsis, smart quotes)
-- [ ] Superscript / subscript toolbar buttons
-- [ ] Text highlighting in multiple colours
+- [x] Paragraph-level version history (blame view)
+- [x] Smart typography (auto em-dash, ellipsis, smart quotes)
+- [x] Superscript / subscript toolbar buttons
+- [x] Text highlighting in multiple colours
 - [ ] Custom CSS class assignment on any block
 - [ ] Drag-and-drop block reordering
-- [ ] Inline table of contents (anchor links auto-updated)
-- [ ] Block-level comments (leave a comment on a paragraph)
-- [ ] Article "last read position" memory (scroll restoration)
+- [x] Inline table of contents (anchor links auto-updated)
+- [x] Block-level comments (leave a comment on a paragraph)
+- [x] Article "last read position" memory (scroll restoration)
 - [ ] Editor line numbers for code blocks
 - [ ] Custom editor themes (light / dark / sepia / high-contrast)
 - [ ] Distraction-free writing with word-count goal
@@ -64,29 +64,29 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Multi-category articles (article belongs to multiple categories)
 - [ ] Category ordering modes (alphabetical / manual / by date / by popularity)
 - [ ] Category statistics panel (article count, avg word count, last edited)
-- [ ] Tag cloud with date range filter
+- [x] Tag cloud (tag sizes proportional to article count)
 - [x] Tag merge tool
 - [ ] Tag rename with automatic redirect
-- [ ] Bulk tag operations (apply / remove tag from N articles at once)
-- [ ] Smart / auto-suggested tags (NLP-based from content)
-- [ ] Article series with ordered navigation
-- [ ] Series table of contents
-- [ ] Series progress tracker (X of N read)
+- [x] Bulk tag operations (apply / remove tag from N articles at once)
+- [x] Smart / auto-suggested tags (NLP-based from content)
+- [x] Article series with ordered navigation
+- [x] Series table of contents
+- [x] Series progress tracker (X of N read)
 - [ ] Virtual categories (tag-based, not tree-positioned)
-- [ ] Category templates (pre-fill structure for new articles)
+- [x] Category templates (pre-fill structure for new articles)
 - [ ] Cross-wiki article linking
 - [ ] Namespace support (Article:, Talk:, File:, Help:, User:)
 - [ ] Article aliases (multiple slugs → one article)
 - [ ] Canonical URL management
-- [ ] Article expiry / archival workflow
-- [ ] Content certification workflow (admin marks article as verified)
-- [ ] Good-article / featured-article badges
-- [ ] Quality completeness score per article
+- [x] Article expiry / archival workflow
+- [x] Content certification workflow (admin marks article as verified)
+- [x] Good-article / featured-article badges
+- [x] Quality completeness score per article
 - [ ] Citation tracker
-- [ ] Reference list auto-generation from footnotes
+- [x] Reference list auto-generation from footnotes
 - [ ] Bibliography export (BibTeX, RIS, APA, MLA)
-- [ ] "See Also" auto-suggestions (similarity-based)
-- [ ] Disambiguation page builder UI
+- [x] "See Also" auto-suggestions (similarity-based)
+- [x] Disambiguation page builder UI
 - [ ] Redirect chain resolver (detect and flatten long redirect chains)
 - [ ] Broken redirect detector in admin lint
 - [ ] Category tree visualiser (interactive expandable tree)
@@ -95,9 +95,9 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Long-article splitter suggestions (flag articles > 5 000 words)
 - [ ] Short-article merger suggestions (flag stubs < 100 words)
 - [ ] Duplicate content detector (beyond title — content similarity)
-- [ ] Glossary management page
-- [ ] Term hover-cards (preview definition inline on hover)
-- [ ] Article todo list (per-article internal checklist for editors)
+- [x] Glossary management page
+- [x] Term hover-cards (preview definition inline on hover)
+- [x] Article todo list (per-article internal checklist for editors)
 - [ ] Wiki project pages (coordinate editing efforts on a topic)
 - [ ] Editorial calendar (plan and schedule upcoming articles)
 - [ ] Content ownership / watchlist digest
@@ -106,16 +106,16 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 ## Discovery & Navigation
 
-- [ ] Advanced search: date range, author, word-count range, has-images
+- [x] Advanced search: date range, word-count range, category + tag filters
 - [ ] Saved search alerts (notify when new matches appear)
-- [ ] Per-user search history
-- [ ] Did-you-mean / spell-correct suggestions
-- [ ] Faceted search (filter by category + tag + status simultaneously)
+- [x] Per-user search history
+- [x] Did-you-mean / spell-correct suggestions
+- [x] Faceted search (filter by category + tag + status simultaneously)
 - [ ] Article similarity score display on search results
-- [ ] "People who read this also read" widget
-- [ ] Reading journey map (user's own reading path visualised)
+- [x] "People who read this also read" widget
+- [x] Reading journey map (user's own reading path visualised)
 - [ ] Article popularity trends (rising / falling this week)
-- [ ] Hot articles widget (most viewed in last 7 days)
+- [x] Hot articles widget (most viewed in last 7 days)
 - [ ] New articles feed widget
 - [ ] Random article with category/tag filter
 - [ ] Article quiz mode (flashcard-style review of article content)
@@ -123,40 +123,40 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Knowledge graph exploration mode
 - [ ] Citation graph (article A references article B)
 - [ ] Influence map (track intellectual lineage between articles)
-- [ ] Geographic browse (articles with map coordinates)
+- [x] Geographic browse (articles with map coordinates)
 - [ ] Language / locale browse
-- [ ] Author browse (all articles by a contributor)
-- [ ] Contributor profile pages
-- [ ] Reading level estimator (Flesch-Kincaid grade level)
-- [ ] Content warning tags (CW: violence, spoilers, etc.)
+- [x] Author browse (all articles by a contributor)
+- [x] Contributor profile pages
+- [x] Reading level estimator (Flesch-Kincaid grade level)
+- [x] Content warning tags (CW: violence, spoilers, etc.)
 - [ ] Long / short article toggle filter
 - [ ] Print queue (batch-print multiple articles)
-- [ ] Speed-read mode (word-by-word rapid display)
-- [ ] Focus-paragraph mode (dim non-active paragraphs)
-- [ ] Text-only mode (strip images for focused reading)
-- [ ] High-contrast accessibility mode
-- [ ] Dyslexia-friendly font option (OpenDyslexic)
-- [ ] Font size preference (small / medium / large / XL)
-- [ ] Command palette (Cmd+K fuzzy search all articles + actions)
-- [ ] Recent articles in command palette history
-- [ ] Quick-create article from command palette
-- [ ] Breadcrumb trail on all pages
-- [ ] Article progress indicator (% of article scrolled)
-- [ ] Continue-reading feature (resume at last scroll position)
-- [ ] "Save for later" one-click on any article list
-- [ ] Night reading mode (warm dark theme, auto at sunset)
-- [ ] Estimated finish time per article
+- [x] Speed-read mode (word-by-word rapid display)
+- [x] Focus-paragraph mode (dim non-active paragraphs)
+- [x] Text-only mode (strip images for focused reading)
+- [x] High-contrast accessibility mode
+- [x] Dyslexia-friendly font option (OpenDyslexic)
+- [x] Font size preference (small / medium / large / XL)
+- [x] Command palette (Cmd+K fuzzy search all articles + actions)
+- [x] Recent articles in command palette history
+- [x] Quick-create article from command palette
+- [x] Breadcrumb trail on all pages
+- [x] Article progress indicator (% of article scrolled)
+- [x] Continue-reading feature (resume at last scroll position)
+- [x] "Save for later" one-click on any article list
+- [x] Night reading mode (warm dark theme, auto at sunset)
+- [x] Estimated finish time per article
 
 ---
 
 ## Collaboration
 
-- [ ] Inline suggestions (suggest edits, accept/reject flow like Google Docs)
+- [x] Inline suggestions (suggest edits, accept/reject flow)
 - [ ] Real-time collaborative editing (Yjs — full production wiring)
 - [ ] Edit conflict resolution UI (merge conflicting saves)
-- [ ] Change proposal workflow (editor proposes, admin approves)
+- [x] Change proposal workflow (editor proposes, admin approves)
 - [ ] Peer review queue
-- [ ] Discussion threading (nested replies)
+- [x] Discussion threading (nested replies)
 - [ ] Discussion subscriptions (follow a single thread)
 - [ ] Inline discussion permalinks
 - [ ] @mention autocomplete in discussion editor
@@ -168,16 +168,16 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Edit rate limiting (per IP and per user)
 - [ ] Editor reputation score
 - [ ] Trusted editor status (bypass moderation queue)
-- [ ] Contribution graph (GitHub-style heatmap on profile)
-- [ ] Edit attribution in diff view
-- [ ] Blame / annotate view (who wrote each paragraph)
+- [x] Contribution graph (GitHub-style heatmap on profile)
+- [x] Edit attribution in diff view
+- [x] Blame / annotate view (who wrote each paragraph)
 - [ ] Content ownership transfer between users
-- [ ] Article adoption (claim unmaintained articles)
+- [x] Article adoption (claim unmaintained articles)
 - [ ] Translation workflow (assign locale-specific translation tasks)
 - [ ] Translation memory (reuse previously translated phrases)
-- [ ] Glossary linking (auto-link defined terms to glossary)
+- [x] Glossary linking (auto-link defined terms to glossary)
 - [ ] Fact-check / disputed content marker
-- [ ] Cleanup tags (needs images / needs expansion / needs citations)
+- [x] Cleanup tags (needs images / needs expansion / needs citations)
 - [ ] Citation request inline tag
 - [ ] Mentorship program (pair new editors with experienced ones)
 
@@ -185,10 +185,10 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 ## Analytics & Insights
 
-- [ ] Article section heatmap (which paragraphs get most scroll time)
+- [x] Article section heatmap (scroll depth tracking)
 - [ ] Funnel analysis (article entry → next-page exit paths)
-- [ ] Referrer tracking (how users arrive at each article)
-- [ ] External link click tracking
+- [x] Referrer tracking (how users arrive at each article)
+- [x] External link click tracking
 - [ ] Time-on-page per section
 - [ ] Engagement score per article
 - [ ] Reader retention rate (% who read past halfway)
@@ -197,31 +197,31 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Geographic reader distribution
 - [ ] Device breakdown (mobile / desktop / tablet)
 - [ ] Reading time accuracy (actual vs. estimated)
-- [ ] Article completion rate (% who reach end)
+- [x] Article completion rate (% who reach end)
 - [ ] A/B test article titles
 - [ ] Conversion tracking (read → edit)
 - [ ] Article health trends over time charts
 - [ ] Editor activity dashboard
-- [ ] Content gap analysis (popular zero-result searches)
+- [x] Content gap analysis (popular zero-result searches)
 - [ ] Knowledge coverage map
 - [ ] Writing velocity tracker (words added per week)
-- [ ] Category growth chart
+- [x] Category growth chart
 - [ ] Tag usage trends
 - [ ] Article lifecycle analysis (draft → publish duration)
 - [ ] Comment sentiment analysis
-- [ ] Reader satisfaction quick rating (1–5 after article)
+- [x] Reader satisfaction quick rating (1–5 after article)
 - [ ] Analytics export to CSV
 - [ ] Analytics REST API endpoint
 - [ ] Custom event tracking
-- [ ] Reading goals tracking
+- [x] Reading goals tracking
 - [ ] Core Web Vitals dashboard
 
 ---
 
 ## Admin Tools
 
-- [ ] Bulk article import (JSON / CSV with field mapping)
-- [ ] Bulk article export to JSON
+- [x] Bulk article import (JSON with field mapping)
+- [x] Bulk article export to JSON
 - [ ] Content approval workflow UI
 - [ ] Edit queue (pending edits waiting for admin approval)
 - [ ] IP ban tool
@@ -264,38 +264,38 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 ## User Experience
 
-- [ ] Onboarding wizard (first-time user tour)
+- [x] Onboarding wizard (first-time user tour)
 - [ ] Welcome checklist (complete profile, read 3 articles, make first edit)
-- [ ] Achievement system (badges for contribution milestones)
-- [ ] Points / XP system for contributions
+- [x] Achievement system (badges for contribution milestones)
+- [x] Points / XP system for contributions
 - [ ] User level system (Reader → Contributor → Editor → Expert → Master)
-- [ ] Profile customisation (avatar upload, bio, social links)
-- [ ] User portfolio (public view of all contributions)
+- [x] Profile customisation (avatar upload, bio, social links)
+- [x] User portfolio (public view of all contributions)
 - [ ] Following other users
 - [ ] User feed (activity updates from followed users)
-- [ ] Notification centre (all notifications in one place, grouped)
+- [x] Notification centre (all notifications in one place, grouped)
 - [ ] Notification grouping (batch similar notifications)
 - [ ] Granular email notification preferences
 - [ ] Unsubscribe link in notification emails
 - [ ] Dark mode scheduled (auto-switch at configurable times)
-- [ ] Custom accent colour picker
-- [ ] Font choice preference (serif / sans-serif / monospace)
+- [x] Custom accent colour picker
+- [x] Font choice preference (serif / sans-serif / monospace)
 - [ ] Sidebar position preference (left / right)
-- [ ] Article width preference (narrow / default / full)
+- [x] Article width preference (narrow / default / full)
 - [ ] Image loading preference (eager / lazy / off)
 - [ ] Motion reduction preference
 - [ ] Keyboard-only navigation (tab-focus on all interactive elements)
 - [ ] Paste history (recent clipboard items in editor)
 - [ ] Global command history (undo across pages)
 - [ ] Article "pin to top" of personal reading list
-- [ ] Quick note on any article (private sticky note)
-- [ ] Personal reading notes (private annotations per article)
-- [ ] Highlight text and save as quote / note
+- [x] Quick note on any article (private sticky note)
+- [x] Personal reading notes (private annotations per article)
+- [x] Highlight text and save as quote / note
 - [ ] Share highlighted text (URL fragment with highlight)
 - [ ] Print article with personal annotations
 - [ ] Export personal notes as Markdown
 - [ ] Calendar view of reading history
-- [ ] Time-zone aware timestamps (show dates in user's local time)
+- [x] Time-zone aware timestamps (show dates in user's local time)
 
 ---
 
@@ -351,7 +351,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Edge caching configuration UI
 - [ ] Image optimisation pipeline (WebP / AVIF auto-conversion)
 - [ ] Image blur placeholder (LQIP)
-- [ ] Prefetch article links on hover
+- [x] Prefetch article links on hover
 - [ ] Service worker for offline reading
 - [ ] PWA manifest (installable on home screen)
 - [ ] Background sync for offline edits
@@ -372,9 +372,9 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 ## Content Types
 
-- [ ] Interactive data tables (sortable, filterable, paginated)
-- [ ] Interactive decision trees
-- [ ] Polls and surveys embedded in articles
+- [x] Interactive data tables (sortable, filterable, paginated)
+- [x] Interactive decision trees
+- [x] Polls and surveys embedded in articles
 - [ ] Quizzes (multiple choice, true/false, short answer)
 - [ ] Recipe format (ingredients, steps, yield, nutrition)
 - [ ] Event pages (date, location, RSVP)
@@ -390,7 +390,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Tutorial format (steps, estimated time, difficulty)
 - [ ] API documentation page format (endpoint cards)
 - [ ] Comparison table blocks (side-by-side feature matrix)
-- [ ] Image gallery with captions and lightbox zoom
+- [x] Image gallery with captions and lightbox zoom
 - [ ] Video collections page
 - [ ] Audio collections / podcast feed
 - [ ] Document attachment uploads (PDF, DOCX)
@@ -407,7 +407,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Translation completeness indicator per locale
 - [ ] Translation suggestion queue (suggest missing translations)
 - [ ] Community translation workflow
-- [ ] Language switcher in article header
+- [x] Language switcher in article header
 - [ ] Locale-specific number / date formatting
 - [ ] Full RTL layout for Arabic, Hebrew, Farsi
 - [ ] Bidirectional text mixing support
@@ -426,13 +426,13 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 ## Gamification
 
-- [ ] Writing streaks (consecutive days of editing)
+- [x] Writing streaks (consecutive days of editing)
 - [ ] Article quality improvement quests
 - [ ] Monthly content creation challenges
 - [ ] Editing marathons (timed events)
 - [ ] First edit of the day bonus XP
 - [ ] Milestone celebrations (popups at 10, 50, 100 articles)
-- [ ] Wiki leaderboards (monthly / weekly / all-time)
+- [x] Wiki leaderboards (monthly / weekly / all-time)
 - [ ] Team competitions (group vs. group editing)
 - [ ] Topic expertise badges (edit N articles in a category)
 - [ ] Contributor of the month
@@ -477,19 +477,19 @@ Completed features are marked `[x]`. All others are `[ ]`.
 ## AI Features
 
 - [ ] AI article generation from an outline
-- [ ] AI image alt-text generation
+- [x] AI image alt-text generation
 - [ ] AI content moderation (flag inappropriate content)
-- [ ] AI grammar and style checker
-- [ ] AI title suggestions from content
-- [ ] AI tagging suggestions
-- [ ] AI category suggestions
+- [x] AI grammar and style checker
+- [x] AI title suggestions from content
+- [x] AI tagging suggestions
+- [x] AI category suggestions
 - [ ] AI duplicate detection improvement
-- [ ] AI question answering (ask the wiki a question)
+- [x] AI question answering (ask the wiki a question)
 - [ ] AI fact-checking against Wikipedia / Wikidata
 - [ ] AI citation suggestions
-- [ ] AI outline builder
-- [ ] AI "expand this section" suggestion
-- [ ] AI tone adjustment (formal / casual / technical)
+- [x] AI outline builder
+- [x] AI "expand this section" suggestion
+- [x] AI tone adjustment (formal / casual / technical)
 - [ ] AI translation quality scoring
 - [ ] AI code explanation in code blocks
 - [ ] Knowledge graph auto-building from article content

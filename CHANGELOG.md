@@ -4,6 +4,22 @@
 
 All notable changes to this project are documented here.
 
+## [4.51.0] - 2026-03-28
+
+### New Features
+
+- **Vertical timeline blocks** — new `/timeline` slash command inserts a visual chronological timeline with date labels and dot connectors; fully CSS-driven using `.wiki-timeline` classes
+- **Twitter / X embed blocks** — new `/twitter` slash command inserts a styled card with the post URL; prompts for the URL and renders a `.wiki-tweet` container
+- **Series table of contents** — `SeriesTableOfContents` component appears above series navigation on article pages; collapsible panel showing all entries with read indicators (✓) and current article highlighted
+- **Bulk JSON article import** — new `/api/admin/import` POST endpoint + import UI section on `/admin/import`; accepts up to 500 articles per batch with auto-create tags, category resolution, and duplicate-slug skipping
+
+### Technical
+
+- `.wiki-timeline` and `.wiki-tweet` CSS added to `globals.css`
+- `SeriesTableOfContents` component reads `wiki_view_history` from localStorage for read-state indicators
+- Import API creates revision snapshots for each imported article
+- FEATURES_BACKLOG.md: major audit — marked ~50 already-shipped features as `[x]`
+
 ## [4.50.0] - 2026-03-28
 
 ### New Features

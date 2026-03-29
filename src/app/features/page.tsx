@@ -45,6 +45,8 @@ export default function FeaturesPage() {
             <li><strong>Accordion / FAQ blocks</strong> — insert native collapsible <code className="bg-surface-hover px-1 text-[12px]">&lt;details&gt;</code> blocks via <code className="bg-surface-hover px-1 text-[12px]">/accordion</code></li>
             <li><strong>Two-column layout</strong> — responsive side-by-side grid block via <code className="bg-surface-hover px-1 text-[12px]">/two-column layout</code></li>
             <li><strong>YouTube / Vimeo embeds</strong> — paste a video URL via <code className="bg-surface-hover px-1 text-[12px]">/youtube</code>; auto-converts to a responsive 16:9 iframe</li>
+            <li><strong>Twitter / X post embeds</strong> — embed a tweet URL via <code className="bg-surface-hover px-1 text-[12px]">/twitter</code>; renders as a styled card with the post link</li>
+            <li><strong>Vertical timeline blocks</strong> — chronological timeline with date labels and dot connectors via <code className="bg-surface-hover px-1 text-[12px]">/timeline</code></li>
             <li><strong>GitHub Gist embeds</strong> — embed a Gist link via <code className="bg-surface-hover px-1 text-[12px]">/github gist</code></li>
             <li><strong>Article todo checklist</strong> — per-article task list; readers check off items, admins add and remove tasks; shows completion progress</li>
             <li><strong>AI grammar &amp; style check</strong> — collapsible panel below editor analyses text for errors, warnings, and style suggestions; Apply buttons fix issues inline; falls back to heuristic checks when AI is not configured</li>
@@ -137,6 +139,7 @@ export default function FeaturesPage() {
             <li><strong>Expiry warning banner</strong> — yellow inline banner when an article&apos;s <em>reviewDueAt</em> is within 30 days</li>
             <li><strong>Mark as verified</strong> — admin button stamps <em>lastVerifiedAt</em>; date shown as a ✓ badge in the article byline</li>
             <li><strong>Article series navigation</strong> — prev/next links between articles belonging to a series</li>
+            <li><strong>Series table of contents</strong> — collapsible panel on article pages listing all entries in the series with read indicators and current article highlighted</li>
             <li><strong>See also</strong> — curated links to related articles, managed by admins</li>
             <li><strong>Changelog panel</strong> — collapsible list of the last 5 edits with authors and diff links</li>
             <li><strong>Word goal progress</strong> — progress bar shown until the article reaches its target word count</li>
@@ -345,7 +348,7 @@ export default function FeaturesPage() {
             <li><strong>Content schedule</strong> — schedule article publishing at <Link href="/admin/content-schedule">/admin/content-schedule</Link></li>
             <li><strong>Kanban board</strong> — manage articles as cards in a Kanban workflow at <Link href="/admin/kanban">/admin/kanban</Link></li>
             <li><strong>Audit log</strong> — complete admin action log at <Link href="/admin/audit-log">/admin/audit-log</Link></li>
-            <li><strong>Import tools</strong> — Confluence, Notion, Obsidian import at <Link href="/admin/import">/admin/import</Link></li>
+            <li><strong>Import tools</strong> — Confluence, Notion, Obsidian import at <Link href="/admin/import">/admin/import</Link>; bulk JSON article import (up to 500 articles per batch) with auto-create tags and category resolution</li>
             <li><strong>Category merge</strong> — merge two categories at <Link href="/admin/categories">/admin/categories</Link>; all articles and sub-categories from the source are reassigned to the target, then the source is deleted</li>
             <li><strong>Word-count distribution</strong> — histogram of article lengths at <Link href="/admin/word-count">/admin/word-count</Link> with longest/shortest tables and average word count</li>
             <li><strong>Batch operations</strong> — bulk-assign category, publish/unpublish, or delete from <Link href="/articles">/articles</Link></li>

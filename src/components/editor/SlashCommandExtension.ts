@@ -196,6 +196,28 @@ export function getSuggestionItems(
       },
     },
     {
+      title: "Vertical Timeline",
+      description: "Chronological timeline with dates and events",
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).insertContent(
+          `<div class="wiki-timeline"><div class="wiki-timeline-entry"><div class="wiki-timeline-date">Date</div><div class="wiki-timeline-body"><p>Event description</p></div></div><div class="wiki-timeline-entry"><div class="wiki-timeline-date">Date</div><div class="wiki-timeline-body"><p>Event description</p></div></div></div><p></p>`
+        ).run();
+      },
+    },
+    {
+      title: "Twitter / X Post",
+      description: "Embed a tweet or X post by URL",
+      command: ({ editor, range }) => {
+        const url = typeof window !== "undefined"
+          ? (window.prompt("Twitter/X post URL:", "") ?? "")
+          : "";
+        if (!url.trim()) return;
+        editor.chain().focus().deleteRange(range).insertContent(
+          `<div class="wiki-tweet"><div class="wiki-tweet-header">Post on X</div><a href="${url.trim()}" target="_blank" rel="noopener noreferrer" class="wiki-tweet-link">${url.trim()}</a></div><p></p>`
+        ).run();
+      },
+    },
+    {
       title: "GitHub Gist Embed",
       description: "Embed a GitHub Gist",
       command: ({ editor, range }) => {

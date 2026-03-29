@@ -5,7 +5,70 @@ import { useState, useRef } from "react";
 
 type ImportedArticle = { id: string; title: string; slug: string };
 
+const JSON_EXAMPLE = JSON.stringify(
+  [
+    {
+      title: "Example Article",
+      slug: "example-article",
+      content: "<p>Article body in HTML.</p>",
+      excerpt: "Short summary.",
+      status: "published",
+      categorySlug: "general",
+      tags: ["tag-one", "tag-two"],
+    },
+  ],
+  null,
+  2
+);
+
 export default function ImportPage() {
+  // ── Bulk JSON ────────────────────────────────────────────────────────────────
+  const [jsonText, setJsonText] = useState("");
+  const [jsonLoading, setJsonLoading] = useState(false);
+  const [jsonResult, setJsonResult] = useState<{ created: number; skipped: number; errors: string[] } | null>(null);
+  const [jsonError, setJsonError] = useState("");
+  const jsonFileRef = useRef<HTMLInputElement>(null);
+
+  function loadJsonFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setJsonText((ev.target?.result as string) ?? "");
+    reader.readAsText(file);
+    e.target.value = "";
+  }
+
+  async function runJsonImport() {
+    setJsonError("");
+    setJsonResult(null);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch {
+      setJsonError("Invalid JSON — check syntax before importing.");
+      return;
+    }
+    if (!Array.isArray(parsed)) {
+      setJsonError("JSON must be an array of article objects.");
+      return;
+    }
+    setJsonLoading(true);
+    try {
+      const res = await fetch("/api/admin/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(parsed),
+      });
+      const data = await res.json();
+      if (!res.ok) setJsonError(data.error ?? "Import failed.");
+      else setJsonResult(data);
+    } catch {
+      setJsonError("Network error.");
+    } finally {
+      setJsonLoading(false);
+    }
+  }
+
   // ── Confluence ──────────────────────────────────────────────────────────────
   const [confHtml, setConfHtml] = useState("");
   const [confCategory, setConfCategory] = useState("");
@@ -51,6 +114,68 @@ export default function ImportPage() {
       >
         Import
       </h1>
+
+      {/* ── Bulk JSON ───────────────────────────────────────────────────────── */}
+      <div className="wiki-portal mb-6">
+        <div className="wiki-portal-header">Bulk JSON import</div>
+        <div className="wiki-portal-body space-y-3">
+          <p className="text-[12px] text-muted">
+            Import an array of articles from a <code>.json</code> file.
+            Required field: <code>title</code>.
+            Optional: <code>slug</code>, <code>content</code> (HTML), <code>contentRaw</code> (Markdown),
+            <code>excerpt</code>, <code>status</code> (draft/review/published),
+            <code>categorySlug</code>, <code>tags</code> (array of names).
+            Existing slugs are skipped. Tags are auto-created. Max 500 per import.
+          </p>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => jsonFileRef.current?.click()}
+              className="h-6 px-2 text-[11px] border border-border rounded hover:bg-surface-hover"
+            >
+              Load .json file
+            </button>
+            <button
+              type="button"
+              onClick={() => setJsonText(JSON_EXAMPLE)}
+              className="h-6 px-2 text-[11px] border border-border rounded hover:bg-surface-hover text-muted"
+            >
+              Load example
+            </button>
+            <input ref={jsonFileRef} type="file" accept=".json" className="hidden" onChange={loadJsonFile} />
+          </div>
+
+          <textarea
+            value={jsonText}
+            onChange={(e) => setJsonText(e.target.value)}
+            rows={8}
+            placeholder={`Paste JSON array…\n\n${JSON_EXAMPLE}`}
+            className="w-full border border-border bg-surface px-2 py-1 text-[11px] font-mono focus:border-accent focus:outline-none"
+          />
+
+          {jsonError && <p className="text-[12px] text-red-600">{jsonError}</p>}
+          {jsonResult && (
+            <div className="text-[12px] space-y-0.5">
+              <p className="text-green-700">✓ Created {jsonResult.created} article{jsonResult.created !== 1 ? "s" : ""}</p>
+              {jsonResult.skipped > 0 && <p className="text-yellow-600">Skipped {jsonResult.skipped}</p>}
+              {jsonResult.errors.length > 0 && (
+                <ul className="text-muted max-h-32 overflow-y-auto space-y-0.5">
+                  {jsonResult.errors.map((e, i) => <li key={i}>• {e}</li>)}
+                </ul>
+              )}
+            </div>
+          )}
+
+          <button
+            onClick={runJsonImport}
+            disabled={jsonLoading || !jsonText.trim()}
+            className="h-6 px-2 text-[11px] border border-border rounded bg-accent text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {jsonLoading ? "Importing…" : "Run JSON import"}
+          </button>
+        </div>
+      </div>
 
       {/* ── Confluence ──────────────────────────────────────────────────────── */}
       <div className="wiki-portal mb-6">

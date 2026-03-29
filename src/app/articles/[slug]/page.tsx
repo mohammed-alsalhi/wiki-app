@@ -83,6 +83,7 @@ import FeaturedArticleBadge from "@/components/FeaturedArticleBadge";
 import CharacterCount from "@/components/CharacterCount";
 import ArticleWidthPreference from "@/components/ArticleWidthPreference";
 import ImageLightbox from "@/components/ImageLightbox";
+import SeriesTableOfContents from "@/components/SeriesTableOfContents";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -515,7 +516,8 @@ export default async function ArticlePage({ params }: Props) {
           </Link>
         </div>
 
-        {/* Series navigation */}
+        {/* Series table of contents + navigation */}
+        <SeriesTableOfContents articleId={article.id} />
         <ArticleSeriesNav articleId={article.id} />
 
         {/* Word goal progress */}
