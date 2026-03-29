@@ -132,6 +132,9 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Duplicate content detector** — `/admin/duplicate-content`; Jaccard similarity across published articles; shows pairs ≥ 55% similar with edit links
 - **Orphan article finder** — `/admin/orphans`; lists published articles that no other article links to; grouped by category; linked from admin sidebar
 - **Writing session goal** — set a word-count target in the editor status bar; real-time progress bar, elapsed timer, and green completion indicator
+- **Long article suggestions** — `/admin/long-articles`; lists published articles over a configurable word threshold (default 5,000) for potential splitting
+- **Random article** — `/api/random` redirects to a random published article; optional `?category=slug` param; sidebar link; category-page button
+- **New articles feed widget** — homepage sidebar widget showing the most recently created published articles
 - **Writing velocity** — `/admin/writing-velocity`; weekly bar chart of words added over last 12 weeks
 - **Speed reader (RSVP)** — modal speed-reading mode; 150/250/400/600 WPM; ORP pivot highlighting; progress bar; accessible from article toolbar
 - **Article blame view** — `/articles/[slug]/blame` shows each paragraph colour-coded by the revision that introduced it; editor, date, and edit summary in sidebar

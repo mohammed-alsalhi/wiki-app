@@ -3,6 +3,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import CategoryWatchButton from "@/components/CategoryWatchButton";
+import RandomArticleButton from "@/components/RandomArticleButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -84,7 +85,10 @@ export default async function CategoryPage({ params }: Props) {
         >
           Category: {category.name}
         </h1>
-        <CategoryWatchButton categoryId={category.id} />
+        <div className="flex items-center gap-2">
+          <RandomArticleButton categorySlug={slug} label="Random" />
+          <CategoryWatchButton categoryId={category.id} />
+        </div>
       </div>
       {category.description && (
         <p className="text-[13px] text-muted mb-3">{category.description}</p>

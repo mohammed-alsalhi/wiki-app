@@ -143,6 +143,9 @@ export default function Sidebar({
           <SidebarLink href="/explore" active={pathname === "/explore"} onClick={close}>
             Explore
           </SidebarLink>
+          <SidebarLink href="/api/random" active={false} onClick={close}>
+            Random article
+          </SidebarLink>
           <SidebarLink href="/activity" active={pathname === "/activity"} onClick={close}>
             Activity
           </SidebarLink>
@@ -363,6 +366,9 @@ export default function Sidebar({
             </SidebarLink>
             <SidebarLink href="/admin/orphans" active={pathname === "/admin/orphans"} onClick={close}>
               Orphan articles
+            </SidebarLink>
+            <SidebarLink href="/admin/long-articles" active={pathname === "/admin/long-articles"} onClick={close}>
+              Long articles
             </SidebarLink>
             <SidebarLink href="/admin/quality" active={pathname === "/admin/quality"} onClick={close}>
               Content quality

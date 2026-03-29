@@ -405,6 +405,9 @@ export default function FeaturesPage() {
             <li><strong>Editor zen mode</strong> — toggle above the editor hides sidebar/header/tabs and widens the editing area; press Esc to exit</li>
             <li><strong>Word frequency cloud</strong> — top-40 most frequent non-stop words in an article, sized proportionally by frequency, shown at the bottom of each article</li>
             <li><strong>Writing session goal</strong> — set a word-count target in the editor status bar; real-time progress bar, elapsed timer (MM:SS), and green completion state when goal is reached</li>
+            <li><strong>Long article suggestions</strong> — <Link href="/admin/long-articles">/admin/long-articles</Link> lists published articles exceeding a configurable word threshold (default 5,000) sorted by length; helps identify candidates for splitting</li>
+            <li><strong>Random article</strong> — <Link href="/api/random">/api/random</Link> redirects to a random published article; optional category filter; accessible from sidebar and category pages</li>
+            <li><strong>New articles feed</strong> — homepage sidebar widget showing the most recently created published articles, distinct from the &ldquo;recently updated&rdquo; list</li>
             <li><strong>Custom branding</strong> — name, tagline, welcome text, footer via <code className="bg-surface-hover px-1 text-[12px]">NEXT_PUBLIC_*</code> environment variables</li>
           </ul>
         </div>

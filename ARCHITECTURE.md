@@ -308,6 +308,8 @@ Lightweight plugin system. Interface in `src/lib/plugins/types.ts`, registry in 
 | `/admin/dead-ends` | GET | Lists published articles with no outgoing wiki links |
 | `/admin/duplicate-content` | GET | Jaccard similarity scan for near-duplicate published articles |
 | `/admin/orphans` | GET | Lists published articles with no incoming links from any other article |
+| `/admin/long-articles` | GET | Lists published articles exceeding a word threshold (default 5,000), sorted by length |
+| `/api/random` | GET | Redirects to a random published article; optional `?category=slug` filter |
 | `/api/stats` | GET | Wiki statistics |
 | `/api/metrics` | GET, POST | Performance metrics |
 | `/api/health` | GET | Health check |

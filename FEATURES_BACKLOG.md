@@ -63,7 +63,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 
 - [ ] Multi-category articles (article belongs to multiple categories)
 - [ ] Category ordering modes (alphabetical / manual / by date / by popularity)
-- [ ] Category statistics panel (article count, avg word count, last edited)
+- [x] Category statistics panel (article count, avg word count, last edited)
 - [x] Tag cloud (tag sizes proportional to article count)
 - [x] Tag merge tool
 - [ ] Tag rename with automatic redirect
@@ -92,7 +92,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Category tree visualiser (interactive expandable tree)
 - [x] Orphan article finder (enhanced — also suggests parent categories)
 - [x] Dead-end article finder (no outgoing wiki-links)
-- [ ] Long-article splitter suggestions (flag articles > 5 000 words)
+- [x] Long-article splitter suggestions (flag articles > 5 000 words)
 - [ ] Short-article merger suggestions (flag stubs < 100 words)
 - [x] Duplicate content detector (beyond title — content similarity)
 - [x] Glossary management page
@@ -116,8 +116,8 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [x] Reading journey map (user's own reading path visualised)
 - [ ] Article popularity trends (rising / falling this week)
 - [x] Hot articles widget (most viewed in last 7 days)
-- [ ] New articles feed widget
-- [ ] Random article with category/tag filter
+- [x] New articles feed widget
+- [x] Random article with category/tag filter
 - [ ] Article quiz mode (flashcard-style review of article content)
 - [ ] Spaced repetition reading scheduler
 - [ ] Knowledge graph exploration mode

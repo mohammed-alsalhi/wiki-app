@@ -423,6 +423,9 @@ export default function HelpPage() {
             <li><strong>Per-article analytics</strong> &mdash; <code className="bg-surface-hover px-1 text-[12px]">/articles/[slug]/analytics</code>; 30-day view chart + summary stats</li>
             <li><strong>Series progress tracker</strong> &mdash; series navigation shows &ldquo;X of N read&rdquo; from browser reading history</li>
             <li><strong>Writing session goal</strong> &mdash; enter a word-count target in the editor status bar and click Start; a progress bar, elapsed timer, and green completion indicator track your session in real time</li>
+            <li><strong>Long article suggestions</strong> &mdash; <Link href="/admin/long-articles">/admin/long-articles</Link> flags published articles over a word threshold (default 5,000); threshold adjustable via the form; linked from admin sidebar</li>
+            <li><strong>Random article</strong> &mdash; click &ldquo;Random article&rdquo; in the sidebar Discover section or the &ldquo;Random&rdquo; button on any category page to jump to a random published article; category-filtered via <code className="bg-surface-hover px-1 text-[12px]">/api/random?category=slug</code></li>
+            <li><strong>New articles feed</strong> &mdash; homepage sidebar widget listing recently <em>created</em> articles (sorted by creation date, not last edit)</li>
           </ul>
         </div>
       </div>

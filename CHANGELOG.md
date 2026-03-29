@@ -4,6 +4,21 @@
 
 All notable changes to this project are documented here.
 
+## [4.54.0] - 2026-03-28
+
+### New Features
+
+- **Long article suggestions** — `/admin/long-articles`; lists published articles exceeding a configurable word threshold (default 5,000); sorted by length descending; threshold adjustable via URL param; linked from admin sidebar
+- **Random article** — `/api/random` redirects to a random published article; accepts optional `?category=slug` query param to restrict to a category; "Random article" link in sidebar Discover section; "Random" button on category pages
+- **New articles feed widget** — homepage sidebar widget showing the 5 most recently *created* published articles (by `createdAt`), separate from "Recently updated"
+
+### Technical
+
+- `src/app/admin/long-articles/page.tsx` — server page with configurable threshold form; `force-dynamic`
+- `src/app/api/random/route.ts` — GET handler using `prisma.article.count` + random `skip` offset; redirects to `/articles/[slug]`
+- `src/components/RandomArticleButton.tsx` — client `<a>` component linking to `/api/random` with optional category filter and shuffle SVG icon
+- `src/components/NewArticles.tsx` — async server component fetching last N articles by `createdAt`; null-renders when empty
+
 ## [4.53.0] - 2026-03-28
 
 ### New Features
