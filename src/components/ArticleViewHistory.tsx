@@ -24,13 +24,14 @@ function saveHistory(history: HistoryEntry[]) {
 interface Props {
   slug: string;
   title: string;
+  className?: string;
 }
 
 /**
  * Records the current article visit in localStorage and shows how long ago the
  * user last read this article (on subsequent visits).
  */
-export default function ArticleViewHistory({ slug, title }: Props) {
+export default function ArticleViewHistory({ slug, title, className }: Props) {
   const [lastVisit, setLastVisit] = useState<number | null>(null);
 
   useEffect(() => {
@@ -63,8 +64,8 @@ export default function ArticleViewHistory({ slug, title }: Props) {
   else ago = `${diffDays} days ago`;
 
   return (
-    <span className="text-[11px] text-muted" title={new Date(lastVisit).toLocaleString()}>
-      · You read this {ago}
+    <span className={className ?? "text-[11px] text-muted"} title={new Date(lastVisit).toLocaleString()}>
+      Read {ago}
     </span>
   );
 }

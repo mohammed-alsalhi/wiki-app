@@ -10,7 +10,6 @@ import AdminEditTab from "@/components/AdminEditTab";
 import InfoboxDisplay from "@/components/InfoboxDisplay";
 import TableOfContents, { addHeadingIds } from "@/components/TableOfContents";
 import RelatedArticles from "@/components/RelatedArticles";
-import WordCount from "@/components/WordCount";
 import CopyButton from "@/components/CopyButton";
 import ShareButton from "@/components/ShareButton";
 import PrintButton from "@/components/PrintButton";
@@ -68,7 +67,6 @@ import FontSizeControl from "@/components/FontSizeControl";
 import FocusModeToggle from "@/components/FocusModeToggle";
 import SpeedReader from "@/components/SpeedReader";
 import ArticlePollWidget from "@/components/ArticlePollWidget";
-import ArticleReadingETA from "@/components/ArticleReadingETA";
 import NightModeToggle from "@/components/NightModeToggle";
 import HighContrastToggle from "@/components/HighContrastToggle";
 import TextOnlyToggle from "@/components/TextOnlyToggle";
@@ -80,7 +78,6 @@ import CleanupTagsBanner from "@/components/CleanupTagsBanner";
 import ArticleAdoptionBanner from "@/components/ArticleAdoptionBanner";
 import CopyPlainTextButton from "@/components/CopyPlainTextButton";
 import FeaturedArticleBadge from "@/components/FeaturedArticleBadge";
-import CharacterCount from "@/components/CharacterCount";
 import ArticleWidthPreference from "@/components/ArticleWidthPreference";
 import ImageLightbox from "@/components/ImageLightbox";
 import SeriesTableOfContents from "@/components/SeriesTableOfContents";
@@ -207,13 +204,13 @@ export default async function ArticlePage({ params }: Props) {
 
   const quality = computeQualityScore({ content: article.content, excerpt: article.excerpt ?? null, updatedAt: article.updatedAt });
 
-  // word count for goal badge + reading time
-  const plainTextWords = article.content
+  // stats used in byline + progress chips
+  const plainText = article.content
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
+    .trim();
+  const plainTextWords = plainText ? plainText.split(/\s+/).filter(Boolean).length : 0;
+  const plainTextChars = plainText.length;
   const readingTimeMin = Math.max(1, Math.round(plainTextWords / 200));
 
   // expiry warning: reviewDueAt within 30 days
@@ -282,80 +279,93 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </div>
 
-        {/* From World Wiki line + export buttons */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="text-[11px] text-muted">
-            <span>From {config.name} &mdash; Last edited {formatDate(article.updatedAt)}</span>
-            <span className="ml-2"><FreshnessBadge updatedAt={article.updatedAt} /></span>
+        {/* Metadata + actions */}
+        <div className="mb-3 space-y-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted">
+            <span className="font-semibold text-heading">From {config.name}</span>
+            <span>Last edited {formatDate(article.updatedAt)}</span>
             {lastRevision?.user && (
-              <span> by <a href={`/users/${lastRevision.user.username}`} className="text-wiki-link">{lastRevision.user.displayName || lastRevision.user.username}</a></span>
+              <span>
+                by{" "}
+                <a href={`/users/${lastRevision.user.username}`} className="text-wiki-link hover:underline">
+                  {lastRevision.user.displayName || lastRevision.user.username}
+                </a>
+              </span>
             )}
-            <span className="ml-2"><WordCount html={article.content} /></span>
-            <span className="ml-2">· <CharacterCount html={article.content} /></span>
-            <span className="ml-2">· ~{readingTimeMin} min read</span>
-            <span className="ml-2"><ArticleReadingETA wordCount={plainTextWords} /></span>
-            <span className="ml-2"><ReadingLevelBadge text={article.content.replace(/<[^>]+>/g, " ")} /></span>
-            <ArticleViewHistory slug={article.slug} title={article.title} />
+            <FreshnessBadge updatedAt={article.updatedAt} />
             {article.lastVerifiedAt && (
-              <span className="ml-2 inline-flex items-center gap-1 text-green-600 dark:text-green-400">
+              <span className="inline-flex items-center gap-1 rounded border border-green-300 bg-green-50 px-1.5 py-0.5 text-green-700 dark:border-green-700 dark:bg-green-900/20 dark:text-green-300">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 Verified {new Date(article.lastVerifiedAt).toLocaleDateString()}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1">
-            {/* — Navigate — */}
-            <Link
-              href={`/present/${article.slug}`}
-              className="flex items-center h-6 px-2 text-[11px] border border-border rounded text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
-              title="Present as slideshow"
-            >
-              Present
-            </Link>
 
-            <span className="w-px h-4 bg-border mx-0.5" />
-
-            {/* — Save / collect — */}
-            <BookmarkButton articleId={article.id} />
-            <AddToReadingList articleId={article.id} />
-
-            <span className="w-px h-4 bg-border mx-0.5" />
-
-            {/* — Share / output — */}
-            <CopyButton text={`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articles/${article.slug}`} label="Copy link" />
-            <ShareButton title={article.title} />
-            <PrintButton />
-            <ArticleExportMenu
-              articleId={article.id}
-              articleSlug={article.slug}
-              articleTitle={article.title}
-              contentRaw={article.contentRaw}
-              contentHtml={resolvedContent}
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+            <span className="inline-flex items-center rounded border border-border px-1.5 py-0.5 text-muted">
+              {plainTextWords.toLocaleString()} words
+            </span>
+            <span className="inline-flex items-center rounded border border-border px-1.5 py-0.5 text-muted">
+              {plainTextChars.toLocaleString()} chars
+            </span>
+            <span className="inline-flex items-center rounded border border-border px-1.5 py-0.5 text-muted">
+              ~{readingTimeMin} min read
+            </span>
+            <ReadingLevelBadge text={plainText} />
+            <ArticleViewHistory
+              slug={article.slug}
+              title={article.title}
+              className="inline-flex items-center rounded border border-border px-1.5 py-0.5 text-muted"
             />
+          </div>
 
-            <span className="w-px h-4 bg-border mx-0.5" />
+          <div className="rounded border border-border bg-background/40 p-2 space-y-1.5">
+            <div className="flex flex-wrap items-center gap-1">
+              <span className="mr-1 text-[10px] font-semibold uppercase tracking-wide text-muted">Page</span>
+              <Link
+                href={`/present/${article.slug}`}
+                className="flex items-center h-6 px-2 text-[11px] border border-border rounded text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
+                title="Present as slideshow"
+              >
+                Present
+              </Link>
+              <BookmarkButton articleId={article.id} />
+              <AddToReadingList articleId={article.id} />
+              <CopyButton text={`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articles/${article.slug}`} label="Copy link" />
+              <ShareButton title={article.title} />
+              <PrintButton />
+              <ArticleExportMenu
+                articleId={article.id}
+                articleSlug={article.slug}
+                articleTitle={article.title}
+                contentRaw={article.contentRaw}
+                contentHtml={resolvedContent}
+              />
+            </div>
 
-            {/* — Reading tools — */}
-            <FontSizeControl />
-            <FocusModeToggle />
-            <NightModeToggle />
-            <HighContrastToggle />
-            <TextOnlyToggle />
-            <SpeedReader articleId={article.id} />
-            <DyslexiaToggle />
-            <RTLToggle defaultDir={article.dir ?? "ltr"} />
-            <TranslateButton articleId={article.id} />
-            <ReadingModeToggle />
-            <CopyMarkdownButton markdown={article.contentRaw} title={article.title} />
-            <CopyPlainTextButton html={resolvedContent} />
-            <FontPreference />
-            <ThemeCustomizer />
+            <div className="flex flex-wrap items-center gap-1">
+              <span className="mr-1 text-[10px] font-semibold uppercase tracking-wide text-muted">Read</span>
+              <FontSizeControl />
+              <FontPreference />
+              <FocusModeToggle />
+              <NightModeToggle />
+              <HighContrastToggle />
+              <TextOnlyToggle />
+              <DyslexiaToggle />
+              <RTLToggle defaultDir={article.dir ?? "ltr"} />
+              <ReadingModeToggle />
+              <ArticleWidthPreference />
+              <ThemeCustomizer />
+            </div>
 
-            <span className="w-px h-4 bg-border mx-0.5" />
-
-            {/* — Admin tools — */}
-            <DuplicateArticleButton articleId={article.id} />
-            <ArticleWidthPreference />
+            <div className="flex flex-wrap items-center gap-1">
+              <span className="mr-1 text-[10px] font-semibold uppercase tracking-wide text-muted">Tools</span>
+              <SpeedReader articleId={article.id} />
+              <TranslateButton articleId={article.id} />
+              <CopyMarkdownButton markdown={article.contentRaw} title={article.title} />
+              <CopyPlainTextButton html={resolvedContent} />
+              <DuplicateArticleButton articleId={article.id} />
+            </div>
           </div>
         </div>
 

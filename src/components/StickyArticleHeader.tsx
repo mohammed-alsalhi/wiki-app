@@ -10,8 +10,8 @@ interface Props {
 }
 
 /**
- * Appears as a slim bar fixed to the top of the viewport once the user scrolls
- * past the article's h1 heading. Shows article title + quick edit link.
+ * Appears as a compact floating pill after scrolling past the article heading.
+ * Keeps quick actions available without covering a full strip of content.
  */
 export default function StickyArticleHeader({ title, slug, isAdmin }: Props) {
   const [visible, setVisible] = useState(false);
@@ -33,11 +33,11 @@ export default function StickyArticleHeader({ title, slug, isAdmin }: Props) {
 
   return (
     <div
-      className="fixed top-[40px] left-0 right-0 z-30 bg-surface border-b border-border px-4 py-1.5 flex items-center justify-between shadow-sm"
+      className="fixed top-2 right-3 z-30 hidden md:flex items-center gap-3 max-w-[min(92vw,28rem)] bg-surface border border-border rounded-full px-3 py-1.5 shadow-sm"
       style={{ backdropFilter: "blur(4px)" }}
     >
-      <span className="text-[13px] font-semibold text-heading truncate max-w-[70%]">{title}</span>
-      <div className="flex items-center gap-2 text-[12px]">
+      <span className="min-w-0 flex-1 truncate text-[12px] font-semibold text-heading">{title}</span>
+      <div className="flex shrink-0 items-center gap-2 text-[11px]">
         {isAdmin && (
           <Link href={`/articles/${slug}/edit`} className="text-muted hover:text-foreground">
             Edit
