@@ -370,6 +370,9 @@ export default function Sidebar({
             <SidebarLink href="/admin/long-articles" active={pathname === "/admin/long-articles"} onClick={close}>
               Long articles
             </SidebarLink>
+            <SidebarLink href="/admin/short-articles" active={pathname === "/admin/short-articles"} onClick={close}>
+              Short article merges
+            </SidebarLink>
             <SidebarLink href="/admin/quality" active={pathname === "/admin/quality"} onClick={close}>
               Content quality
             </SidebarLink>
@@ -447,8 +450,29 @@ export default function Sidebar({
         </SidebarSection>
 
         {/* Footer */}
-        <div className="mt-auto border-t border-border px-3 py-2 text-[10px] text-muted text-center">
-          v{process.env.NEXT_PUBLIC_APP_VERSION}
+        <div className="mt-auto border-t border-border px-3 py-2 text-[10px] text-muted flex items-center justify-between">
+          <span>v{process.env.NEXT_PUBLIC_APP_VERSION}</span>
+          <button
+            type="button"
+            title="Toggle sidebar to right / left"
+            onClick={() => {
+              try {
+                const current = localStorage.getItem("wiki_sidebar_position") ?? "left";
+                const next = current === "right" ? "left" : "right";
+                localStorage.setItem("wiki_sidebar_position", next);
+                window.dispatchEvent(new CustomEvent("sidebar-position-change", { detail: next }));
+              } catch {}
+            }}
+            className="hover:text-foreground transition-colors"
+            aria-label="Toggle sidebar position"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="17 1 21 5 17 9" />
+              <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+              <polyline points="7 23 3 19 7 15" />
+              <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+            </svg>
+          </button>
         </div>
       </aside>
     </>

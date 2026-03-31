@@ -190,6 +190,13 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/arkivel/
 - [x] Night reading mode — warm sepia theme toggled from article toolbar, persisted to localStorage
 - [x] Search history — last 20 searches in localStorage; shown as chips when query is empty
 
+## v4.57
+
+- [x] Smart URL paste → auto-link in editor
+- [x] Typewriter scrolling mode
+- [x] Short-article merger suggestions admin page
+- [x] Sidebar position preference (left / right)
+
 ## v4.39
 
 - [x] Speed reader (RSVP) — flashes one word at a time with ORP highlighting; 150/250/400/600 WPM; modal in article toolbar

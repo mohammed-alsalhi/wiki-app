@@ -13,10 +13,10 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [x] Character count alongside word count
 - [x] Word frequency cloud per article
 - [x] Paste Markdown → rich text (detect and convert on paste)
-- [ ] Smart URL paste → auto-link
+- [x] Smart URL paste → auto-link
 - [x] Copy article as Markdown button on article page
 - [x] Copy article as plain text button
-- [ ] Typewriter scrolling mode (cursor stays centred vertically)
+- [x] Typewriter scrolling mode (cursor stays centred vertically)
 - [x] Editor outline panel (AI-assisted headings outline)
 - [x] Pull quote / callout blocks
 - [ ] Tabbed content blocks
@@ -93,7 +93,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [x] Orphan article finder (enhanced — also suggests parent categories)
 - [x] Dead-end article finder (no outgoing wiki-links)
 - [x] Long-article splitter suggestions (flag articles > 5 000 words)
-- [ ] Short-article merger suggestions (flag stubs < 100 words)
+- [x] Short-article merger suggestions (flag stubs < 100 words)
 - [x] Duplicate content detector (beyond title — content similarity)
 - [x] Glossary management page
 - [x] Term hover-cards (preview definition inline on hover)
@@ -280,7 +280,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [ ] Dark mode scheduled (auto-switch at configurable times)
 - [x] Custom accent colour picker
 - [x] Font choice preference (serif / sans-serif / monospace)
-- [ ] Sidebar position preference (left / right)
+- [x] Sidebar position preference (left / right)
 - [x] Article width preference (narrow / default / full)
 - [ ] Image loading preference (eager / lazy / off)
 - [ ] Motion reduction preference

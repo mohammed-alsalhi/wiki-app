@@ -13,6 +13,8 @@ type Props = {
   onAiRewrite: () => void;
   onAiExpand: () => void;
   onFindReplace: () => void;
+  typewriterMode: boolean;
+  onTypewriterToggle: () => void;
 };
 
 type ToolbarButton = {
@@ -23,7 +25,7 @@ type ToolbarButton = {
   hidden?: () => boolean;
 };
 
-export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite, onAiExpand, onFindReplace }: Props) {
+export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, detectedLinkCount, onInsertToc, onAiRewrite, onAiExpand, onFindReplace, typewriterMode, onTypewriterToggle }: Props) {
   if (!editor) return null;
 
   const groups: ToolbarButton[][] = [
@@ -331,6 +333,14 @@ export default function EditorToolbar({ editor, onImageUpload, onDetectLinks, de
         className="px-1.5 py-0.5 text-[11px] font-medium text-foreground hover:bg-surface hover:text-accent transition-colors"
       >
         Find
+      </button>
+      <button
+        type="button"
+        onClick={onTypewriterToggle}
+        title="Typewriter mode — keeps cursor vertically centred"
+        className={`px-1.5 py-0.5 text-[11px] font-medium transition-colors ${typewriterMode ? "bg-accent text-white" : "text-foreground hover:bg-surface hover:text-accent"}`}
+      >
+        Typewriter
       </button>
       <button
         type="button"

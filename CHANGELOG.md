@@ -4,6 +4,24 @@
 
 All notable changes to this project are documented here.
 
+## [4.57.0] - 2026-03-30
+
+### New Features
+
+- **Smart URL paste → auto-link** — pasting a plain HTTP/HTTPS URL in the editor now auto-creates a hyperlink; if text is selected the URL becomes its `href`, otherwise the URL is inserted as linked text
+- **Typewriter scrolling mode** — new "Typewriter" toggle button in the editor toolbar; when active the cursor is kept vertically centred in the viewport as you type; preference persisted to `localStorage`
+- **Short-article merger suggestions** — admin page at `/admin/short-articles`; lists all published articles under 100 words and pairs each with up to 3 suggested merge targets from the same category, sorted by word count
+- **Sidebar position preference** — small swap icon in the sidebar footer toggles the sidebar between left and right; preference persisted to `localStorage` and applied instantly via a client layout shell
+
+### Technical
+
+- `TiptapEditor.tsx` — `isUrl()` helper; URL branch in `handlePaste` before image check; `typewriterMode` state + `useEffect` using `coordsAtPos` + `requestAnimationFrame`; new `typewriterMode`/`onTypewriterToggle` props wired to `EditorToolbar`
+- `EditorToolbar.tsx` — two new props; "Typewriter" toggle button with active highlight
+- `LayoutShell.tsx` (new) — client wrapper reading `wiki_sidebar_position` from `localStorage` and listening for `sidebar-position-change` custom event; applies `flex-row-reverse` when "right"
+- `layout.tsx` — flex container replaced with `<LayoutShell>`
+- `Sidebar.tsx` — footer swap icon dispatches `sidebar-position-change`; new "Short article merges" admin link
+- `admin/short-articles/page.tsx` (new) — server component, word-count filter < 100, same-category candidate lookup
+
 ## [4.56.0] - 2026-03-30
 
 ### Enhancements

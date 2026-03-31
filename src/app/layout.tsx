@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
+import LayoutShell from "@/components/layout/LayoutShell";
 import SearchBar from "@/components/layout/SearchBar";
 import UserMenu from "@/components/layout/UserMenu";
 import { AdminProvider } from "@/components/AdminContext";
@@ -102,7 +103,7 @@ export default async function RootLayout({
             </div>
           </header>
 
-          <div className="flex min-h-[calc(100vh-40px)]">
+          <LayoutShell>
             {/* Sidebar */}
             <Sidebar categories={categories} articleCount={articleCount} />
 
@@ -118,7 +119,7 @@ export default async function RootLayout({
                 {config.name} &mdash; {config.footerText}
               </footer>
             </div>
-          </div>
+          </LayoutShell>
         <KeyboardShortcuts />
         <CommandPalette />
         <BackToTop />

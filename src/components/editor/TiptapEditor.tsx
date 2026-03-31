@@ -53,6 +53,18 @@ type Props = {
 };
 
 /**
+ * Detect whether a plain-text string is an HTTP/HTTPS URL.
+ */
+function isUrl(text: string): boolean {
+  try {
+    const url = new URL(text);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Detect whether a plain-text string looks like Markdown.
  * We check for common Markdown constructs — headings, bold/italic,
  * unordered/ordered lists, links, images, code fences, blockquotes.
@@ -86,14 +98,20 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
     const [detectedCount, setDetectedCount] = useState(0);
     const [hasChanges, setHasChanges] = useState(false);
     const [findReplaceOpen, setFindReplaceOpen] = useState(false);
+    const [typewriterMode, setTypewriterMode] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const snippetsRef = useRef<SnippetItem[]>([]);
+    const typewriterRafRef = useRef<number>(0);
 
     useEffect(() => {
       fetch("/api/snippets")
         .then((r) => r.ok ? r.json() : [])
         .then((data) => { if (Array.isArray(data)) snippetsRef.current = data; })
         .catch(() => {});
+    }, []);
+
+    useEffect(() => {
+      try { setTypewriterMode(localStorage.getItem("wiki_typewriter_mode") === "1"); } catch {}
     }, []);
 
     const lowlight = createLowlight(common);
@@ -201,7 +219,7 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
           const items = event.clipboardData?.items;
           if (!items) return false;
 
-          // Check for Markdown in text/plain content (only when no text/html is present)
+          // Check for Markdown / URL in text/plain content (only when no text/html is present)
           const hasHtml = Array.from(items).some(i => i.type === "text/html");
           if (!hasHtml) {
             const textItem = Array.from(items).find(i => i.type === "text/plain");
@@ -218,6 +236,27 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
                 view.dispatch(
                   tr.replaceSelection(new Slice(parsed.content, 0, 0))
                 );
+                return true;
+              }
+
+              // Smart URL paste: plain URL → auto-link (wrap selection or insert as link)
+              const trimmed = text?.trim() ?? "";
+              if (trimmed && isUrl(trimmed)) {
+                event.preventDefault();
+                const linkMark = view.state.schema.marks.link;
+                if (linkMark) {
+                  const { from, to } = view.state.selection;
+                  if (from < to) {
+                    // Wrap existing selection with the pasted URL as href
+                    const tr = view.state.tr.addMark(from, to, linkMark.create({ href: trimmed }));
+                    view.dispatch(tr);
+                  } else {
+                    // Insert the URL as linked text
+                    const tr = view.state.tr.insertText(trimmed, from);
+                    tr.addMark(from, from + trimmed.length, linkMark.create({ href: trimmed }));
+                    view.dispatch(tr);
+                  }
+                }
                 return true;
               }
             }
@@ -294,6 +333,29 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
       editor.on("update", handler);
       return () => { editor.off("update", handler); };
     }, [editor, onUpdate]);
+
+    // Typewriter scrolling: keep cursor vertically centred when mode is active
+    useEffect(() => {
+      if (!editor || !typewriterMode) return;
+      const scroll = () => {
+        cancelAnimationFrame(typewriterRafRef.current);
+        typewriterRafRef.current = requestAnimationFrame(() => {
+          try {
+            const { from } = editor.state.selection;
+            const coords = editor.view.coordsAtPos(from);
+            const target = window.scrollY + coords.top - window.innerHeight / 2;
+            window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+          } catch { /* view may not be mounted */ }
+        });
+      };
+      editor.on("selectionUpdate", scroll);
+      editor.on("update", scroll);
+      return () => {
+        editor.off("selectionUpdate", scroll);
+        editor.off("update", scroll);
+        cancelAnimationFrame(typewriterRafRef.current);
+      };
+    }, [editor, typewriterMode]);
 
     // Ctrl+H / Cmd+H → open find & replace
     useEffect(() => {
@@ -553,6 +615,12 @@ const TiptapEditor = forwardRef<TiptapEditorHandle, Props>(
             onAiRewrite={handleAiRewrite}
             onAiExpand={handleAiExpand}
             onFindReplace={() => setFindReplaceOpen((o) => !o)}
+            typewriterMode={typewriterMode}
+            onTypewriterToggle={() => {
+              const next = !typewriterMode;
+              setTypewriterMode(next);
+              try { localStorage.setItem("wiki_typewriter_mode", next ? "1" : "0"); } catch {}
+            }}
           />
           <button
             type="button"
