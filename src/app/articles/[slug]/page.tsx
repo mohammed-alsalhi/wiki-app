@@ -365,6 +365,9 @@ export default async function ArticlePage({ params }: Props) {
               <span className="mr-1 text-[10px] font-semibold uppercase tracking-wide text-muted">Tools</span>
               <SpeedReader articleId={article.id} />
               <ArticleQuizMode articleId={article.id} articleTitle={article.title} />
+              <Link href={`/present/${article.slug}`} className="h-6 px-2 text-[11px] border border-border rounded text-foreground hover:bg-surface-hover hover:text-accent transition-colors">
+                Present
+              </Link>
               <TranslateButton articleId={article.id} />
               <CopyMarkdownButton markdown={article.contentRaw} title={article.title} />
               <CopyPlainTextButton html={resolvedContent} />

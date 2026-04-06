@@ -4,6 +4,26 @@
 
 All notable changes to this project are documented here.
 
+## [4.60.0] - 2026-04-05
+
+### New Features
+
+- **Ask my wiki — streaming AI oracle** — Dedicated `/ask` page: a full-page conversational interface over the entire knowledge base; semantic search (vector embeddings) finds the most relevant articles per query; AI answers stream token-by-token via SSE; source article chips shown above each reply; prompted starter questions on the empty state; multi-turn conversation history; linked from sidebar
+- **Knowledge synthesis** — "Synthesize" button on every category page (appears when ≥ 2 articles); calls `/api/ai/synthesize` to read all articles in the category and have AI write a comprehensive overview; preview modal shows generated content + source list; "Create as new article" one-click opens the editor pre-filled with the synthesised content via sessionStorage
+- **Cinematic presentation mode** — Full rewrite of `/present/[slug]`: animated slide transitions, progress bar, slide-overview grid (G key), dot navigation, fullscreen (F key), keyboard shortcuts (← → Space Esc G F); serif typography on dark background; "Present" button added to article tools bar
+
+### Technical
+
+- `src/app/api/ask/route.ts` (new) — POST; SSE streaming endpoint; semantic search via `semanticSearch()` with keyword fallback; emits `{"type":"sources"}` event then `{"type":"token"}` events; streams via `streamText()` text stream
+- `src/app/ask/page.tsx` (new) — full-page streaming chat UI; custom markdown renderer; animated typing indicator; suggested openers on empty state
+- `src/app/api/ai/synthesize/route.ts` (new) — POST; accepts `categoryId` or `articleIds[]`; reads up to 20 articles; returns `{ title, html, articleTitles }`
+- `src/components/SynthesizeButton.tsx` (new) — client component; modal with loading/preview/create states; passes draft to new article page via sessionStorage
+- `src/app/categories/[slug]/page.tsx` — added `SynthesizeButton`
+- `src/app/articles/new/page.tsx` — reads `wiki_synthesize_draft` from sessionStorage when `?from=synthesize`; pre-fills title and editor content
+- `src/app/present/[slug]/page.tsx` — full rewrite; `@keyframes presentSlideIn` animation; overview grid; dot nav; keyboard shortcuts; fullscreen API
+- `src/components/layout/Sidebar.tsx` — "Ask my wiki" link added
+- `src/app/articles/[slug]/page.tsx` — "Present" link added to tools bar
+
 ## [4.59.0] - 2026-04-05
 
 ### New Features

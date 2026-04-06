@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import CategoryWatchButton from "@/components/CategoryWatchButton";
 import RandomArticleButton from "@/components/RandomArticleButton";
+import SynthesizeButton from "@/components/SynthesizeButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -86,6 +87,7 @@ export default async function CategoryPage({ params }: Props) {
           Category: {category.name}
         </h1>
         <div className="flex items-center gap-2">
+          <SynthesizeButton categoryId={category.id} categoryName={category.name} articleCount={articles.length} />
           <RandomArticleButton categorySlug={slug} label="Random" />
           <CategoryWatchButton categoryId={category.id} />
         </div>

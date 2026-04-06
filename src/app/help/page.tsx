@@ -431,6 +431,9 @@ export default function HelpPage() {
             <li><strong>Divider with label blocks</strong> &mdash; <code className="bg-surface-hover px-1 text-[12px]">/divider</code> slash command inserts a horizontal rule with an optional centered text label</li>
             <li><strong>AI revision summary</strong> &mdash; &ldquo;AI summarize&rdquo; button next to the edit summary field auto-generates a concise one-sentence description of what changed</li>
             <li><strong>Article quiz mode</strong> &mdash; &ldquo;Quiz me&rdquo; button in article tools bar; AI generates 5 multiple-choice questions from the article; shows score and records attempt</li>
+            <li><strong>Ask my wiki</strong> &mdash; full-page AI oracle at <Link href="/ask">/ask</Link>; streaming answers grounded in your wiki content via semantic search; source article chips; multi-turn conversation; linked from sidebar</li>
+            <li><strong>Knowledge synthesis</strong> &mdash; &ldquo;Synthesize&rdquo; button on category pages; AI reads all articles and writes a comprehensive overview; preview modal; one-click to create as a new article</li>
+            <li><strong>Presentation mode</strong> &mdash; &ldquo;Present&rdquo; button on any article; opens <code className="bg-surface-hover px-1 text-[12px]">/present/[slug]</code>; cinematic full-screen slideshow; each H2 becomes a slide; keyboard navigation; slide overview grid (G); fullscreen (F)</li>
             <li><strong>Bulk JSON export</strong> &mdash; <Link href="/api/export/json">/api/export/json</Link> downloads all articles as structured JSON (admin only)</li>
             <li><strong>Per-article analytics</strong> &mdash; <code className="bg-surface-hover px-1 text-[12px]">/articles/[slug]/analytics</code>; 30-day view chart + summary stats</li>
             <li><strong>Series progress tracker</strong> &mdash; series navigation shows &ldquo;X of N read&rdquo; from browser reading history</li>

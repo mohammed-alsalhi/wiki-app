@@ -190,6 +190,12 @@ Have an idea? Open a [GitHub Issue](https://github.com/mohammed-alsalhi/arkivel/
 - [x] Night reading mode — warm sepia theme toggled from article toolbar, persisted to localStorage
 - [x] Search history — last 20 searches in localStorage; shown as chips when query is empty
 
+## v4.60
+
+- [x] Ask my wiki — streaming AI oracle at /ask; semantic search + SSE streaming; source attribution; multi-turn
+- [x] Knowledge synthesis — AI synthesizes all articles in a category into an overview; one-click to article
+- [x] Cinematic presentation mode — full rewrite of /present/[slug]; animations, overview grid, fullscreen
+
 ## v4.59
 
 - [x] Button / CTA blocks — `/button` slash command, configurable label/URL/style
