@@ -341,6 +341,9 @@ Create standalone Excalidraw canvases at `/whiteboards` — separate from the Ex
 - **Divider with label blocks** — `/divider` slash command inserts a horizontal rule with an optional centered text label
 - **AI revision summary** — "AI summarize" button next to the edit summary field auto-generates a concise description of what changed
 - **Article quiz mode** — "Quiz me" button in article tools bar; AI generates 5 multiple-choice questions; tracks score and records attempt
+- **Ask my wiki** — full-page AI oracle at `/ask`; streaming answers grounded in wiki content via semantic search; source attribution; multi-turn conversation; linked from sidebar
+- **Knowledge synthesis** — "Synthesize" button on category pages; AI synthesises all articles into a comprehensive overview; preview modal; one-click to create as new article
+- **Presentation mode** — "Present" button on any article; `/present/[slug]` opens a cinematic full-screen slideshow; H2 sections become slides; keyboard navigation (← →), overview grid (G), fullscreen (F)
 - **Bulk JSON export** — `/api/export/json`; all articles as structured JSON (admin only)
 - **Per-article analytics** — `/articles/[slug]/analytics`; 30-day view chart + summary stats (admin only)
 - **Series progress tracker** — series navigation shows "X of N read" from browser reading history

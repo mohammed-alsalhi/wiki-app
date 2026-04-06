@@ -131,6 +131,9 @@ A complete overview of everything the wiki can do. For step-by-step instructions
 - **Divider with label blocks** — `/divider` slash command inserts a horizontal rule with an optional centered text label
 - **AI revision summary** — "AI summarize" button next to the edit summary field; compares old vs. new content and auto-generates a concise edit summary sentence
 - **Article quiz mode** — "Quiz me" in the article tools bar; AI generates 5 multiple-choice questions; full flashcard UI with answer reveal, score, and attempt recording
+- **Ask my wiki — AI oracle** — full-page conversational AI at `/ask`; semantic search retrieves the most relevant articles per query; streaming token-by-token answers; multi-turn conversation; source attribution
+- **Knowledge synthesis** — "Synthesize" on category pages; AI reads all articles and synthesises a comprehensive overview; preview modal; "Create as new article" one-click
+- **Presentation mode** — every article has a "Present" button; `/present/[slug]` is a cinematic dark slideshow; H2 sections become slides; animated transitions, slide overview, fullscreen, dot navigation
 - **Bulk JSON export** — `/api/export/json`; downloads all articles as structured JSON (admin only)
 - **Per-article analytics** — `/articles/[slug]/analytics`; 30-day view chart + reads, reactions, revisions summary (admin only)
 - **Series progress tracker** — series navigation shows "X of N read" from browser reading history

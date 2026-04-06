@@ -120,7 +120,7 @@ Completed features are marked `[x]`. All others are `[ ]`.
 - [x] Random article with category/tag filter
 - [x] Article quiz mode (flashcard-style review of article content)
 - [ ] Spaced repetition reading scheduler
-- [ ] Knowledge graph exploration mode
+- [x] Knowledge graph exploration mode
 - [ ] Citation graph (article A references article B)
 - [ ] Influence map (track intellectual lineage between articles)
 - [x] Geographic browse (articles with map coordinates)
