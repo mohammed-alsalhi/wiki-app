@@ -229,8 +229,14 @@ export default function Sidebar({
           <SidebarLink href="/til" active={pathname === "/til"} onClick={close}>
             Today I Learned
           </SidebarLink>
+          <SidebarLink href="/daily" active={pathname === "/daily"} onClick={close}>
+            Daily note
+          </SidebarLink>
           <SidebarLink href="/scratchpad" active={pathname === "/scratchpad"} onClick={close}>
             Scratchpad
+          </SidebarLink>
+          <SidebarLink href="/canvas" active={pathname === "/canvas" || pathname.startsWith("/canvas/")} onClick={close}>
+            Canvas
           </SidebarLink>
           <SidebarLink href="/history" active={pathname === "/history"} onClick={close}>
             Reading history
@@ -253,6 +259,12 @@ export default function Sidebar({
           </SidebarLink>
           <SidebarLink href="/whiteboards" active={pathname === "/whiteboards" || pathname.startsWith("/whiteboards/")} onClick={close}>
             Whiteboards
+          </SidebarLink>
+          <SidebarLink href="/split" active={pathname === "/split"} onClick={close}>
+            Split view
+          </SidebarLink>
+          <SidebarLink href="/assets" active={pathname === "/assets"} onClick={close}>
+            Asset library
           </SidebarLink>
           <SidebarLink href="/present" active={pathname === "/present"} onClick={close}>
             Present

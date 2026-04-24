@@ -88,6 +88,8 @@ import ClaimsPanel from "@/components/article/ClaimsPanel";
 import TutorButton from "@/components/article/TutorButton";
 import AudioNarration from "@/components/article/AudioNarration";
 import FactCheckPanel from "@/components/article/FactCheckPanel";
+import ArticleRightSidebar from "@/components/ArticleRightSidebar";
+import { resolveQueryBlocks } from "@/lib/queryblocks";
 
 // ISR: revalidate published articles every 5 minutes
 export const revalidate = 300;
@@ -165,7 +167,8 @@ export default async function ArticlePage({ params }: Props) {
   if (article.redirectTo) redirect(`/articles/${article.redirectTo}`);
 
   const macroExpanded = await expandMacros(article.content);
-  const expandedContent = await resolveTransclusions(macroExpanded);
+  const transcluded = await resolveTransclusions(macroExpanded);
+  const expandedContent = await resolveQueryBlocks(transcluded);
   const glossaryTerms = await prisma.glossaryTerm.findMany({ select: { term: true, definition: true, aliases: true } });
   const [resolvedContent, backlinks, allCategories] = await Promise.all([
     resolveWikiLinks(expandedContent),
@@ -262,7 +265,7 @@ export default async function ArticlePage({ params }: Props) {
       </div>
 
       {/* Article body in bordered content area */}
-      <div className="border border-t-0 border-border bg-surface px-5 py-4">
+      <div className="border border-t-0 border-border bg-surface px-5 py-4" data-article-id={article.id}>
         <Breadcrumb items={[
           ...(article.category ? [{ label: article.category.name, href: `/categories/${article.category.slug}` }] : []),
           { label: article.title },
@@ -644,6 +647,9 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Floating TOC — rendered outside the padded box so it can be fixed */}
       <TableOfContentsFloat html={resolvedContent} />
+
+      {/* Right sidebar: outline + backlinks + local graph */}
+      <ArticleRightSidebar slug={slug} backlinks={backlinks} />
     </div>
   );
 }

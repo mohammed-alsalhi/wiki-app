@@ -11,6 +11,7 @@ import NotificationBell from "@/components/NotificationBell";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import CommandPalette from "@/components/CommandPalette";
 import BackToTop from "@/components/BackToTop";
+import QuickCapture from "@/components/QuickCapture";
 import { ToastProvider } from "@/components/Toast";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import MaintenanceBanner from "@/components/MaintenanceBanner";
@@ -123,6 +124,7 @@ export default async function RootLayout({
         <KeyboardShortcuts />
         <CommandPalette />
         <BackToTop />
+        <QuickCapture />
         </ToastProvider>
         </AdminProvider>
         <Analytics />
